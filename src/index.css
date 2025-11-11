@@ -1,0 +1,49 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+@theme {
+  --font-sans: "Montserrat", sans-serif;
+}
+/* ---------- Marquee CSS - add this to index.css (after @tailwind base/components/utilities) ---------- */
+
+/* container that holds the duplicated groups */
+.marquee {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;       /* space between groups (keeps things neat) */
+  will-change: transform;
+}
+
+/* the identical group blocks */
+.marquee__group {
+  display: flex;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+/* animation: translate the whole marquee to the left by 50% (one group's width) */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 20s linear infinite;
+}
+
+/* pause when hovered (nice UX) */
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* ensure logos don't stretch */
+.marquee img {
+  display: block;
+  height: auto;
+  max-height: 120px;
+  object-fit: contain;
+}
