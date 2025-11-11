@@ -347,7 +347,7 @@ export default function AllProduct() {
         </div>
 
                 {/* add222 */}
-        <div className="flex flex-col md:flex-row mx-10 rounded-[30px] group w-[96%] md:w-[80%] place-self-center bg-[#f2c0ff] h-[400px] md:h-[400px] pb-2 mb-10 md:mb-32 md:mt-32">
+        <div className="flex flex-col md:flex-row mx-10 rounded-[30px] group w-[96%] md:w-[80%] place-self-center bg-[#f2c0ff] h-[410px] md:h-[400px] pb-10 mb-10 md:mb-32 md:mt-32">
           <div className="leftDiv relative w-[100%] md:w-[45%] h-[50%] md:h-full">
             <img
               className="absolute -top-24 place-self-center w-[350px] md:w-[600px] md:-top-44 md:left-30 cursor-pointer transition-all duration-300
