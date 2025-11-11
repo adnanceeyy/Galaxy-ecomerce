@@ -334,8 +334,7 @@ export default function Home() {
 
       <div
         className="w-[99.5%] place-self-center h-auto rounded-[30px] md:rounded-[80px] bg-[#f7fbff] relative z-50 top-30 md:top-70 py-2 md:py-10 md:pb-20 mb-80
-        md:mb-[600px] 
-     shadow-[gray] shadow-lg shadow-black"
+        md:mb-[600px] shadow-[gray] shadow-lg shadow-black"
       >
         {/* bigimg */}
         <div className="w-[97%] place-self-center h-[110px] md:h-[400px] rounded-[28px] md:rounded-[60px] overflow-hidden">
@@ -648,10 +647,10 @@ export default function Home() {
               alt=""
             />
           </div>
-          <div className="rightDiv w-full md:w-[55%] h-[50%] md:h-[70%] flex flex-col justify-center items-center border-l-2 border-[#ffffff1a] self-center ">
+          <div className="rightDiv w-full md:w-[55%] h-[50%] md:h-[70%] flex flex-col justify-center items-center border-[#ffffff1a] self-center ">
             <div className="flex flex-col items-start">
               <p className="text-3xl md:text-5xl text-[#0070bb] font-extrabold">
-                30% OFF
+                85% OFF
               </p>
               <p className="text-5xl md:text-7xl text-[#ffffffc9] font-extrabold">
                 SUMMER
