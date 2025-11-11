@@ -306,7 +306,7 @@ export default function AllProduct() {
 {/* againproducts */}
           {/* Product */}
                   {/* products grid */}
-        <div className="grid gap-2 md:gap-7 md:w-[97%] place-self-center grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 px-2 md:px-2 mt-3 mb-10 md:mb-32">
+        <div className="grid gap-2 md:gap-7 md:w-[97%] place-self-center grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 px-2 md:px-2 mt-3 mb-10 md:mb-32">
           {ProductDetails.map((product) => (
             <div
               key={product.id}
