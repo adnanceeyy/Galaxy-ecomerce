@@ -642,8 +642,8 @@ export default function Home() {
           <div className="leftDiv relative w-[100%] md:w-[45%] h-[50%] md:h-full">
             <img
               className="absolute -top-20 left-5 w-[320px] md:w-auto md:-top-20 md:left-30 cursor-pointer transition-all duration-300
-             md:group-hover:scale-110 group-hover:-rotate-10
-             group-hover:drop-shadow-[0px_0px_0px_rgba(240,240,240,0.9)]"
+             md:group-hover:scale-110 md:group-hover:-rotate-10
+             md:group-hover:drop-shadow-[0px_0px_0px_rgba(240,240,240,0.9)]"
               src="./assets/images/shf.png"
               alt=""
             />
