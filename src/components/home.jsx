@@ -641,7 +641,7 @@ export default function Home() {
         <div className="flex flex-col md:flex-row mx-10 rounded-[30px] group w-[96%] md:w-[90%] place-self-center bg-[#000000] h-[480px] md:h-[450px] pb-2 md:pb-0">
           <div className="leftDiv relative w-[100%] md:w-[45%] h-[50%] md:h-full">
             <img
-              className="absolute -top-20 left-5 w-[320px] md:w-auto md:-top-20 md:left-30 cursor-pointer transition-all duration-300
+              className="absolute -top-20 left-6 w-[320px] md:w-auto md:-top-20 md:left-30 cursor-pointer transition-all duration-300
              md:group-hover:scale-110 md:group-hover:-rotate-10
              md:group-hover:drop-shadow-[0px_0px_0px_rgba(240,240,240,0.9)]"
               src="./assets/images/shf.png"
