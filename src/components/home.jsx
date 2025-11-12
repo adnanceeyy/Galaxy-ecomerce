@@ -230,8 +230,8 @@ export default function Home() {
   bg-[#f7fbff] border border-[#3f3f3f50] 
   rounded-t-[30px] md:rounded-t-[80px]
   place-self-center transition-all duration-300
-  hover:w-[99.5%] hover:h-[280px]
-  h-[160px] md:h-[260px] flex flex-col justify-end
+  md:hover:w-[99.5%] md:hover:h-[240px]
+  h-[160px] md:h-[230px] flex flex-col justify-end
   px-3 md:px-8 pb-3 md:pb-8 group
 "
         >
@@ -333,8 +333,8 @@ export default function Home() {
       </div>
 
       <div
-        className="w-[99.5%] place-self-center h-auto rounded-[30px] md:rounded-[80px] bg-[#f7fbff] relative z-50 top-30 md:top-70 py-2 md:py-10 md:pb-20 mb-80
-        md:mb-[600px] shadow-[gray] shadow-lg shadow-black"
+        className="w-[99.5%] place-self-center h-auto rounded-[30px] md:rounded-[80px] bg-[#f7fbff] relative z-50 top-30 md:top-70 py-2 md:py-10 md:pb-20 mb-76
+        md:mb-[550px] shadow-[gray] shadow-lg shadow-black"
       >
         {/* bigimg */}
         <div className="w-[97%] place-self-center h-[110px] md:h-[400px] rounded-[28px] md:rounded-[60px] overflow-hidden">

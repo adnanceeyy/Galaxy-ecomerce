@@ -15,7 +15,7 @@ export default function Nav() {
   const closeNav = () => setIsMenuOpen(false);
 
   return (
-    <div className="w-full flex justify-center fixed top-0 z-[100]">
+    <div className="w-full flex justify-center fixed top-0 z-200">
       <nav className="w-[98%] h-10 md:h-20 mt-2 bg-[#f7fbff] text-[#080f30] border border-[#5555556b] flex items-center justify-between pr-1 rounded-[50px] shadow-2xl">
         <Link to="/">
           <img
