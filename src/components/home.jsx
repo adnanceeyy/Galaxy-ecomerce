@@ -7,6 +7,16 @@ import {
 } from "@tabler/icons-react";
 
 export default function Home() {
+  const adds = [
+    {
+      id: 1,
+      add1: "./assets/images/add1.jpg",
+    },
+    {
+      id: 2,
+      add2: "./assets/images/add2.jpg",
+    },
+  ];
   const newProductDetails = [
     {
       id: 1,
@@ -333,13 +343,13 @@ export default function Home() {
       </div>
 
       <div
-        className="w-[99.5%] place-self-center h-auto rounded-[30px] md:rounded-[80px] bg-[#f7fbff] relative z-50 top-30 md:top-70 py-2 md:py-10 md:pb-20 mb-76
+        className="w-[99.5%] place-self-center h-auto rounded-[30px] md:rounded-[80px] bg-[#f7fbff] relative z-50 top-30 md:top-70 md:pb-20 mb-76 p-1 md:p-5 pb-3
         md:mb-[550px] shadow-[gray] shadow-lg shadow-black"
       >
         {/* bigimg */}
-        <div className="w-[97%] place-self-center h-[110px] md:h-[400px] rounded-[28px] md:rounded-[60px] overflow-hidden">
+        <div className="w-full place-self-center h-[110px] md:h-[400px] rounded-[28px] md:rounded-[60px] overflow-hidden">
           <img
-            src="./assets/images/add1.jpg"
+            src={adds[0].add1}
             className="w-full h-full"
             alt="img vannitilla"
           />
