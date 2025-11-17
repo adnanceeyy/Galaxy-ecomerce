@@ -9,10 +9,36 @@ export default function Aboutpage() {
   const sectionRef = useRef(null);
   const stripRef = useRef(null);
 
-  const aboutImage = Array.from({ length: 5 }, (_, i) => ({
-    id: i + 1,
-    src: "https://imgs.search.brave.com/vIkDTNoKW7XMMyQwXB7JhDuEx1Bn2WyNvLg15JJEd9k/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzL2NhLzFm/LzBkL2NhMWYwZDhm/YjAyOWI5NDkyNDAy/MDNjODc5NDU0YzEx/LmpwZw",
-  }));
+  const aboutImage = [
+    {
+      id:1,
+      src:"https://imgs.search.brave.com/5jV5RbmpgZIjhTe16EUB98GjxcpN2xshVWy5QtlrLyc/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvNTE0/MzIxMzE1L3Bob3Rv/L2RpdmVyc2l0eS10/aGF0LW1ha2VzLXRo/ZS10ZWFtLXdvcmsu/anBnP3M9NjEyeDYx/MiZ3PTAmaz0yMCZj/PTFOZl9ucEZSYmhH/Q2NKcFZONmJiQWl1/SWhGczVJWVZmbGJh/aDFLazB3ME09",
+    },
+    {
+      id:2,
+      src:"https://imgs.search.brave.com/kkOlqTUdomPZ0qOBfHnxsT6oYRDEM7cLIzRwpbLTajU/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9naWZk/Yi5jb20vaW1hZ2Vz/L2hpZ2gvd2VsY29t/ZS10by10aGUtdGVh/bS10aGUtb2ZmaWNl/LTlwbHlhOHp4czkz/anUwc3QuZ2lm.gif",
+    },
+    {
+      id:3,
+      src:"https://imgs.search.brave.com/MZcdSLmLm9oDqeRYrx_aYBp4IQ-OhsrXbG72tGGiDZs/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMjE4/NDIzNzU5My9waG90/by9zbWlsaW5nLW1h/bGUtYW5kLWZlbWFs/ZS1kdW8taW4tYnVz/aW5lc3MtYXR0aXJl/LmpwZz9zPTYxMng2/MTImdz0wJms9MjAm/Yz0xUnpiY0lDTkhN/U3dwY3JvbWhVSGVz/MHJTcjV0aUFBR1FR/aXp5dWpzWTlnPQ",
+    },
+    {
+      id:4,
+      src:"https://imgs.search.brave.com/G7Y0SXLjEQqxILjphCb9degMAA7MkbXA_MFObd83VFA/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9naWZk/Yi5jb20vaW1hZ2Vz/L2hpZ2gvd2VsY29t/ZS10by10aGUtdGVh/bS15b3VuZy1lZHVj/YXRvcnMtZzV0OHZi/NmRpZjJ4bXpjMS5n/aWY.gif",
+    },
+    {
+      id:5,
+      src:"https://imgs.search.brave.com/W8aWzxeWuZchJ96B112-Y_fJ5PhEs4zKJHe3poMcS-Y/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTE5/ODE5MzM0NS9waG90/by9wcm91ZC1pbmRp/YW4tY2VvLXBvc2lu/Zy13aXRoLXNtaWxp/bmctY29tcGFueS1z/dGFmZi1pbi1vZmZp/Y2UuanBnP3M9NjEy/eDYxMiZ3PTAmaz0y/MCZjPU9ub3J6R1Nr/Yk8tZE16NVVHMmdF/X0wzSHpfMlVGajVj/eExYak5TR054NWc9",
+    },
+    {
+      id:6,
+      src:"https://imgs.search.brave.com/7g9NO8J4fYIQLB7FTvDh0wBdjeRy8eOaIzHY6Iv3kvg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMjE1/MjcxOTc4Ni9waG90/by9tdWx0aWN1bHR1/cmFsLWNvcnBvcmF0/ZS10ZWFtLWluLWEt/bW9kZXJuLW9mZmlj/ZS1lbnZpcm9ubWVu/dC1kaXZlcnNpdHkt/YW5kLXRlYW13b3Jr/LWluLmpwZz9zPTYx/Mng2MTImdz0wJms9/MjAmYz1OQlcxTGZB/Z2hUZUxVbGFEc1Rl/cGRRNGVaYVdNWHc4/YWhmM0xDZmNHcXVr/PQ",
+    },
+    {
+      id:7,
+      src:"https://imgs.search.brave.com/P26-7ssMPt5laWKkRULLHXYPXNt4HvcWWhzpSjOHSjA/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMjE0/ODEyMjM2Ny9waG90/by9zbWlsaW5nLXBy/b2Zlc3Npb25hbC13/b21hbi13aXRoLXN1/cHBvcnRpdmUtdGVh/bS5qcGc_cz02MTJ4/NjEyJnc9MCZrPTIw/JmM9bTNBYjEyVHdK/SjU0c3djcXFYR0Zk/emZnZHlHRW5aWkds/VTU3NDBBdmRFQT0",
+    },
+  ];
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -280,11 +306,11 @@ export default function Aboutpage() {
     </div>
     <div className="w-full md:w-1/2">
       <h2 className="text-2xl md:text-3xl font-extrabold text-[#265592] mb-3 md:mb-4">Our Story</h2>
-      <p className="text-gray-700 text-sm md:text-base mb-2 md:mb-4">
+      <p className="text-gray-700 text-sm md:text-base mb-2 mr-10 md:mb-4">
         TechBazaar started with a vision to make advanced technology accessible to everyone. 
         Over the years, we have grown into a leading online electronics store trusted by thousands of customers.
       </p>
-      <p className="text-gray-700 text-sm md:text-base">
+      <p className="text-gray-700 text-sm md:text-base  mr-10">
         Our passion for technology drives us to constantly update our catalog with the latest gadgets, 
         ensuring that our customers always get the best products on the market.
         Our passion for technology drives us to constantly update our catalog with the latest gadgets, 
