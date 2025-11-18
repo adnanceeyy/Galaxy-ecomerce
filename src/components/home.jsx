@@ -188,6 +188,9 @@ export default function Home() {
       imagelogo: "/assets/images/lenovologo.webp",
     },
   ];
+const singleproduct = () => {
+    window.location.href = "/singleproduct";
+  };
 
   return (
     <>
@@ -372,7 +375,8 @@ export default function Home() {
           {newProductDetails.map((product) => (
             <div
               key={product.id}
-              className="bg-[#f7fbff] w-full h-[170px] md:h-[365px] rounded-2xl md:rounded-4xl border relative border-gray-200 p-0.5 md:p-1"
+              onClick={singleproduct}
+              className="bg-[#f7fbff] w-full h-[170px] md:h-[365px] rounded-2xl md:rounded-4xl border relative border-gray-200 p-0.5 md:p-1 cursor-pointer hover:shadow-lg hover:shadow-gray-400 transition-all duration-300"
             >
               <div
                 className={`absolute right-1.5 md:right-4 top-1.5 md:top-3 font-semibold text-gray-200 text-[8px] md:text-[13px] ${

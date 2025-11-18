@@ -17,67 +17,67 @@ export default function AllProduct() {
     {
       id: 1,
       productName: "Headsets",
-      productimage:"./assets/images/chf.webp",
+      productimage: "./assets/images/chf.webp",
     },
     {
       id: 2,
       productName: "Laptops",
-      productimage:"./assets/images/clap.webp",
+      productimage: "./assets/images/clap.webp",
     },
     {
       id: 3,
       productName: "Phones",
-      productimage:"./assets/images/cphone.webp",
+      productimage: "./assets/images/cphone.webp",
     },
     {
       id: 4,
       productName: "Watches",
-      productimage:"./assets/images/cwh.webp",
+      productimage: "./assets/images/cwh.webp",
     },
     {
       id: 5,
       productName: "Speakers",
-      productimage:"./assets/images/cspeaker.webp",
+      productimage: "./assets/images/cspeaker.webp",
     },
     {
       id: 6,
       productName: "Mouses",
-      productimage:"./assets/images/cmouse.webp",
+      productimage: "./assets/images/cmouse.webp",
     },
     {
       id: 7,
       productName: "Air Pods",
-      productimage:"./assets/images/cairpods.webp",
+      productimage: "./assets/images/cairpods.webp",
     },
     {
       id: 8,
       productName: "Smart TV",
-      productimage:"./assets/images/ctv.webp",
+      productimage: "./assets/images/ctv.webp",
     },
     {
       id: 9,
       productName: "Games",
-      productimage:"./assets/images/cc.webp",
+      productimage: "./assets/images/cc.webp",
     },
     {
       id: 10,
       productName: "RC Car",
-      productimage:"./assets/images/ccar.webp",
+      productimage: "./assets/images/ccar.webp",
     },
     {
       id: 11,
       productName: "Keybords",
-      productimage:"./assets/images/ckey.webp",
+      productimage: "./assets/images/ckey.webp",
     },
     {
       id: 12,
       productName: "Tablets",
-      productimage:"./assets/images/ctab.webp",
+      productimage: "./assets/images/ctab.webp",
     },
     {
       id: 13,
       productName: "Chargers",
-      productimage:"./assets/images/ccharger.webp",
+      productimage: "./assets/images/ccharger.webp",
     },
   ];
 
@@ -389,6 +389,10 @@ export default function AllProduct() {
       productImg: "/assets/images/condroller.webp",
     },
   ];
+
+  const singleproduct = () => {
+    window.location.href = "/singleproduct";
+  };
   return (
     <>
       <Nav />
@@ -520,7 +524,7 @@ export default function AllProduct() {
                 key={catogery.id}
                 className="flex flex-col items-center flex-shrink-0"
               >
-                <div className="bg-blue-200 rounded-full w-11 md:w-25 h-11 md:h-25 border border-gray-400 overflow-hidden">
+                <div className="bg-blue-200 rounded-full w-11 md:w-25 h-11 md:h-25 border border-gray-400 overflow-hidden cursor-pointer">
                   <img
                     src={catogery.productimage}
                     alt={catogery.productName}
@@ -540,13 +544,14 @@ export default function AllProduct() {
         <div className="grid gap-2 md:gap-7 md:w-[97%] place-self-center grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 px-2 md:px-2 mt-3 mb-10 md:mb-32">
           {ProductDetails.map((product) => (
             <div
+              onClick={singleproduct}
               key={product.id}
-              className="bg-[#f7fbff] w-full h-[200px] md:h-[370px] rounded-2xl md:rounded-4xl border relative border-gray-200 p-0.5 md:p-1"
+              className="bg-[#f7fbff] w-full h-[200px] md:h-[370px] rounded-2xl md:rounded-4xl border relative border-gray-200 p-0.5 md:p-1 cursor-pointer hover:shadow-lg hover:shadow-gray-400 transition-all duration-300"
             >
               <div className="w-full h-[135px] md:h-[250px] rounded-t-[13px] md:rounded-t-[28px] flex items-center justify-center bg-gray-200">
                 <img className="h-full" src={product.productImg} alt="" />
               </div>
-              <div>
+              <div className="ml-2">
                 <h2 className="text-[14px] md:text-2xl font-light leading-3.5 md:leading-tight">
                   {product.productName}
                 </h2>
@@ -569,7 +574,7 @@ export default function AllProduct() {
                   </p>
                 </div>
 
-                <h1 className="text-[18px] md:text-[25px] font-medium leading-tight">
+                <h1 className="text-[18px] md:text-[23px] font-medium leading-tight">
                   ₹{product.offerPrice}
                 </h1>
               </div>
@@ -613,12 +618,13 @@ export default function AllProduct() {
           {ProductDetails2.map((product2) => (
             <div
               key={product2.id}
-              className="bg-[#f7fbff] w-full h-[200px] md:h-[370px] rounded-2xl md:rounded-4xl border relative border-gray-200 p-0.5 md:p-1"
+              onClick={singleproduct}
+              className="bg-[#f7fbff] w-full h-[200px] md:h-[370px] rounded-2xl md:rounded-4xl border relative border-gray-200 p-0.5 md:p-1 cursor-pointer hover:shadow-lg hover:shadow-gray-400 transition-all duration-300"
             >
               <div className="w-full h-[135px] md:h-[250px] rounded-t-[13px] md:rounded-t-[28px] flex items-center justify-center bg-gray-200">
                 <img className="h-full" src={product2.productImg} alt="" />
               </div>
-              <div>
+              <div className="ml-2">
                 <h2 className="text-[14px] md:text-2xl font-light leading-3.5 md:leading-tight">
                   {product2.productName}
                 </h2>
@@ -641,7 +647,7 @@ export default function AllProduct() {
                   </p>
                 </div>
 
-                <h1 className="text-[18px] md:text-[25px] font-medium leading-tight">
+                <h1 className="text-[18px] md:text-[23px] font-medium leading-tight">
                   ₹{product2.offerPrice}
                 </h1>
               </div>
@@ -684,12 +690,13 @@ export default function AllProduct() {
           {ProductDetails3.map((product3) => (
             <div
               key={product3.id}
-              className="bg-[#f7fbff] w-full h-[200px] md:h-[370px] rounded-2xl md:rounded-4xl border relative border-gray-200 p-0.5 md:p-1"
+              onClick={singleproduct}
+              className="bg-[#f7fbff] w-full h-[200px] md:h-[370px] rounded-2xl md:rounded-4xl border relative border-gray-200 p-0.5 md:p-1 cursor-pointer hover:shadow-lg hover:shadow-gray-400 transition-all duration-300"
             >
               <div className="w-full h-[135px] md:h-[250px] rounded-t-[13px] md:rounded-t-[28px] flex items-center justify-center bg-gray-200">
                 <img className="h-full" src={product3.productImg} alt="" />
               </div>
-              <div>
+              <div className="ml-2">
                 <h2 className="text-[14px] md:text-2xl font-light leading-3.5 md:leading-tight">
                   {product3.productName}
                 </h2>
@@ -711,7 +718,7 @@ export default function AllProduct() {
                     ({product3.totalSale})
                   </p>
                 </div>
-                <h1 className="text-[18px] md:text-[25px] font-medium leading-tight">
+                <h1 className="text-[18px] md:text-[23px] font-medium leading-tight">
                   ₹{product3.offerPrice}
                 </h1>
               </div>
