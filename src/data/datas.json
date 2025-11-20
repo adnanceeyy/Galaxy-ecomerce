@@ -1,0 +1,421 @@
+{
+  "newProductDetails": [
+    {
+      "id": 1,
+      "productName": "Over Headset",
+      "productDetailedName":"Boat rokerz 550 over ear bluetooth headphones with mic",
+      "productDescription": "High Fidelity Sound, Comfortable Fit, Built-in Mic, Bluetooth 5.2 connectivity, Active Noise Cancellation, Up to 40 hours battery life, Quick Charge support, Foldable design, Soft protein-leather ear cushions for extended wear, Multi-device pairing, Inline remote for calls and music control",
+      "productRating": 4.2,
+      "totalSale": 1244,
+      "offerPrice": 899,
+      "mrPrice": 999,
+      "isNew": true,
+      "off":"10%",
+      "productImg": "/assets/images/headset.png"
+    },
+    {
+      "id": 2,
+      "productName": "Mouse",
+      "productDetailedName":"Logitech MX Master 3 Advanced Wireless Mouse",
+      "productDescription": "Ergonomic design, customizable buttons, high precision tracking, wireless connectivity, long battery life, fast scrolling, compatible with multiple operating systems",
+      "productRating": 4.6,
+      "totalSale": 2130,
+      "offerPrice": 1299,
+      "mrPrice": 1799,
+      "isNew": true,
+      "off":"25%",
+      "productImg": "/assets/images/mouse.webp"
+    },
+    {
+      "id": 3,
+      "productName": "Smart Watch",
+      "productDetailedName":"Fire-Boltt Ninja 3 Smart Watch with 1.8-inch Display",
+      "productDescription": "SpO2 Monitoring, 60+ Sports Modes, 7 Days Battery Life, IP68 Water Resistant, Customizable Watch Faces, Real-time Notifications, Heart Rate Monitor, Sleep Tracking",
+      "productRating": 4.4,
+      "totalSale": 1985,
+      "offerPrice": 1499,
+      "mrPrice": 2199,
+      "isNew": false,
+      "off":"15%",
+      "productImg": "/assets/images/swhatch.webp"
+    },
+    {
+      "id": 4,
+      "productName": "Wireless Speaker",
+      "productDetailedName":"JBL GO 3 Portable Wireless Bluetooth Speaker",
+      "productDescription": "Portable, Deep Bass, 10H Playtime Battery, IP67 Waterproof and Dustproof, Bluetooth 5.1 Connectivity, Voice Assistant Integration, Compact Design",
+      "productRating": 4.3,
+      "totalSale": 1670,
+      "offerPrice": 999,
+      "mrPrice": 1399,
+      "isNew": true,
+      "off":"10%",
+      "productImg": "/assets/images/btspeaker.png"
+    },
+    {
+      "id": 5,
+      "productName": "Air pods",
+      "productDetailedName":"Apple AirPods with Charging Case (2nd Generation)",
+      "productDescription": "Wireless, High-Quality Audio, Easy Setup, Long Battery Life, Voice Control with Siri, Seamless Switching between Devices, Built-in Microphone for Calls",
+      "productRating": 4.5,
+      "totalSale": 1320,
+      "offerPrice": 799,
+      "mrPrice": 1199,
+      "isNew": false,
+      "off":"15%",
+      "productImg": "/assets/images/airpods.png"
+    },
+    {
+      "id": 6,
+      "productName": "Keyboard",
+      "productDetailedName":"Redragon K552 Mechanical Gaming Keyboard",
+      "productDescription": "Mechanical switches, RGB backlighting, durable build, anti-ghosting keys, ergonomic design for comfortable typing, compact layout, multimedia controls",
+      "productRating": 4.7,
+      "totalSale": 1048,
+      "offerPrice": 1899,
+      "mrPrice": 2499,
+      "isNew": true,
+      "off":"20%",
+      "productImg": "/assets/images/keybord.png"
+    }
+  ],
+
+  "ProductDetails": [
+    {
+      "id": 11,
+      "productName": "Smart TV",
+      "productDetailedName":"Mi 80 cm (32 inches) HD Ready Smart LED TV 4A Pro with PatchWall and Alexa Built-in (Black)  with 1 Year Warranty  standard delivery service a",
+      "productDescription": "1.8-inch Display, Heart Rate Monitor, Waterproof",
+      "productRating": 4.2,
+      "totalSale": 1244,
+      "offerPrice": 8999,
+      "mrPrice": 9999,
+      "productImg": "/assets/images/stv.png"
+    },
+    {
+      "id": 12,
+      "productName": "Mac Book",
+      "productDetailedName":"Apple MacBook Pro with M1 Chip (13-inch, 8GB RAM, 256GB SSD Storage) - Space Grey Apple M1 Chip with 8-Core CPU and 8-Core GPU 256GB SSD Storage 8GB Unified Memory 13.3-inch Retina Display with True Tone",
+      "productDescription": "Multicolor, With Glass, Standard",
+      "productRating": 4.6,
+      "totalSale": 2130,
+      "offerPrice": 159999,
+      "mrPrice": 179999,
+      "productImg": "/assets/images/plaptop.png"
+    },
+    {
+      "id": 13,
+      "productName": "Nikon Cam",
+      "productDetailedName":"Nikon D3500 DSLR Camera with 18-55mm VR Lens (Black) and 32GB Memory Card + Camera Bag + UV Filter + Cleaning Kit + Tripod + SD Card Reader",
+      "productDescription": "Portable, 4K, 1800HD",
+      "productRating": 4.3,
+      "totalSale": 1670,
+      "offerPrice": 19999,
+      "mrPrice": 23999,
+      "productImg": "/assets/images/pcamera.png"
+    },
+    {
+      "id": 14,
+      "productName": "Drone",
+      "productDetailedName":"DJI Mini SE Drone with 3-Axis Gimbal and 2.7K Camera (White) and (Fly More Combo) deal with 1 Year Warranty standard delivery service a",
+      "productDescription": "1km distance, wide view, 4K",
+      "productRating": 4.5,
+      "totalSale": 1320,
+      "offerPrice": 3799,
+      "mrPrice": 4999,
+      "productImg": "/assets/images/pdron.png"
+    },
+    {
+      "id": 15,
+      "productName": "Drimmer",
+      "productDetailedName":"Philips HP8232/46 Cordless Hair Trimmer for Men with 20 Length Settings, 60 mins Run Time, Washable Attachments, DualCut Blades, Lithium-Ion Battery",
+      "productDescription": "Multicolor, portable, Standard",
+      "productRating": 4.2,
+      "totalSale": 1244,
+      "offerPrice": 899,
+      "mrPrice": 999,
+      "productImg": "/assets/images/pdrimmer.png"
+    },
+    {
+      "id": 16,
+      "productName": "Projector",
+      "productDetailedName":"Anker Nebula Capsule Max, Portable Mini Projector with 200 ANSI Lumens, 720p Resolution, 4 Hour Battery Life, Android 7.1, Wi-Fi & Bluetooth",
+      "productDescription": "10 inch, 4K, HDR, Compact Case",
+      "productRating": 4.6,
+      "totalSale": 2130,
+      "offerPrice": 12099,
+      "mrPrice": 14999,
+      "productImg": "/assets/images/projector.png"
+    },
+    {
+      "id": 17,
+      "productName": "Gaming CPU",
+      "productDetailedName":"CyberPowerPC Gamer Xtreme VR Gaming PC Computer Desktop Intel i5-11400F 16GB DDR4 500GB NVMe SSD NVIDIA GeForce GTX 1660 Super WiFi Windows 11 Home",
+      "productDescription": "RGB Lighting, Tech Accessories, Custom Cooling",
+      "productRating": 4.4,
+      "totalSale": 1985,
+      "offerPrice": 150000,
+      "mrPrice": 179999,
+      "productImg": "/assets/images/pcpu.png"
+    },
+    {
+      "id": 18,
+      "productName": "Party Speaker",
+      "productDetailedName":"boAt Party Pal Portable Bluetooth Speaker with 100W Output, 10H Playtime, IPX7 Water Resistance, RGB Lights, TWS, AUX & USB (Black)",
+      "productDescription": "Portable, 100W, 10H Playtime",
+      "productRating": 4.3,
+      "totalSale": 1670,
+      "offerPrice": 3999,
+      "mrPrice": 4999,
+      "productImg": "/assets/images/pparty.webp"
+    },
+    {
+      "id": 19,
+      "productName": "Protection Case",
+      "productDetailedName":"Spigen Ultra Hybrid Designed for iPhone 13 Case (2021) - Crystal Clear (Apple iPhone 13 Case) and with 1 Year Warranty standard delivery service a",
+      "productDescription": "Ultra protection, transparent",
+      "productRating": 4.5,
+      "totalSale": 1320,
+      "offerPrice": 399,
+      "mrPrice": 799,
+      "productImg": "/assets/images/pcase.png"
+    },
+    {
+      "id": 20,
+      "productName": "iPhone 12",
+      "productDetailedName":"Apple iPhone 12 (128GB) - Blue with 1 Year Warranty standard delivery service a qaulity product and best price in market ke sath  apko milega",
+      "productDescription": "512 GB, Multicolor, 23 MP",
+      "productRating": 4.7,
+      "totalSale": 1048,
+      "offerPrice": 77899,
+      "mrPrice": 82999,
+      "productImg": "/assets/images/pip12.png"
+    }
+  ],
+
+  "ProductDetails2": [
+    {
+      "id": 21,
+      "productName": "VR",
+      "productDetailedName":"Oculus Quest 2 — Advanced All-In-One Virtual Reality Headset — 256 GB with 1 Year Warranty standard delivery service a qaulity product and best price in market ke sath  apko milega",
+      "productDescription": "Bluetooth 5.3, 4K, 40H Battery",
+      "productRating": 4.6,
+      "totalSale": 2560,
+      "offerPrice": 2499,
+      "mrPrice": 3499,
+      "productImg": "/assets/images/vr.webp"
+    },
+    {
+      "id": 22,
+      "productName": "Smart Ring",
+      "productDetailedName":"Oura Ring Generation 3 Smart Ring with Sleep and Activity Tracker, Heart Rate Monitor, Readiness Score, and Long Battery Life (Silver - Size 10)",
+      "productDescription": "Lite weight, Waterproof, Sleep Tracker",
+      "productRating": 4.4,
+      "totalSale": 2100,
+      "offerPrice": 999,
+      "mrPrice": 4299,
+      "productImg": "/assets/images/sr.png"
+    },
+    {
+      "id": 23,
+      "productName": "Bluetooth Headphones",
+      "productDetailedName":"Sony WH-1000XM4 Wireless Noise Cancelling Over-Ear Headphones with Mic and Alexa Voice Control (Black) with 1 Year Warranty standard delivery service a qaulity product and best price in market ke sath  apko milega",
+      "productDescription": "Over-Ear, 60H Battery, Noise Reduction",
+      "productRating": 4.5,
+      "totalSale": 1850,
+      "offerPrice": 4599,
+      "mrPrice": 5999,
+      "productImg": "/assets/images/bthf.webp"
+    },
+    {
+      "id": 24,
+      "productName": "Mechanical Keyboard",
+      "productDetailedName":"Mechanical Keyboard, Redragon K556 RGB LED Backlit Wired Gaming Keyboard with Blue Switches, Anti-Ghosting Keys, Ergonomic Design for PC and Laptop (Black)",
+      "productDescription": "RGB, Wired, Blue Switches",
+      "productRating": 4.3,
+      "totalSale": 970,
+      "offerPrice": 3499,
+      "mrPrice": 4999,
+      "productImg": "/assets/images/mckey.webp"
+    },
+    {
+      "id": 25,
+      "productName": "Wireless Mouse",
+      "productDetailedName":"Wirkess Wireless Mouse, Ergonomic Rechargeable Silent Clicks Computer Mouse with USB Receiver for Laptop PC MacBook Desktop (Black) and with 1 Year Warranty standard delivery service a qaulity product and best price in market ke sath  apko milega",
+      "productDescription": "Ergonomic, Rechargeable, Silent Clicks",
+      "productRating": 4.4,
+      "totalSale": 1890,
+      "offerPrice": 699,
+      "mrPrice": 1499,
+      "productImg": "/assets/images/wirkessmouse.webp"
+    },
+    {
+      "id": 26,
+      "productName": "Power Bank",
+      "productDetailedName":"Anker PowerCore 20100mAh Portable Charger, Ultra High Capacity Power Bank with Fast Charging Technology for iPhone, Samsung Galaxy and More",
+      "productDescription": "20000mAh, Fast Charging, Dual Port",
+      "productRating": 4.5,
+      "totalSale": 2250,
+      "offerPrice": 1199,
+      "mrPrice": 2499,
+      "productImg": "/assets/images/powerbbank.webp"
+    },
+    {
+      "id": 27,
+      "productName": "Smart Home Plug",
+      "productDetailedName":"TP-Link Kasa Smart Wi-Fi Plug Mini (HS105) - Works with Alexa and Google Assistant, No Hub Required, Compact Design, 2-Pack and with 1 Year Warranty standard delivery service a qaulity product and best price in market ke sath  apko milega",
+      "productDescription": "Wi-Fi Control, Alexa Support, Compact Design",
+      "productRating": 4.3,
+      "totalSale": 860,
+      "offerPrice": 1299,
+      "mrPrice": 1899,
+      "productImg": "/assets/images/3pin.webp"
+    },
+    {
+      "id": 28,
+      "productName": "WiFi Router",
+      "productDetailedName":"TP-Link Archer C6 AC1200 Dual Band WiFi Router (Black) with 1 Year Warranty standard delivery service a qaulity product and best price in market ke sath  apko milega",
+      "productDescription": "Dual Band, 1200 Mbps, 4 Antennas",
+      "productRating": 4.5,
+      "totalSale": 1410,
+      "offerPrice": 2999,
+      "mrPrice": 3999,
+      "productImg": "/assets/images/wifiruter.webp"
+    },
+    {
+      "id": 29,
+      "productName": "Security Camera",
+      "productDetailedName":"TP-Link Tapo C200 Pan/Tilt Home Security Wi-Fi Camera, 1080p HD, Motion Detection, Night Vision, Two-Way Audio, Works with Alexa and Google Assistant",
+      "productDescription": "1080p HD, Motion Detection, Night Vision",
+      "productRating": 4.4,
+      "totalSale": 1875,
+      "offerPrice": 2499,
+      "mrPrice": 3199,
+      "productImg": "/assets/images/cctv.webp"
+    },
+    {
+      "id": 30,
+      "productName": "Tablet",
+      "productDetailedName":"Samsung Galaxy Tab A7 Lite (8.7-inch, 32GB, Wi-Fi + 4G LTE) - Silver with 1 Year Warranty standard delivery service a qaulity product and best price in market ke sath  apko milega",
+      "productDescription": "10-inch Display, 64GB Storage, WiFi+4G",
+      "productRating": 4.6,
+      "totalSale": 990,
+      "offerPrice": 12999,
+      "mrPrice": 15999,
+      "productImg": "/assets/images/ptablet.webp"
+    }
+  ],
+
+  "ProductDetails3": [
+    {
+      "id": 31,
+      "productName": "AI Robot",
+      "productDetailedName":"Anki Cozmo Robot Toy with Advanced AI, Interactive Play, and Personality - Educational STEM Toy for Kids and Adults and with 1 Year Warranty standard delivery service a qaulity product and best price in market ke sath  apko milega",
+      "productDescription": "Immersive 3D, Adjustable Strap, Lightweight",
+      "productRating": 4.2,
+      "totalSale": 670,
+      "offerPrice": 4999,
+      "mrPrice": 6499,
+      "productImg": "/assets/images/airobo.webp"
+    },
+    {
+      "id": 32,
+      "productName": "Smart Lamp",
+      "productDetailedName":"Philips Hue White and Color Ambiance Smart Table Lamp, Bluetooth Enabled, Compatible with Alexa and Google Assistant, Dimmable LED Light (Requires Hue Bridge for Full Functionality)",
+      "productDescription": "RGB, Touch Control, Voice Command",
+      "productRating": 4.3,
+      "totalSale": 870,
+      "offerPrice": 1499,
+      "mrPrice": 2299,
+      "productImg": "/assets/images/lamb.webp"
+    },
+    {
+      "id": 33,
+      "productName": "Portable Fan",
+      "productDetailedName":"Xiaomi Mi Portable Fan 2C, Rechargeable Handheld Fan with 3 Speed Modes, Foldable Design, Up to 16 Hours Battery Life, USB-C Charging, White",
+      "productDescription": "Rechargeable, Compact, 3 Speed Modes",
+      "productRating": 4.4,
+      "totalSale": 1450,
+      "offerPrice": 799,
+      "mrPrice": 1299,
+      "productImg": "/assets/images/pfan.webp"
+    },
+    {
+      "id": 34,
+      "productName": "Car Charger",
+      "productDetailedName":"Anker PowerDrive 2 Alloy Car Charger, Dual USB Car Charger with PowerIQ for iPhone, Samsung Galaxy and More and with 1 Year Warranty standard delivery service a qaulity product and best price in market ke sath  apko milega",
+      "productDescription": "Dual USB, Fast Charging, LED Indicator",
+      "productRating": 4.5,
+      "totalSale": 1100,
+      "offerPrice": 699,
+      "mrPrice": 999,
+      "productImg": "/assets/images/cargharger.png"
+    },
+    {
+      "id": 35,
+      "productName": "Soundbar",
+      "productDetailedName":"Sony HT-S350 Soundbar with Wireless Subwoofer, Dolby Digital, S-Force PRO Front Surround, HDMI ARC, USB, Optical Input, Bluetooth Connectivity (Black)",
+      "productDescription": "120W Output, Bluetooth, Deep Bass",
+      "productRating": 4.6,
+      "totalSale": 940,
+      "offerPrice": 9999,
+      "mrPrice": 12999,
+      "productImg": "/assets/images/psondbar.webp"
+    },
+    {
+      "id": 36,
+      "productName": "Wireless Charger",
+      "productDetailedName":"Anker Wireless Charger, PowerWave Pad Qi-Certified 10W Max Fast Wireless Charging Pad for iPhone 13/13 Pro/12/12 Pro/SE 2020, Samsung Galaxy S21/S20/S10 and More",
+      "productDescription": "15W Fast Charge, Magnetic Pad",
+      "productRating": 4.4,
+      "totalSale": 860,
+      "offerPrice": 1499,
+      "mrPrice": 1999,
+      "productImg": "/assets/images/wireless.webp"
+    },
+    {
+      "id": 37,
+      "productName": "RC Car",
+      "productDetailedName":"DEERC DE36W Remote Control Car for Kids 1:18 Scale RC Off-Road Truck with 2.4GHz High Speed, 4WD, LED Lights, Rechargeable Battery, Suitable for Age 6+",
+      "productDescription": "BMI, Body Fat, Bluetooth App Sync",
+      "productRating": 4.3,
+      "totalSale": 770,
+      "offerPrice": 1899,
+      "mrPrice": 2499,
+      "productImg": "/assets/images/rccar.webp"
+    },
+    {
+      "id": 38,
+      "productName": "Mini Speaker",
+      "productDetailedName":"JBL GO 3 Portable Wireless Bluetooth Speaker with 10H Playtime, Deep Bass, IP67 Waterproof and Dustproof, Bluetooth 5.1 Connectivity, Voice Assistant Integration (Black)",
+      "productDescription": "Portable, 10H Battery, Deep Bass",
+      "productRating": 4.5,
+      "totalSale": 1580,
+      "offerPrice": 1899,
+      "mrPrice": 2499,
+      "productImg": "/assets/images/minispeaker.webp"
+    },
+    {
+      "id": 39,
+      "productName": "Smartphone Gimbal",
+      "productDetailedName":"DJI OM 4 SE Smartphone Gimbal Stabilizer with 3-Axis Stabilization, Magnetic Phone Clamp, ActiveTrack 3.0, Gesture Control, and Foldable Design for iPhone and Android Phones",
+      "productDescription": "3-Axis Stabilizer, Compact, Rechargeable",
+      "productRating": 4.6,
+      "totalSale": 910,
+      "offerPrice": 5899,
+      "mrPrice": 7999,
+      "productImg": "/assets/images/pgimbel.png"
+    },
+    {
+      "id": 40,
+      "productName": "Gaming Condroller",
+      "productDetailedName":"Sony DualSense Wireless Controller for PlayStation 5 - Cosmic Red with 1 Year Warranty standard delivery service a qaulity product and best price in market ke sath  apko milega",
+      "productDescription": "PS4,5, PC, Android",
+      "productRating": 4.4,
+      "totalSale": 1140,
+      "offerPrice": 1799,
+      "mrPrice": 2499,
+      "productImg": "/assets/images/condroller.webp"
+    }
+  ]
+}

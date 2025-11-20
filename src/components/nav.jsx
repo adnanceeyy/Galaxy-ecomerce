@@ -21,7 +21,7 @@ export default function Nav() {
         <Link to="/">
           <img
             className="w-[30px] md:w-[70px] m-2"
-            src="./assets/images/logo.png"
+            src="/assets/images/logo.png"
             alt="logo"
           />
         </Link>

@@ -5,7 +5,10 @@ import {
   IconStarFilled,
   IconWorldHeart,
 } from "@tabler/icons-react";
-
+import { Link } from "react-router-dom";
+import { newProductDetails } from "../data/datas.json";
+import Footer from "./footer";
+import { useEffect } from "react";
 export default function Home() {
   const adds = [
     {
@@ -17,75 +20,6 @@ export default function Home() {
       add2: "./assets/images/add2.jpg",
     },
   ];
-  const newProductDetails = [
-    {
-      id: 1,
-      productName: "Over Headset",
-      productDescription: "Multicolor, With Glass, Standard",
-      productRating: 4.2,
-      totalSale: 1244,
-      offerPrice: 899,
-      mrPrice: 999,
-      isNew: true,
-      productImg: "/assets/images/headset.png",
-    },
-    {
-      id: 2,
-      productName: "Mouse",
-      productDescription: "Bluetooth 5.3, Noise Canceling, Compact Case",
-      productRating: 4.6,
-      totalSale: 2130,
-      offerPrice: 1299,
-      mrPrice: 1799,
-      isNew: true,
-      productImg: "/assets/images/mouse.webp",
-    },
-    {
-      id: 3,
-      productName: "Smart Watch",
-      productDescription: "1.8-inch Display, Heart Rate Monitor, Waterproof",
-      productRating: 4.4,
-      totalSale: 1985,
-      offerPrice: 1499,
-      mrPrice: 2199,
-      isNew: false,
-      productImg: "/assets/images/swhatch.webp",
-    },
-    {
-      id: 4,
-      productName: "Wireless Speaker",
-      productDescription: "Portable, Deep Bass, 10H Playtime",
-      productRating: 4.3,
-      totalSale: 1670,
-      offerPrice: 999,
-      mrPrice: 1399,
-      isNew: true,
-      productImg: "/assets/images/btspeaker.png",
-    },
-    {
-      id: 5,
-      productName: "Air pods",
-      productDescription: "RGB Lighting, 6 Buttons, 16000 DPI",
-      productRating: 4.5,
-      totalSale: 1320,
-      offerPrice: 799,
-      mrPrice: 1199,
-      isNew: false,
-      productImg: "/assets/images/airpods.png",
-    },
-    {
-      id: 6,
-      productName: "Keyboard",
-      productDescription: "RGB Backlight, Blue Switch, Wired",
-      productRating: 4.7,
-      totalSale: 1048,
-      offerPrice: 1899,
-      mrPrice: 2499,
-      isNew: true,
-      productImg: "/assets/images/keybord.png",
-    },
-  ];
-
   const brandPartners = [
     {
       id: 1,
@@ -188,10 +122,15 @@ export default function Home() {
       imagelogo: "/assets/images/lenovologo.webp",
     },
   ];
-const singleproduct = () => {
+  const ProductDetails = newProductDetails;
+
+  const singleproduct = () => {
     window.location.href = "/singleproduct";
   };
 
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
   return (
     <>
       <div className="w-full h-screen bg-gradient-to-br from-[#7db9d1] to-[#5294ad] pt-16 md:pt-32 fixed z-40">
@@ -237,112 +176,7 @@ const singleproduct = () => {
           </div>
         </div>
         {/* footbar */}
-        <div
-          className="
-  fixed bottom-0 w-full md:w-[90.5%] 
-  bg-[#f7fbff] border border-[#3f3f3f50] 
-  rounded-t-[30px] md:rounded-t-[80px]
-  place-self-center transition-all duration-300
-  md:hover:w-[99.5%] md:hover:h-[240px]
-  h-[160px] md:h-[230px] flex flex-col justify-end
-  px-3 md:px-8 pb-3 md:pb-8 group
-"
-        >
-          {/* Top divider line */}
-          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent" />
-
-          {/* Footer Content */}
-          <div
-            className="
-    grid grid-cols-2 md:grid-cols-3 
-    gap-4 md:gap-8 text-gray-700 w-full
-    max-w-7xl mx-auto
-  "
-          >
-            {/* Column 1 - Logo & tagline */}
-            <div className="space-y-1 md:space-y-4 col-span-2 md:col-span-1">
-              <h2 className="text-lg md:text-4xl font-extrabold text-gray-700 group-hover:text-gray-900 transition-all duration-300">
-                Galaxy Ecommerce
-              </h2>
-              <p className="text-[10px] md:text-sm leading-tight">
-                Shop the stars. Best deals on fashion, tech & more.
-              </p>
-
-              {/* Social icons (visible only on md and above) */}
-              <div className="hidden md:flex gap-4 pt-2">
-                <svg
-                  className="w-6 h-6 hover:text-gray-900 cursor-pointer"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231z" />
-                </svg>
-                <svg
-                  className="w-6 h-6 hover:text-gray-900 cursor-pointer"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15.5v-6h-2v-2h2V9c0-1.1.9-2 2-2h2v2h-2c-.55 0-1 .45-1 1v1.5h3l-.5 2H13v6h-2z" />
-                </svg>
-                <svg
-                  className="w-6 h-6 hover:text-gray-900 cursor-pointer"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 18c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8z" />
-                </svg>
-              </div>
-            </div>
-
-            {/* Column 2 - Shop Links */}
-            <div className="space-y-1 md:space-y-3">
-              <h3 className="text-xs md:text-lg font-semibold text-gray-900">
-                Shop
-              </h3>
-              <ul className="space-y-1 md:space-y-2 text-[10px] md:text-sm">
-                <li>
-                  <a href="#" className="hover:text-gray-900">
-                    Best Sellers
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-gray-900">
-                    Sale
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-gray-900">
-                    Brands
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            {/* Column 3 - Support */}
-            <div className="space-y-1 md:space-y-3">
-              <h3 className="text-xs md:text-lg font-semibold text-gray-900">
-                Support
-              </h3>
-              <ul className="space-y-1 md:space-y-2 text-[10px] md:text-sm">
-                <li>
-                  <a href="#" className="hover:text-gray-900">
-                    Returns
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-gray-900">
-                    Shipping
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-gray-900">
-                    Contact Us
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
+        <Footer />
       </div>
 
       <div
@@ -370,52 +204,64 @@ const singleproduct = () => {
           />
         </div>
 
-        {/* products grid */}
-        <div className="grid gap-1 md:gap-5 md:w-[97%] place-self-center grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 px-2 md:px-4">
+        {/* Products Grid */}
+        <div
+          className="
+    flex md:grid gap-3 md:gap-5 
+    overflow-x-auto md:overflow-x-visible 
+    snap-x snap-mandatory scrollbar-hide 
+    md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6
+    px-2 md:px-4 py-2
+  "
+        >
           {newProductDetails.map((product) => (
-            <div
+            <Link
+              to={`/singleProduct/${product.id}`}
               key={product.id}
-              onClick={singleproduct}
-              className="bg-[#f7fbff] w-full h-[170px] md:h-[365px] rounded-2xl md:rounded-4xl border relative border-gray-200 p-0.5 md:p-1 cursor-pointer hover:shadow-lg hover:shadow-gray-400 transition-all duration-300"
+              className="snap-start flex-shrink-0 md:flex-shrink-1 md:block md:col-auto"
             >
-              <div
-                className={`absolute right-1.5 md:right-4 top-1.5 md:top-3 font-semibold text-gray-200 text-[8px] md:text-[13px] ${
-                  product.isNew ? "bg-[#c20000e5]" : "bg-green-500"
-                } px-1 md:px-2 rounded-[7px] md:rounded-3xl animate-pulse`}
-              >
-                {product.isNew ? "New" : "Fresh"}
-              </div>
-              <div className="w-full h-[110px] md:h-[240px] rounded-t-[13px] md:rounded-t-[28px] flex items-center justify-center bg-gray-200">
-                <img className="h-full" src={product.productImg} alt="" />
-              </div>
-              <div>
-                <h2 className="text-[14px] md:text-2xl font-light leading-3.5 md:leading-tight">
-                  {product.productName}
-                </h2>
-                <p className="text-[6px] md:text-[13px] leading-tight line-clamp-1 text-gray-600 mt-0 md:mt-1">
-                  {product.productDescription}
-                </p>
-
-                <div className="flex items-center gap-1 mt-0 md:mt-1 leading-none">
-                  <div className="flex items-center gap-0.5 md:gap-1 bg-green-500 text-white px-0.5 md:px-1 py-[2px] md:py-[4px] rounded-[3px] md:rounded-md">
-                    <p className="text-[8px] md:text-[13px] font-medium">
-                      {product.productRating}
-                    </p>
-                    <IconStarFilled
-                      color="#f1cd0c"
-                      className="h-2 md:h-4 w-2 md:w-4"
-                    />
-                  </div>
-                  <p className="text-[8px] md:text-[13px] text-gray-600">
-                    ({product.totalSale})
-                  </p>
+              <div className="bg-[#f7fbff] w-[160px] md:w-full h-[170px] md:h-[365px] rounded-2xl md:rounded-4xl border relative border-gray-200 p-0.5 md:p-1 cursor-pointer hover:shadow-lg hover:shadow-gray-400 transition-all duration-300">
+                <div
+                  className={`absolute right-1.5 md:right-4 top-1.5 md:top-3 font-semibold text-gray-200 text-[8px] md:text-[13px] ${
+                    product.isNew ? "bg-[#c20000e5]" : "bg-green-500"
+                  } px-1 md:px-2 rounded-[7px] md:rounded-3xl animate-pulse`}
+                >
+                  {product.isNew ? "New" : "Fresh"}
                 </div>
-
-                <h1 className="text-[16px] md:text-2xl font-medium leading-tight">
-                  ₹{product.offerPrice}
-                </h1>
+                <div className="w-full h-[110px] md:h-[240px] rounded-t-[13px] md:rounded-t-[28px] flex items-center justify-center bg-gray-200">
+                  <img
+                    className="h-full object-contain w-full"
+                    src={product.productImg}
+                    alt={product.productName}
+                  />
+                </div>
+                <div>
+                  <h2 className="text-[14px] md:text-2xl font-light leading-3.5 md:leading-tight">
+                    {product.productName}
+                  </h2>
+                  <p className="text-[6px] md:text-[13px] leading-tight line-clamp-1 text-gray-600 mt-0 md:mt-1">
+                    {product.productDescription}
+                  </p>
+                  <div className="flex items-center gap-1 mt-0 md:mt-1 leading-none">
+                    <div className="flex items-center gap-0.5 md:gap-1 bg-green-500 text-white px-0.5 md:px-1 py-[2px] md:py-[4px] rounded-[3px] md:rounded-md">
+                      <p className="text-[8px] md:text-[13px] font-medium">
+                        {product.productRating}
+                      </p>
+                      <IconStarFilled
+                        color="#f1cd0c"
+                        className="h-2 md:h-4 w-2 md:w-4"
+                      />
+                    </div>
+                    <p className="text-[8px] md:text-[13px] text-gray-600">
+                      ({product.totalSale})
+                    </p>
+                  </div>
+                  <h1 className="text-[16px] md:text-2xl font-medium leading-tight">
+                    ₹{product.offerPrice}
+                  </h1>
+                </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
 
