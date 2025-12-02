@@ -4,13 +4,27 @@ import {
   IconShoppingCartFilled,
   IconX,
 } from "@tabler/icons-react";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 export default function Nav() {
   const location = useLocation();
   const currentPath = location.pathname;
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [cartCount, setCartCount] = useState(0);
+
+  useEffect(() => {
+    const updateCart = () => {
+      const saved = JSON.parse(localStorage.getItem("cart")) || [];
+      setCartCount(saved.length);
+    };
+
+    updateCart();
+    window.addEventListener("storage", updateCart);
+
+    return () => window.removeEventListener("storage", updateCart);
+  }, []);
 
   const menus = () => setIsMenuOpen(true);
   const closeNav = () => setIsMenuOpen(false);
@@ -27,18 +41,21 @@ export default function Nav() {
         </Link>
 
         <ul className="flex space-x-6 md:space-x-20 text-lg md:text-xl font-medium items-center">
+          {/* Search Box */}
           <div
-            class="hidden md:flex items-center gap-2 border border-gray-300 
+            className="hidden md:flex items-center gap-2 border border-gray-300 
             rounded-full px-2 pr-16 py-1 mr-10 
-            focus-within:bg-[#508cb825]  focus-within:border-[#387eb1]  transition-all duration-300"
+            focus-within:bg-[#508cb825] focus-within:border-[#387eb1] transition-all duration-300"
           >
-            <IconSearch className=" text-gray-400 " />
+            <IconSearch className="text-gray-400" />
             <input
               type="text"
               placeholder="Search..."
               className="hidden md:block rounded-full text-[21px] outline-0"
             />
           </div>
+
+          {/* Desktop Menu */}
           {[
             { path: "/", label: "Home" },
             { path: "/about", label: "About" },
@@ -57,25 +74,32 @@ export default function Nav() {
             </li>
           ))}
 
+          {/* Cart Icon */}
           <li className="hidden md:block">
             <Link
-              to="/cart"
-              className={`hover:underline ${
-                currentPath === "/cart" ? "font-bold text-[#0f76bb]" : ""
+              to="/cart/:id"
+              className={`relative hover:underline ${
+                currentPath === "/cart/:id" ? "font-bold text-[#0f76bb]" : ""
               }`}
             >
               <IconShoppingCartFilled />
+
+              {/* Cart count badge */}
+              <p className="absolute bg-red-600 p-1 h-[15px] leading-[0.7] text-center 
+              rounded-full text-white text-xs -right-0.5 -top-1.5">
+                {cartCount}
+              </p>
             </Link>
           </li>
 
-          {/* Mobile Menu Icon */}
+          {/* Mobile Menu Button */}
           <li className="block md:hidden px-2 text-[#292929]">
             <IconMenu2 size={28} onClick={menus} />
           </li>
         </ul>
       </nav>
 
-      {/* ✅ Mobile Nav with animation */}
+      {/* Mobile Menu */}
       <div
         className={`fixed top-0 right-0 h-full w-[70%] bg-blue-100 text-2xl font-bold p-5 pt-10 border-l border-gray-500 transform transition-transform duration-300 ease-in-out ${
           isMenuOpen ? "translate-x-0" : "translate-x-full"
@@ -85,29 +109,34 @@ export default function Nav() {
           onClick={closeNav}
           className="absolute top-5 right-5 cursor-pointer"
         />
+
         <ul>
           <li className="border-b my-5 border-gray-400 text-gray-800">
             <Link to="/" onClick={closeNav}>
               Home
             </Link>
           </li>
+
           <li className="border-b my-5 border-gray-400 text-gray-800">
             <Link to="/about" onClick={closeNav}>
               About
             </Link>
           </li>
+
           <li className="border-b my-5 border-gray-400 text-gray-800">
             <Link to="/allproduct" onClick={closeNav}>
               Product
             </Link>
           </li>
+
           <li className="border-b my-5 border-gray-400 text-gray-800">
             <Link to="/contact" onClick={closeNav}>
               Contact
             </Link>
           </li>
+
           <li className="border-b my-5 border-gray-400 text-gray-800">
-            <Link to="/cart" onClick={closeNav}>
+            <Link to="/cart/:id" onClick={closeNav}>
               <IconShoppingCartFilled />
             </Link>
           </li>

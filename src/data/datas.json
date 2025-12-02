@@ -10,8 +10,10 @@
       "offerPrice": 899,
       "mrPrice": 999,
       "isNew": true,
+      "color":"color:red",
       "off":"10%",
-      "productImg": "/assets/images/headset.png"
+      "productImg": "/assets/images/headset.png",
+      "catogeryId":1
     },
     {
       "id": 2,
@@ -23,8 +25,10 @@
       "offerPrice": 1299,
       "mrPrice": 1799,
       "isNew": true,
+      "color":"color:light green",
       "off":"25%",
-      "productImg": "/assets/images/mouse.webp"
+      "productImg": "/assets/images/mouse.webp",
+      "catogeryId":6
     },
     {
       "id": 3,
@@ -36,8 +40,10 @@
       "offerPrice": 1499,
       "mrPrice": 2199,
       "isNew": false,
+      "color":"color:black",
       "off":"15%",
-      "productImg": "/assets/images/swhatch.webp"
+      "productImg": "/assets/images/swhatch.webp",
+      "catogeryId":4
     },
     {
       "id": 4,
@@ -49,8 +55,10 @@
       "offerPrice": 999,
       "mrPrice": 1399,
       "isNew": true,
+      "color":"color:brown",
       "off":"10%",
-      "productImg": "/assets/images/btspeaker.png"
+      "productImg": "/assets/images/btspeaker.png",
+      "catogeryId":5
     },
     {
       "id": 5,
@@ -62,8 +70,10 @@
       "offerPrice": 799,
       "mrPrice": 1199,
       "isNew": false,
+      "color":"color:light blue",
       "off":"15%",
-      "productImg": "/assets/images/airpods.png"
+      "productImg": "/assets/images/airpods.png",
+      "catogeryId":7
     },
     {
       "id": 6,
@@ -75,8 +85,10 @@
       "offerPrice": 1899,
       "mrPrice": 2499,
       "isNew": true,
+      "color":"color:black",
       "off":"20%",
-      "productImg": "/assets/images/keybord.png"
+      "productImg": "/assets/images/keybord.png",
+      "catogeryId":11
     }
   ],
 
@@ -84,112 +96,142 @@
     {
       "id": 11,
       "productName": "Smart TV",
-      "productDetailedName":"Mi 80 cm (32 inches) HD Ready Smart LED TV 4A Pro with PatchWall and Alexa Built-in (Black)  with 1 Year Warranty  standard delivery service a",
+      "productDetailedName":"Mi 80 cm (32 inches) HD Ready Smart LED TV 4A Pro with PatchWall and Alexa Built-in (Black)  with 1 Year Warranty",
       "productDescription": "1.8-inch Display, Heart Rate Monitor, Waterproof",
       "productRating": 4.2,
       "totalSale": 1244,
       "offerPrice": 8999,
       "mrPrice": 9999,
-      "productImg": "/assets/images/stv.png"
+      "color":"color:light black",
+      "off":"10%",
+      "productImg": "/assets/images/stv.png",
+      "catogeryId":8
     },
     {
       "id": 12,
       "productName": "Mac Book",
-      "productDetailedName":"Apple MacBook Pro with M1 Chip (13-inch, 8GB RAM, 256GB SSD Storage) - Space Grey Apple M1 Chip with 8-Core CPU and 8-Core GPU 256GB SSD Storage 8GB Unified Memory 13.3-inch Retina Display with True Tone",
+      "productDetailedName":"Apple MacBook Pro with M1 Chip (13-inch, 8GB RAM, 256GB SSD Storage) - Space Grey Apple M1 Chip with",
       "productDescription": "Multicolor, With Glass, Standard",
       "productRating": 4.6,
       "totalSale": 2130,
       "offerPrice": 159999,
       "mrPrice": 179999,
-      "productImg": "/assets/images/plaptop.png"
+      "color":"color:Silver color",
+      "off":"10%",
+      "productImg": "/assets/images/plaptop.png",
+      "catogeryId":2
     },
     {
       "id": 13,
       "productName": "Nikon Cam",
-      "productDetailedName":"Nikon D3500 DSLR Camera with 18-55mm VR Lens (Black) and 32GB Memory Card + Camera Bag + UV Filter + Cleaning Kit + Tripod + SD Card Reader",
+      "productDetailedName":"Nikon D3500 DSLR Camera with 18-55mm VR Lens (Black) and 32GB Memory Card + Camera Bag + UV Filter",
       "productDescription": "Portable, 4K, 1800HD",
       "productRating": 4.3,
       "totalSale": 1670,
       "offerPrice": 19999,
       "mrPrice": 23999,
-      "productImg": "/assets/images/pcamera.png"
+      "color":"color:black",
+      "off":"15%",
+      "productImg": "/assets/images/pcamera.png",
+      "catogeryId":13
     },
     {
       "id": 14,
       "productName": "Drone",
-      "productDetailedName":"DJI Mini SE Drone with 3-Axis Gimbal and 2.7K Camera (White) and (Fly More Combo) deal with 1 Year Warranty standard delivery service a",
+      "productDetailedName":"DJI Mini SE Drone with 3-Axis Gimbal and 2.7K Camera (White) and (Fly More Combo) deal with 1 Year Warranty",
       "productDescription": "1km distance, wide view, 4K",
       "productRating": 4.5,
       "totalSale": 1320,
       "offerPrice": 3799,
       "mrPrice": 4999,
-      "productImg": "/assets/images/pdron.png"
+      "color":"color:Light Black",
+      "off":"20%",
+      "productImg": "/assets/images/pdron.png",
+      "catogeryId":13
     },
     {
       "id": 15,
       "productName": "Drimmer",
-      "productDetailedName":"Philips HP8232/46 Cordless Hair Trimmer for Men with 20 Length Settings, 60 mins Run Time, Washable Attachments, DualCut Blades, Lithium-Ion Battery",
+      "productDetailedName":"Philips HP8232/46 Cordless Hair Trimmer for Men with 20 Length Settings, 60 mins Run Time, Washable Attachments",
       "productDescription": "Multicolor, portable, Standard",
       "productRating": 4.2,
       "totalSale": 1244,
       "offerPrice": 899,
       "mrPrice": 999,
-      "productImg": "/assets/images/pdrimmer.png"
+      "color":"color:golden color",
+      "off":"10%",
+      "productImg": "/assets/images/pdrimmer.png",
+      "catogeryId":13
     },
     {
       "id": 16,
       "productName": "Projector",
-      "productDetailedName":"Anker Nebula Capsule Max, Portable Mini Projector with 200 ANSI Lumens, 720p Resolution, 4 Hour Battery Life, Android 7.1, Wi-Fi & Bluetooth",
+      "productDetailedName":"Anker Nebula Capsule Max, Portable Mini Projector with 200 ANSI Lumens, 720p Resolution, 4 Hour Battery Life",
       "productDescription": "10 inch, 4K, HDR, Compact Case",
       "productRating": 4.6,
       "totalSale": 2130,
       "offerPrice": 12099,
       "mrPrice": 14999,
-      "productImg": "/assets/images/projector.png"
+      "color":"color:Black Color",
+      "off":"15%",
+      "productImg": "/assets/images/projector.png",
+      "catogeryId":13
     },
     {
       "id": 17,
       "productName": "Gaming CPU",
-      "productDetailedName":"CyberPowerPC Gamer Xtreme VR Gaming PC Computer Desktop Intel i5-11400F 16GB DDR4 500GB NVMe SSD NVIDIA GeForce GTX 1660 Super WiFi Windows 11 Home",
+      "productDetailedName":"CyberPowerPC Gamer Xtreme VR Gaming PC Computer Desktop Intel i5-11400F 16GB DDR4 500GB NVMe SSD NVIDIA GeForce",
       "productDescription": "RGB Lighting, Tech Accessories, Custom Cooling",
       "productRating": 4.4,
       "totalSale": 1985,
       "offerPrice": 150000,
       "mrPrice": 179999,
-      "productImg": "/assets/images/pcpu.png"
+      "color":"color:Transparent , Black",
+      "off":"10%",
+      "productImg": "/assets/images/pcpu.png",
+      "catogeryId":2
     },
     {
       "id": 18,
       "productName": "Party Speaker",
-      "productDetailedName":"boAt Party Pal Portable Bluetooth Speaker with 100W Output, 10H Playtime, IPX7 Water Resistance, RGB Lights, TWS, AUX & USB (Black)",
+      "productDetailedName":"boAt Party Pal Portable Bluetooth Speaker with 100W Output, 10H Playtime, IPX7 Water Resistance",
       "productDescription": "Portable, 100W, 10H Playtime",
       "productRating": 4.3,
       "totalSale": 1670,
       "offerPrice": 3999,
       "mrPrice": 4999,
-      "productImg": "/assets/images/pparty.webp"
+      "color":"color:Black",
+      "off":"20%",
+      "productImg": "/assets/images/pparty.webp",
+      "catogeryId":5
     },
     {
       "id": 19,
       "productName": "Protection Case",
-      "productDetailedName":"Spigen Ultra Hybrid Designed for iPhone 13 Case (2021) - Crystal Clear (Apple iPhone 13 Case) and with 1 Year Warranty standard delivery service a",
+      "productDetailedName":"Spigen Ultra Hybrid Designed for iPhone 13 Case (2021) - Crystal Clear (Apple iPhone 13 Case) and with 1 Year Warranty",
       "productDescription": "Ultra protection, transparent",
       "productRating": 4.5,
       "totalSale": 1320,
       "offerPrice": 399,
       "mrPrice": 799,
-      "productImg": "/assets/images/pcase.png"
+      "color":"color:Transparent",
+      "off":"50%",
+      "productImg": "/assets/images/pcase.png",
+      "catogeryId":3
     },
     {
       "id": 20,
       "productName": "iPhone 12",
-      "productDetailedName":"Apple iPhone 12 (128GB) - Blue with 1 Year Warranty standard delivery service a qaulity product and best price in market ke sath  apko milega",
+      "productDetailedName":"Apple iPhone 12 (128GB) - Blue with 1 Year Warranty standard delivery service a qaulity product and best price in market",
       "productDescription": "512 GB, Multicolor, 23 MP",
       "productRating": 4.7,
       "totalSale": 1048,
       "offerPrice": 77899,
       "mrPrice": 82999,
-      "productImg": "/assets/images/pip12.png"
+      "color":"color:White",
+      "off":"6%",
+      "productImg": "/assets/images/pip12.png",
+      "catogeryId":3
     }
   ],
 
@@ -197,57 +239,72 @@
     {
       "id": 21,
       "productName": "VR",
-      "productDetailedName":"Oculus Quest 2 — Advanced All-In-One Virtual Reality Headset — 256 GB with 1 Year Warranty standard delivery service a qaulity product and best price in market ke sath  apko milega",
+      "productDetailedName":"Oculus Quest 2 — Advanced All-In-One Virtual Reality Headset — 256 GB with 1 Year Warranty standard delivery service a",
       "productDescription": "Bluetooth 5.3, 4K, 40H Battery",
       "productRating": 4.6,
       "totalSale": 2560,
       "offerPrice": 2499,
       "mrPrice": 3499,
-      "productImg": "/assets/images/vr.webp"
+      "color":"color:black",
+      "off":"30%",
+      "productImg": "/assets/images/vr.webp",
+      "catogeryId":13
     },
     {
       "id": 22,
       "productName": "Smart Ring",
-      "productDetailedName":"Oura Ring Generation 3 Smart Ring with Sleep and Activity Tracker, Heart Rate Monitor, Readiness Score, and Long Battery Life (Silver - Size 10)",
+      "productDetailedName":"Oura Ring Generation 3 Smart Ring with Sleep and Activity Tracker, Heart Rate Monitor, Readiness Score, and Long Battry)",
       "productDescription": "Lite weight, Waterproof, Sleep Tracker",
       "productRating": 4.4,
       "totalSale": 2100,
       "offerPrice": 999,
       "mrPrice": 4299,
-      "productImg": "/assets/images/sr.png"
+      "color":"color:black",
+      "off":"20%",
+      "productImg": "/assets/images/sr.png",
+      "catogeryId":13
     },
     {
       "id": 23,
       "productName": "Bluetooth Headphones",
-      "productDetailedName":"Sony WH-1000XM4 Wireless Noise Cancelling Over-Ear Headphones with Mic and Alexa Voice Control (Black) with 1 Year Warranty standard delivery service a qaulity product and best price in market ke sath  apko milega",
+      "productDetailedName":"Sony WH-1000XM4 Wireless Noise Cancelling Over-Ear Headphones with Mic and Alexa Voice Control (Black) with 1 Year Warranty",
       "productDescription": "Over-Ear, 60H Battery, Noise Reduction",
       "productRating": 4.5,
       "totalSale": 1850,
       "offerPrice": 4599,
       "mrPrice": 5999,
-      "productImg": "/assets/images/bthf.webp"
+      "color":"color:red",
+      "off":"15%",
+      "productImg": "/assets/images/bthf.webp",
+      "catogeryId":1
     },
     {
       "id": 24,
       "productName": "Mechanical Keyboard",
-      "productDetailedName":"Mechanical Keyboard, Redragon K556 RGB LED Backlit Wired Gaming Keyboard with Blue Switches, Anti-Ghosting Keys, Ergonomic Design for PC and Laptop (Black)",
+      "productDetailedName":"Mechanical Keyboard, Redragon K556 RGB LED Backlit Wired Gaming Keyboard with Blue Switches, Anti-Ghosting Keys, Ergonomic Design for PC ",
       "productDescription": "RGB, Wired, Blue Switches",
       "productRating": 4.3,
       "totalSale": 970,
       "offerPrice": 3499,
       "mrPrice": 4999,
-      "productImg": "/assets/images/mckey.webp"
+      "color":"color:black",
+      "off":"13%",
+      "productImg": "/assets/images/mckey.webp",
+      "catogeryId":11
     },
     {
       "id": 25,
       "productName": "Wireless Mouse",
-      "productDetailedName":"Wirkess Wireless Mouse, Ergonomic Rechargeable Silent Clicks Computer Mouse with USB Receiver for Laptop PC MacBook Desktop (Black) and with 1 Year Warranty standard delivery service a qaulity product and best price in market ke sath  apko milega",
+      "productDetailedName":"Wirkess Wireless Mouse, Ergonomic Rechargeable Silent Clicks Computer Mouse with USB Receiver for Laptop PC MacBook Desktop (Black)",
       "productDescription": "Ergonomic, Rechargeable, Silent Clicks",
       "productRating": 4.4,
       "totalSale": 1890,
       "offerPrice": 699,
       "mrPrice": 1499,
-      "productImg": "/assets/images/wirkessmouse.webp"
+      "color":"color:Silver and black",
+      "off":"20%",
+      "productImg": "/assets/images/wirkessmouse.webp",
+      "catogeryId":6
     },
     {
       "id": 26,
@@ -258,29 +315,38 @@
       "totalSale": 2250,
       "offerPrice": 1199,
       "mrPrice": 2499,
-      "productImg": "/assets/images/powerbbank.webp"
+      "color":"color:black and white",
+      "off":"15%",
+      "productImg": "/assets/images/powerbbank.webp",
+      "catogeryId":13
     },
     {
       "id": 27,
       "productName": "Smart Home Plug",
-      "productDetailedName":"TP-Link Kasa Smart Wi-Fi Plug Mini (HS105) - Works with Alexa and Google Assistant, No Hub Required, Compact Design, 2-Pack and with 1 Year Warranty standard delivery service a qaulity product and best price in market ke sath  apko milega",
+      "productDetailedName":"TP-Link Kasa Smart Wi-Fi Plug Mini (HS105) - Works with Alexa and Google Assistant, No Hub Required, Compact Design, 2-Pack and with 1 Year Warrant",
       "productDescription": "Wi-Fi Control, Alexa Support, Compact Design",
       "productRating": 4.3,
       "totalSale": 860,
       "offerPrice": 1299,
       "mrPrice": 1899,
-      "productImg": "/assets/images/3pin.webp"
+      "color":"color:White",
+      "off":"10%",
+      "productImg": "/assets/images/3pin.webp",
+      "catogeryId":13
     },
     {
       "id": 28,
       "productName": "WiFi Router",
-      "productDetailedName":"TP-Link Archer C6 AC1200 Dual Band WiFi Router (Black) with 1 Year Warranty standard delivery service a qaulity product and best price in market ke sath  apko milega",
+      "productDetailedName":"TP-Link Archer C6 AC1200 Dual Band WiFi Router (Black) with 1 Year Warranty standard delivery service a qaulity",
       "productDescription": "Dual Band, 1200 Mbps, 4 Antennas",
       "productRating": 4.5,
       "totalSale": 1410,
       "offerPrice": 2999,
       "mrPrice": 3999,
-      "productImg": "/assets/images/wifiruter.webp"
+      "color":"color:black",
+      "off":"15%",
+      "productImg": "/assets/images/wifiruter.webp",
+      "catogeryId":13
     },
     {
       "id": 29,
@@ -291,18 +357,24 @@
       "totalSale": 1875,
       "offerPrice": 2499,
       "mrPrice": 3199,
-      "productImg": "/assets/images/cctv.webp"
+      "color":"color:black",
+      "off":"35%",
+      "productImg": "/assets/images/cctv.webp",
+      "catogeryId":13
     },
     {
       "id": 30,
       "productName": "Tablet",
-      "productDetailedName":"Samsung Galaxy Tab A7 Lite (8.7-inch, 32GB, Wi-Fi + 4G LTE) - Silver with 1 Year Warranty standard delivery service a qaulity product and best price in market ke sath  apko milega",
+      "productDetailedName":"Samsung Galaxy Tab A7 Lite (8.7-inch, 32GB, Wi-Fi + 4G LTE) - Silver with 1 Year Warranty standard delivery service a qaulity product and best price",
       "productDescription": "10-inch Display, 64GB Storage, WiFi+4G",
       "productRating": 4.6,
       "totalSale": 990,
       "offerPrice": 12999,
       "mrPrice": 15999,
-      "productImg": "/assets/images/ptablet.webp"
+      "color":"color:black",
+      "off":"18%",
+      "productImg": "/assets/images/ptablet.webp",
+      "catogeryId":12
     }
   ],
 
@@ -310,24 +382,30 @@
     {
       "id": 31,
       "productName": "AI Robot",
-      "productDetailedName":"Anki Cozmo Robot Toy with Advanced AI, Interactive Play, and Personality - Educational STEM Toy for Kids and Adults and with 1 Year Warranty standard delivery service a qaulity product and best price in market ke sath  apko milega",
+      "productDetailedName":"Anki Cozmo Robot Toy with Advanced AI, Interactive Play, and Personality - Educational STEM Toy for Kids and Adults and with 1 Year Warranty standard delivery service",
       "productDescription": "Immersive 3D, Adjustable Strap, Lightweight",
       "productRating": 4.2,
       "totalSale": 670,
       "offerPrice": 4999,
       "mrPrice": 6499,
-      "productImg": "/assets/images/airobo.webp"
+      "color":"color:White",
+      "off":"12%",
+      "productImg": "/assets/images/airobo.webp",
+      "catogeryId":13
     },
     {
       "id": 32,
       "productName": "Smart Lamp",
-      "productDetailedName":"Philips Hue White and Color Ambiance Smart Table Lamp, Bluetooth Enabled, Compatible with Alexa and Google Assistant, Dimmable LED Light (Requires Hue Bridge for Full Functionality)",
+      "productDetailedName":"Philips Hue White and Color Ambiance Smart Table Lamp, Bluetooth Enabled, Compatible with Alexa and Google Assistant, Dimmable LED Light",
       "productDescription": "RGB, Touch Control, Voice Command",
       "productRating": 4.3,
       "totalSale": 870,
       "offerPrice": 1499,
       "mrPrice": 2299,
-      "productImg": "/assets/images/lamb.webp"
+      "color":"color:silver",
+      "off":"15%",
+      "productImg": "/assets/images/lamb.webp",
+      "catogeryId":13
     },
     {
       "id": 33,
@@ -338,18 +416,24 @@
       "totalSale": 1450,
       "offerPrice": 799,
       "mrPrice": 1299,
-      "productImg": "/assets/images/pfan.webp"
+      "color":"color:White and yellow",
+      "off":"18%",
+      "productImg": "/assets/images/pfan.webp",
+      "catogeryId":13
     },
     {
       "id": 34,
       "productName": "Car Charger",
-      "productDetailedName":"Anker PowerDrive 2 Alloy Car Charger, Dual USB Car Charger with PowerIQ for iPhone, Samsung Galaxy and More and with 1 Year Warranty standard delivery service a qaulity product and best price in market ke sath  apko milega",
+      "productDetailedName":"Anker PowerDrive 2 Alloy Car Charger, Dual USB Car Charger with PowerIQ for iPhone, Samsung Galaxy and More and with 1 Year Warranty standard delivery service",
       "productDescription": "Dual USB, Fast Charging, LED Indicator",
       "productRating": 4.5,
       "totalSale": 1100,
       "offerPrice": 699,
       "mrPrice": 999,
-      "productImg": "/assets/images/cargharger.png"
+      "color":"black",
+      "off":"10%",
+      "productImg": "/assets/images/cargharger.png",
+      "catogeryId":13
     },
     {
       "id": 35,
@@ -360,7 +444,10 @@
       "totalSale": 940,
       "offerPrice": 9999,
       "mrPrice": 12999,
-      "productImg": "/assets/images/psondbar.webp"
+      "color":"color:black",
+      "off":"15%",
+      "productImg": "/assets/images/psondbar.webp",
+      "catogeryId":5
     },
     {
       "id": 36,
@@ -371,7 +458,10 @@
       "totalSale": 860,
       "offerPrice": 1499,
       "mrPrice": 1999,
-      "productImg": "/assets/images/wireless.webp"
+      "color":"color:black",
+      "off":"10%",
+      "productImg": "/assets/images/wireless.webp",
+      "catogeryId":13
     },
     {
       "id": 37,
@@ -382,7 +472,10 @@
       "totalSale": 770,
       "offerPrice": 1899,
       "mrPrice": 2499,
-      "productImg": "/assets/images/rccar.webp"
+      "color":"color:black",
+      "off":"15%",
+      "productImg": "/assets/images/rccar.webp",
+      "catogeryId":10
     },
     {
       "id": 38,
@@ -393,7 +486,10 @@
       "totalSale": 1580,
       "offerPrice": 1899,
       "mrPrice": 2499,
-      "productImg": "/assets/images/minispeaker.webp"
+      "color":"color:black",
+      "off":"15%",
+      "productImg": "/assets/images/minispeaker.png",
+      "catogeryId":5
     },
     {
       "id": 39,
@@ -404,7 +500,10 @@
       "totalSale": 910,
       "offerPrice": 5899,
       "mrPrice": 7999,
-      "productImg": "/assets/images/pgimbel.png"
+      "color":"color:black",
+      "off":"20%",
+      "productImg": "/assets/images/pgimbel.png",
+      "catogeryId":13
     },
     {
       "id": 40,
@@ -415,7 +514,10 @@
       "totalSale": 1140,
       "offerPrice": 1799,
       "mrPrice": 2499,
-      "productImg": "/assets/images/condroller.webp"
+      "color":"color:black",
+      "off":"10%",
+      "productImg": "/assets/images/condroller.webp",
+      "catogeryId":13
     }
   ]
 }

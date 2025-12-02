@@ -3,7 +3,11 @@ import Nav from "../components/nav";
 import { IconStarFilled } from "@tabler/icons-react";
 import Footer from "../components/footer";
 import { Link } from "react-router-dom";
-import { ProductDetails, ProductDetails2, ProductDetails3 } from "../data/datas.json";
+import {
+  ProductDetails,
+  ProductDetails2,
+  ProductDetails3,
+} from "../data/datas.json";
 
 export default function AllProduct() {
   const adds = [
@@ -27,7 +31,8 @@ export default function AllProduct() {
       productName: "Phones",
       productimage: "./assets/images/cphone.webp",
     },
-    { id: 4, productName: "Watches", productimage: "./assets/images/cwh.webp" },
+    { id: 4, productName: "Watches",
+       productimage: "./assets/images/cwh.webp" },
     {
       id: 5,
       productName: "Speakers",
@@ -66,25 +71,20 @@ export default function AllProduct() {
     },
     {
       id: 13,
-      productName: "Chargers",
+      productName: "Other",
       productimage: "./assets/images/ccharger.webp",
     },
   ];
-    const singleproduct = () => {
+  const singleproduct = () => {
     window.location.href = "/singleproduct";
   };
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-
-
   return (
     <>
       <Nav />
-
       <div className="h-screen w-full bg-gradient-to-br from-[#7db9d1] to-[#5294ad] md:pb-[400px] fixed top-0">
-        {/* footbar */}
         <Footer />
       </div>
       <div className="w-[99.5%] place-self-center h-auto rounded-[30px] md:rounded-[80px] bg-[#f7fbff] relative z-10 top-15 md:top-30 p-1 md:p-5 overflow-hidden shadow-[gray] shadow-lg shadow-black mb-60 md:mb-96">
@@ -99,21 +99,23 @@ export default function AllProduct() {
         <div className="w-full overflow-x-auto scrollbar-hide">
           <div className="flex gap-4 md:gap-11 py-2 md:py-5 px-2 md:px-4">
             {allProductCatogery.map((catogery) => (
-              <div
-                key={catogery.id}
-                className="flex flex-col items-center flex-shrink-0"
-              >
-                <div className="bg-blue-200 rounded-full w-11 md:w-25 h-11 md:h-25 border border-gray-400 overflow-hidden cursor-pointer">
-                  <img
-                    src={catogery.productimage}
-                    alt={catogery.productName}
-                    className="w-full h-full object-cover"
-                  />
+              <Link to={`/catogerypages/${catogery.id}`}>
+                <div
+                  key={catogery.id}
+                  className="flex flex-col items-center flex-shrink-0"
+                >
+                  <div className="bg-blue-200 rounded-full w-11 md:w-25 h-11 md:h-25 border border-gray-400 overflow-hidden cursor-pointer">
+                    <img
+                      src={catogery.productimage}
+                      alt={catogery.productName}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <p className="text-[10px] md:text-[20px] font-medium md:font-semibold mt-1 text-center">
+                    {catogery.productName}
+                  </p>
                 </div>
-                <p className="text-[10px] md:text-[20px] font-medium md:font-semibold mt-1 text-center">
-                  {catogery.productName}
-                </p>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -125,38 +127,36 @@ export default function AllProduct() {
               key={product.id}
               className="snap-start flex-shrink-0 md:flex-shrink-1 md:block md:col-auto"
             >
-            <div
-              className="bg-[#f7fbff] w-full h-[200px] md:h-[370px] rounded-2xl md:rounded-4xl border relative border-gray-200 p-0.5 md:p-1 cursor-pointer hover:shadow-lg hover:shadow-gray-400 transition-all duration-300"
-            >
-              <div className="w-full h-[135px] md:h-[250px] rounded-t-[13px] md:rounded-t-[28px] flex items-center justify-center bg-gray-200">
-                <img className="h-full" src={product.productImg} alt="" />
-              </div>
-              <div className="ml-2">
-                <h2 className="text-[14px] md:text-2xl font-light leading-3.5 md:leading-tight">
-                  {product.productName}
-                </h2>
-                <p className="text-[10px] md:text-[13px] leading-tight line-clamp-1 text-gray-600 mt-0 md:mt-1">
-                  {product.productDescription}
-                </p>
-                <div className="flex items-center gap-1 mt-0 md:mt-1 leading-none">
-                  <div className="flex items-center gap-0.5 md:gap-1 bg-green-500 text-white px-0.5 md:px-1 py-[2px] md:py-[4px] rounded-[3px] md:rounded-md">
-                    <p className="text-[8px] md:text-[13px] font-medium">
-                      {product.productRating}
-                    </p>
-                    <IconStarFilled
-                      color="#f1cd0c"
-                      className="h-2 md:h-4 w-2 md:w-4"
-                    />
-                  </div>
-                  <p className="text-[8px] md:text-[13px] text-gray-600">
-                    ({product.totalSale})
-                  </p>
+              <div className="bg-[#f7fbff] w-full h-[200px] md:h-[370px] rounded-2xl md:rounded-4xl border relative border-gray-200 p-0.5 md:p-1 cursor-pointer hover:shadow-lg hover:shadow-gray-400 transition-all duration-300">
+                <div className="w-full h-[135px] md:h-[250px] rounded-t-[13px] md:rounded-t-[28px] flex items-center justify-center bg-gray-200">
+                  <img className="h-full" src={product.productImg} alt="" />
                 </div>
-                <h1 className="text-[18px] md:text-[23px] font-medium leading-tight">
-                  ₹{product.offerPrice}
-                </h1>
+                <div className="ml-2">
+                  <h2 className="text-[14px] md:text-2xl font-light leading-3.5 md:leading-tight">
+                    {product.productName}
+                  </h2>
+                  <p className="text-[10px] md:text-[13px] leading-tight line-clamp-1 text-gray-600 mt-0 md:mt-1">
+                    {product.productDescription}
+                  </p>
+                  <div className="flex items-center gap-1 mt-0 md:mt-1 leading-none">
+                    <div className="flex items-center gap-0.5 md:gap-1 bg-green-500 text-white px-0.5 md:px-1 py-[2px] md:py-[4px] rounded-[3px] md:rounded-md">
+                      <p className="text-[8px] md:text-[13px] font-medium">
+                        {product.productRating}
+                      </p>
+                      <IconStarFilled
+                        color="#f1cd0c"
+                        className="h-2 md:h-4 w-2 md:w-4"
+                      />
+                    </div>
+                    <p className="text-[8px] md:text-[13px] text-gray-600">
+                      ({product.totalSale})
+                    </p>
+                  </div>
+                  <h1 className="text-[18px] md:text-[23px] font-medium leading-tight">
+                    ₹{product.offerPrice}
+                  </h1>
+                </div>
               </div>
-            </div>
             </Link>
           ))}
         </div>
@@ -194,37 +194,36 @@ export default function AllProduct() {
               key={product2.id}
               className="snap-start flex-shrink-0 md:flex-shrink-1 md:block md:col-auto"
             >
-            <div className="bg-[#f7fbff] w-full h-[200px] md:h-[370px] rounded-2xl md:rounded-4xl border relative border-gray-200 p-0.5 md:p-1 cursor-pointer hover:shadow-lg hover:shadow-gray-400 transition-all duration-300"
-            >
-              <div className="w-full h-[135px] md:h-[250px] rounded-t-[13px] md:rounded-t-[28px] flex items-center justify-center bg-gray-200">
-                <img className="h-full" src={product2.productImg} alt="" />
-              </div>
-              <div className="ml-2">
-                <h2 className="text-[14px] md:text-2xl font-light leading-3.5 md:leading-tight">
-                  {product2.productName}
-                </h2>
-                <p className="text-[10px] md:text-[13px] leading-tight line-clamp-1 text-gray-600 mt-0 md:mt-1">
-                  {product2.productDescription}
-                </p>
-                <div className="flex items-center gap-1 mt-0 md:mt-1 leading-none">
-                  <div className="flex items-center gap-0.5 md:gap-1 bg-green-500 text-white px-0.5 md:px-1 py-[2px] md:py-[4px] rounded-[3px] md:rounded-md">
-                    <p className="text-[8px] md:text-[13px] font-medium">
-                      {product2.productRating}
-                    </p>
-                    <IconStarFilled
-                      color="#f1cd0c"
-                      className="h-2 md:h-4 w-2 md:w-4"
-                    />
-                  </div>
-                  <p className="text-[8px] md:text-[13px] text-gray-600">
-                    ({product2.totalSale})
-                  </p>
+              <div className="bg-[#f7fbff] w-full h-[200px] md:h-[370px] rounded-2xl md:rounded-4xl border relative border-gray-200 p-0.5 md:p-1 cursor-pointer hover:shadow-lg hover:shadow-gray-400 transition-all duration-300">
+                <div className="w-full h-[135px] md:h-[250px] rounded-t-[13px] md:rounded-t-[28px] flex items-center justify-center bg-gray-200">
+                  <img className="h-full" src={product2.productImg} alt="" />
                 </div>
-                <h1 className="text-[18px] md:text-[23px] font-medium leading-tight">
-                  ₹{product2.offerPrice}
-                </h1>
+                <div className="ml-2">
+                  <h2 className="text-[14px] md:text-2xl font-light leading-3.5 md:leading-tight">
+                    {product2.productName}
+                  </h2>
+                  <p className="text-[10px] md:text-[13px] leading-tight line-clamp-1 text-gray-600 mt-0 md:mt-1">
+                    {product2.productDescription}
+                  </p>
+                  <div className="flex items-center gap-1 mt-0 md:mt-1 leading-none">
+                    <div className="flex items-center gap-0.5 md:gap-1 bg-green-500 text-white px-0.5 md:px-1 py-[2px] md:py-[4px] rounded-[3px] md:rounded-md">
+                      <p className="text-[8px] md:text-[13px] font-medium">
+                        {product2.productRating}
+                      </p>
+                      <IconStarFilled
+                        color="#f1cd0c"
+                        className="h-2 md:h-4 w-2 md:w-4"
+                      />
+                    </div>
+                    <p className="text-[8px] md:text-[13px] text-gray-600">
+                      ({product2.totalSale})
+                    </p>
+                  </div>
+                  <h1 className="text-[18px] md:text-[23px] font-medium leading-tight">
+                    ₹{product2.offerPrice}
+                  </h1>
+                </div>
               </div>
-            </div>
             </Link>
           ))}
         </div>
@@ -260,38 +259,38 @@ export default function AllProduct() {
             <Link
               to={`/singleProduct/${product3.id}`}
               key={product3.id}
-              className="snap-start flex-shrink-0 md:flex-shrink-1 md:block md:col-auto">
-            <div className="bg-[#f7fbff] w-full h-[200px] md:h-[370px] rounded-2xl md:rounded-4xl border relative border-gray-200 p-0.5 md:p-1 cursor-pointer hover:shadow-lg hover:shadow-gray-400 transition-all duration-300"
+              className="snap-start flex-shrink-0 md:flex-shrink-1 md:block md:col-auto"
             >
-              <div className="w-full h-[135px] md:h-[250px] rounded-t-[13px] md:rounded-t-[28px] flex items-center justify-center bg-gray-200">
-                <img className="h-full" src={product3.productImg} alt="" />
-              </div>
-              <div className="ml-2">
-                <h2 className="text-[14px] md:text-2xl font-light leading-3.5 md:leading-tight">
-                  {product3.productName}
-                </h2>
-                <p className="text-[10px] md:text-[13px] leading-tight line-clamp-1 text-gray-600 mt-0 md:mt-1">
-                  {product3.productDescription}
-                </p>
-                <div className="flex items-center gap-1 mt-0 md:mt-1 leading-none">
-                  <div className="flex items-center gap-0.5 md:gap-1 bg-green-500 text-white px-0.5 md:px-1 py-[2px] md:py-[4px] rounded-[3px] md:rounded-md">
-                    <p className="text-[8px] md:text-[13px] font-medium">
-                      {product3.productRating}
-                    </p>
-                    <IconStarFilled
-                      color="#f1cd0c"
-                      className="h-2 md:h-4 w-2 md:w-4"
-                    />
-                  </div>
-                  <p className="text-[8px] md:text-[13px] text-gray-600">
-                    ({product3.totalSale})
-                  </p>
+              <div className="bg-[#f7fbff] w-full h-[200px] md:h-[370px] rounded-2xl md:rounded-4xl border relative border-gray-200 p-0.5 md:p-1 cursor-pointer hover:shadow-lg hover:shadow-gray-400 transition-all duration-300">
+                <div className="w-full h-[135px] md:h-[250px] rounded-t-[13px] md:rounded-t-[28px] flex items-center justify-center bg-gray-200">
+                  <img className="h-full" src={product3.productImg} alt="" />
                 </div>
-                <h1 className="text-[18px] md:text-[23px] font-medium leading-tight">
-                  ₹{product3.offerPrice}
-                </h1>
+                <div className="ml-2">
+                  <h2 className="text-[14px] md:text-2xl font-light leading-3.5 md:leading-tight">
+                    {product3.productName}
+                  </h2>
+                  <p className="text-[10px] md:text-[13px] leading-tight line-clamp-1 text-gray-600 mt-0 md:mt-1">
+                    {product3.productDescription}
+                  </p>
+                  <div className="flex items-center gap-1 mt-0 md:mt-1 leading-none">
+                    <div className="flex items-center gap-0.5 md:gap-1 bg-green-500 text-white px-0.5 md:px-1 py-[2px] md:py-[4px] rounded-[3px] md:rounded-md">
+                      <p className="text-[8px] md:text-[13px] font-medium">
+                        {product3.productRating}
+                      </p>
+                      <IconStarFilled
+                        color="#f1cd0c"
+                        className="h-2 md:h-4 w-2 md:w-4"
+                      />
+                    </div>
+                    <p className="text-[8px] md:text-[13px] text-gray-600">
+                      ({product3.totalSale})
+                    </p>
+                  </div>
+                  <h1 className="text-[18px] md:text-[23px] font-medium leading-tight">
+                    ₹{product3.offerPrice}
+                  </h1>
+                </div>
               </div>
-            </div>
             </Link>
           ))}
         </div>

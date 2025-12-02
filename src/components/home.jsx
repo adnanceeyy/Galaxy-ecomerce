@@ -128,12 +128,12 @@ export default function Home() {
     window.location.href = "/singleproduct";
   };
 
-    useEffect(() => {
-      window.scrollTo(0, 0);
-    }, []);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <>
-      <div className="w-full h-screen bg-gradient-to-br from-[#7db9d1] to-[#5294ad] pt-16 md:pt-32 fixed z-40">
+      <div className="w-full h-screen bg-gradient-to-br from-[#7db9d1] to-[#5294ad] pt-16 md:pt-32 fixed">
         <div className="flex  justify-center gap-2 md:gap-20 px-4 md:px-8">
           {/* Card 1 */}
           <div className="w-[130px] h-[40px] md:w-[240px] md:h-[95px] bg-white rounded-[90px] flex items-center shadow-md hover:shadow-lg transition-all duration-300">
@@ -165,7 +165,6 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Card 4 (duplicate content — keep if you want) */}
           <div className=" hidden md:flex w-[130px] h-[40px] md:w-[240px] md:h-[95px] bg-white rounded-[90px] flex items-center shadow-md hover:shadow-lg transition-all duration-300">
             <div className="h-[90%] w-[30px] px-1 md:h-[80%] md:w-[80px] bg-gray-200 rounded-full flex items-center justify-center ml-0.5 md:ml-3">
               <IconWorldHeart className="text-gray-800 size-9 md:size-12" />
@@ -175,12 +174,10 @@ export default function Home() {
             </p>
           </div>
         </div>
-        {/* footbar */}
-        <Footer />
       </div>
 
       <div
-        className="w-[99.5%] place-self-center h-auto rounded-[30px] md:rounded-[80px] bg-[#f7fbff] relative z-50 top-30 md:top-70 md:pb-20 mb-76 p-1 md:p-5 pb-3
+        className="w-[99.5%] place-self-center h-auto rounded-[30px] md:rounded-[80px] bg-[#f7fbff] relative z-50 top-30 md:top-65 md:pb-20 mb-76 p-1 md:p-5 pb-3
         md:mb-[550px] shadow-[gray] shadow-lg shadow-black"
       >
         {/* bigimg */}
@@ -500,7 +497,7 @@ export default function Home() {
         <div className="flex flex-col md:flex-row mx-10 rounded-[30px] group w-[96%] md:w-[90%] place-self-center bg-[#000000] h-[480px] md:h-[450px] pb-2 md:pb-0">
           <div className="leftDiv relative w-[100%] md:w-[45%] h-[50%] md:h-full">
             <img
-              className="absolute -top-20 left-6 w-[320px] md:w-auto md:-top-20 md:left-30 cursor-pointer transition-all duration-300
+              className="absolute -top-20 left-13 w-[320px] md:w-auto md:-top-20 md:left-30 cursor-pointer transition-all duration-300
              md:group-hover:scale-110 md:group-hover:-rotate-10
              md:group-hover:drop-shadow-[0px_0px_0px_rgba(240,240,240,0.9)]"
               src="./assets/images/shf.png"
