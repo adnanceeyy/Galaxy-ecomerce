@@ -187,7 +187,7 @@ export default function ContactPage() {
 
           {/* Footer Note */}
           <div className="text-center mt-7 text-gray-500 text-sm md:text-base">
-            © {new Date().getFullYear()} TechBazaar. All rights reserved.
+            © {new Date().getFullYear()} elekyo. All rights reserved.
           </div>
         </div>
       </div>
