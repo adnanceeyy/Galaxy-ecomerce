@@ -122,6 +122,67 @@ export default function Home() {
       imagelogo: "/assets/images/lenovologo.webp",
     },
   ];
+
+    const allProductCatogery = [
+    {
+      id: 1,
+      productName: "Headsets",
+      productimage: "./assets/images/chf.webp",
+    },
+    {
+      id: 2,
+      productName: "Laptops",
+      productimage: "./assets/images/clap.webp",
+    },
+    {
+      id: 3,
+      productName: "Phones",
+      productimage: "./assets/images/cphone.webp",
+    },
+    { id: 4, productName: "Watches",
+       productimage: "./assets/images/cwh.webp" },
+    {
+      id: 5,
+      productName: "Speakers",
+      productimage: "./assets/images/cspeaker.webp",
+    },
+    {
+      id: 6,
+      productName: "Mouses",
+      productimage: "./assets/images/cmouse.webp",
+    },
+    {
+      id: 7,
+      productName: "Air Pods",
+      productimage: "./assets/images/cairpods.webp",
+    },
+    {
+      id: 8,
+      productName: "Smart TV",
+      productimage: "./assets/images/ctv.webp",
+    },
+    { id: 9, productName: "Games", productimage: "./assets/images/cc.webp" },
+    {
+      id: 10,
+      productName: "RC Car",
+      productimage: "./assets/images/ccar.webp",
+    },
+    {
+      id: 11,
+      productName: "Keybords",
+      productimage: "./assets/images/ckey.webp",
+    },
+    {
+      id: 12,
+      productName: "Tablets",
+      productimage: "./assets/images/ctab.webp",
+    },
+    {
+      id: 13,
+      productName: "Other",
+      productimage: "./assets/images/ccharger.webp",
+    },
+  ];
   const ProductDetails = newProductDetails;
 
   const singleproduct = () => {
@@ -188,7 +249,30 @@ export default function Home() {
             alt="img vannitilla"
           />
         </div>
-
+        {/* catogarios */}
+        <div className="w-full overflow-x-auto scrollbar-hide">
+          <div className="flex gap-4 md:gap-11 py-2 md:py-4 px-2 md:px-3">
+            {allProductCatogery.map((catogery) => (
+              <Link to={`/catogerypages/${catogery.id}`}>
+                <div
+                  key={catogery.id}
+                  className="flex flex-col items-center flex-shrink-0"
+                >
+                  <div className="bg-blue-200 rounded-full w-11 md:w-25 h-11 md:h-25 border border-gray-400 overflow-hidden cursor-pointer">
+                    <img
+                      src={catogery.productimage}
+                      alt={catogery.productName}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <p className="text-[10px] md:text-[20px] font-medium md:font-semibold mt-1 text-center">
+                    {catogery.productName}
+                  </p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
         {/* newitms */}
         <div className="w-full flex justify-between px-3 md:px-12 pt-1 md:pt-5 pb-0.5 md:pb-3">
           <h3 className="font-extrabold  font-Montserrat text-[13px] md:text-2xl">
@@ -264,206 +348,211 @@ export default function Home() {
 
         {/* sections (section1) */}
         {/* section 1 */}
-        <div
-          className="flex flex-row w-full md:w-[97%] place-self-center px-2 md:px-4 pt-4 md:pt-10 gap-2 md:gap-3
+        <Link to={`/catogerypages/${allProductCatogery.id}`}>
+          <div
+          key={allProductCatogery.id}
+            className="flex flex-row w-full md:w-[97%] place-self-center px-2 md:px-4 pt-4 md:pt-10 gap-2 md:gap-3
   overflow-x-auto md:overflow-x-visible
   snap-x snap-mandatory scrollbar-hide scroll-smooth"
-        >
-          {/* CARD 1 */}
-          <div
-            className="snap-center flex-shrink-0 md:flex-shrink-1 overflow-hidden relative 
+          >
+            {/* CARD 1 */}
+            <div
+              className="snap-center flex-shrink-0 md:flex-shrink-1 overflow-hidden relative 
     w-[80%] md:w-[35%] h-[200px] md:h-[360px]
     rounded-[30px] md:rounded-[60px]
     bg-[radial-gradient(circle_at_center,#ffff_-90%,#7eaebd_80%,#85afbf_99%)]
     transition-all duration-300 hover:scale-99 md:hover:scale-99"
-          >
-            <img
-              src="./assets/images/cardwhatch.png"
-              className="absolute z-10 -bottom-2 w-[190px] h-[190px] md:w-[300px] md:h-[300px]
+            >
+              <img
+                src="./assets/images/cardwhatch.png"
+                className="absolute z-10 -bottom-2 w-[190px] h-[190px] md:w-[300px] md:h-[300px]
       hover:scale-110 transition-all duration-300"
-              alt=""
-            />
-            <p
-              className="absolute z-0 text-[140px] md:text-[200px] font-extrabold text-[#ffffff56]
+                alt=""
+              />
+              <p
+                className="absolute z-0 text-[140px] md:text-[200px] font-extrabold text-[#ffffff56]
       -right-17 md:-right-20 top-1 md:top-8 -rotate-90"
-            >
-              SW
-            </p>
-            <button
-              className="absolute z-30 bottom-3 right-3 md:bottom-5 md:right-5 font-extrabold
+              >
+                SW
+              </p>
+              <button
+                className="absolute z-30 bottom-3 right-3 md:bottom-5 md:right-5 font-extrabold
       text-2xl md:text-3xl bg-[#ffffff]
       px-3 py-1.5 md:px-4 md:py-2.5
       rounded-3xl md:rounded-4xl
       text-[#294955] cursor-pointer
       hover:bg-gray-200 hover:text-[#5496ad]
       transition-all duration-300"
-            >
-              BROWSE
-            </button>
-          </div>
+              >
+                BROWSE
+              </button>
+            </div>
 
-          {/* CARD 2 */}
-          <div
-            className="snap-center flex-shrink-0 md:flex-shrink-1 relative overflow-hidden 
+            {/* CARD 2 */}
+            <div
+              className="snap-center flex-shrink-0 md:flex-shrink-1 relative overflow-hidden 
     w-[80%] md:w-[35%] h-[200px] md:h-[360px]
     rounded-[30px] md:rounded-[60px]
     bg-[radial-gradient(circle_at_center,#ffff_-90%,#7eaebd_80%,#85afbf_99%)]
     transition-all duration-300 hover:scale-99 md:hover:scale-99"
-          >
-            <img
-              src="./assets/images/cardhf.png"
-              className="absolute z-10 md:bottom-8 w-[190px] h-[190px] md:w-[280px] md:h-[300px]
-      hover:scale-110 transition-all duration-300"
-              alt=""
-            />
-            <p
-              className="absolute z-0 text-[230px] md:text-[300px] font-extrabold text-[#ffffff56]
-      -right-5 md:-right-5 -top-20 md:-top-30"
             >
-              HF
-            </p>
-            <button
-              className="absolute z-30 bottom-3 right-3 md:bottom-5 md:right-5 font-extrabold
+              <img
+                src="./assets/images/cardhf.png"
+                className="absolute z-10 md:bottom-8 w-[190px] h-[190px] md:w-[280px] md:h-[300px]
+      hover:scale-110 transition-all duration-300"
+                alt=""
+              />
+              <p
+                className="absolute z-0 text-[230px] md:text-[300px] font-extrabold text-[#ffffff56]
+      -right-5 md:-right-5 -top-20 md:-top-30"
+              >
+                HF
+              </p>
+              <button
+                className="absolute z-30 bottom-3 right-3 md:bottom-5 md:right-5 font-extrabold
       text-2xl md:text-3xl bg-[#ffffff]
       px-3 py-1.5 md:px-4 md:py-2.5
       rounded-3xl md:rounded-4xl
       text-[#294955] cursor-pointer
       hover:bg-gray-200 hover:text-[#5496ad]
       transition-all duration-300"
-            >
-              BROWSE
-            </button>
-          </div>
+              >
+                BROWSE
+              </button>
+            </div>
 
-          {/* CARD 3 */}
-          <div
-            className="snap-center flex-shrink-0 md:flex-shrink-1 overflow-hidden relative 
+            {/* CARD 3 */}
+            <div
+              className="snap-center flex-shrink-0 md:flex-shrink-1 overflow-hidden relative 
     w-[80%] md:w-[50%] h-[200px] md:h-[360px]
     rounded-[30px] md:rounded-[50px]
     bg-[linear-gradient(135deg,#355C6A_-50%,#7eaebd_40%,#85afbf_100%)]
     transition-all duration-300 hover:scale-99 md:hover:scale-99"
-          >
-            <img
-              src="./assets/images/cardlap.webp"
-              className="absolute z-10 bottom-10 md:bottom-8 left-2 md:left-10
+            >
+              <img
+                src="./assets/images/cardlap.webp"
+                className="absolute z-10 bottom-10 md:bottom-8 left-2 md:left-10
       w-[200px] h-[150px] md:w-[400px] md:h-[280px]
       hover:scale-110 transition-all duration-300"
-              alt=""
-            />
-            <p
-              className="absolute z-0 text-[100px] md:text-[165px] font-extrabold text-[#ffffff56]
+                alt=""
+              />
+              <p
+                className="absolute z-0 text-[100px] md:text-[165px] font-extrabold text-[#ffffff56]
       left-1 md:left-2 -top-10 md:-top-15"
-            >
-              LAPTOP
-            </p>
-            <button
-              className="absolute z-30 bottom-3 right-3 md:bottom-5 md:right-5 font-extrabold
+              >
+                LAPTOP
+              </p>
+              <button
+                className="absolute z-30 bottom-3 right-3 md:bottom-5 md:right-5 font-extrabold
       text-2xl md:text-3xl bg-[#ffffff]
       px-3 py-1.5 md:px-4 md:py-2.5
       rounded-3xl md:rounded-4xl
       text-[#294955] cursor-pointer
       hover:bg-gray-200 hover:text-[#5496ad]
       transition-all duration-300"
-            >
-              BROWSE
-            </button>
+              >
+                BROWSE
+              </button>
+            </div>
           </div>
-        </div>
-
+        </Link>
         {/* section 2 */}
-        <div
-          className="flex flex-row w-full md:w-[97%] place-self-center px-2 pt-2 md:px-4 md:pt-10 gap-2 md:gap-3
+         <Link to={`/catogerypages/${allProductCatogery.id}`}>
+          <div
+          key={allProductCatogery.id}
+            className="flex flex-row w-full md:w-[97%] place-self-center px-2 pt-2 md:px-4 md:pt-10 gap-2 md:gap-3
   overflow-x-auto md:overflow-x-visible
   snap-x snap-mandatory scrollbar-hide scroll-smooth"
-        >
-          {/* CARD 1 */}
-          <div
-            className="snap-center flex-shrink-0 md:flex-shrink-1 overflow-hidden relative 
+          >
+            {/* CARD 1 */}
+            <div
+              className="snap-center flex-shrink-0 md:flex-shrink-1 overflow-hidden relative 
     w-[80%] md:w-[50%] h-[200px] md:h-[360px]
     rounded-[30px] md:rounded-[50px]
     bg-[linear-gradient(135deg,#355C6A_-50%,#7eaebd_40%,#85afbf_100%)]
     transition-all duration-300 hover:scale-99 md:hover:scale-99"
-          >
-            <img
-              src="./assets/images/cardps3.png"
-              className="absolute z-10 -left-12 bottom-2 md:-bottom-2 md:-left-20 w-[320px] h-[180px] md:w-[650px] md:h-[330px] hover:scale-110 transition-all duration-300"
-              alt=""
-            />
-            <p className="absolute -top-6 md:-top-9 right-4 md:right-8 text-[70px] md:text-[130px] text-[#ffffff56] font-extrabold">
-              PLAY
-            </p>
-            <p className="absolute top-14 md:top-20 right-1 text-[50px] md:text-[80px] font-extrabold text-[#ffffff56]">
-              STATION
-            </p>
-            <button
-              className="absolute z-30 bottom-3 right-3 md:bottom-5 md:right-5 font-extrabold
+            >
+              <img
+                src="./assets/images/cardps3.png"
+                className="absolute z-10 -left-12 bottom-2 md:-bottom-2 md:-left-20 w-[320px] h-[180px] md:w-[650px] md:h-[330px] hover:scale-110 transition-all duration-300"
+                alt=""
+              />
+              <p className="absolute -top-6 md:-top-9 right-4 md:right-8 text-[70px] md:text-[130px] text-[#ffffff56] font-extrabold">
+                PLAY
+              </p>
+              <p className="absolute top-14 md:top-20 right-1 text-[50px] md:text-[80px] font-extrabold text-[#ffffff56]">
+                STATION
+              </p>
+              <button
+                className="absolute z-30 bottom-3 right-3 md:bottom-5 md:right-5 font-extrabold
       text-2xl md:text-3xl bg-[#ffffff]
       px-3 py-1.5 md:px-4 md:py-2.5
       rounded-3xl md:rounded-4xl text-[#294955]
       cursor-pointer hover:scale-99 transition-all duration-300
       hover:bg-gray-200 hover:text-[#5496ad]"
-            >
-              BROWSE
-            </button>
-          </div>
+              >
+                BROWSE
+              </button>
+            </div>
 
-          {/* CARD 2 */}
-          <div
-            className="snap-center flex-shrink-0 md:flex-shrink-1 overflow-hidden relative
+            {/* CARD 2 */}
+            <div
+              className="snap-center flex-shrink-0 md:flex-shrink-1 overflow-hidden relative
     w-[80%] md:w-[35%] h-[200px] md:h-[360px]
     rounded-[30px] md:rounded-[60px]
     bg-[radial-gradient(circle_at_center,#ffff_-90%,#7eaebd_80%,#85afbf_99%)]
     transition-all duration-300 hover:scale-99 md:hover:scale-99"
-          >
-            <img
-              src="./assets/images/cardmouse.png"
-              className="absolute z-11 top-0 -right-10 md:-right-20 w-[200px] h-[200px] md:w-[400px] md:h-[370px] hover:scale-110 transition-all duration-300"
-              alt=""
-            />
-            <p className="absolute text-[90px] md:text-[120px] text-[#ffffff56] font-extrabold -top-5 md:-top-8 -left-2 md:left-4 z-10">
-              MOUSE
-            </p>
-            <button
-              className="absolute z-30 bottom-3 right-3 md:bottom-5 md:right-5 font-extrabold
+            >
+              <img
+                src="./assets/images/cardmouse.png"
+                className="absolute z-11 top-0 -right-10 md:-right-20 w-[200px] h-[200px] md:w-[400px] md:h-[370px] hover:scale-110 transition-all duration-300"
+                alt=""
+              />
+              <p className="absolute text-[90px] md:text-[120px] text-[#ffffff56] font-extrabold -top-5 md:-top-8 -left-2 md:left-4 z-10">
+                MOUSE
+              </p>
+              <button
+                className="absolute z-30 bottom-3 right-3 md:bottom-5 md:right-5 font-extrabold
       text-2xl md:text-3xl bg-[#ffffff]
       px-3 py-1.5 md:px-4 md:py-2.5
       rounded-3xl md:rounded-4xl text-[#294955]
       cursor-pointer hover:scale-99 transition-all duration-300
       hover:bg-gray-200 hover:text-[#5496ad]"
-            >
-              BROWSE
-            </button>
-          </div>
+              >
+                BROWSE
+              </button>
+            </div>
 
-          {/* CARD 3 */}
-          <div
-            className="snap-center flex-shrink-0 md:flex-shrink-1 overflow-hidden relative
+            {/* CARD 3 */}
+            <div
+              className="snap-center flex-shrink-0 md:flex-shrink-1 overflow-hidden relative
     w-[80%] md:w-[35%] h-[200px] md:h-[360px]
     rounded-[30px] md:rounded-[60px]
     bg-[radial-gradient(circle_at_center,#ffff_-90%,#7eaebd_80%,#85afbf_99%)]
     transition-all duration-300 hover:scale-99 md:hover:scale-99"
-          >
-            <img
-              src="./assets/images/cardbt.png"
-              className="absolute z-10 bottom-0 right-0 w-[200px] h-[160px] md:w-[350px] md:h-[330px]
+            >
+              <img
+                src="./assets/images/cardbt.png"
+                className="absolute z-10 bottom-0 right-0 w-[200px] h-[160px] md:w-[350px] md:h-[330px]
       hover:scale-115 transition-all duration-300"
-              alt=""
-            />
-            <p className="absolute z-0 text-[150px] md:text-[230px] font-extrabold text-[#ffffff56] md:bottom-1 -bottom-3 -left-20 -rotate-90">
-              BS
-            </p>
-            <button
-              className="absolute z-30 bottom-3 right-3 md:bottom-5 md:right-5 font-extrabold
+                alt=""
+              />
+              <p className="absolute z-0 text-[150px] md:text-[230px] font-extrabold text-[#ffffff56] md:bottom-1 -bottom-3 -left-20 -rotate-90">
+                BS
+              </p>
+              <button
+                className="absolute z-30 bottom-3 right-3 md:bottom-5 md:right-5 font-extrabold
       text-2xl md:text-3xl bg-[#ffffff]
       px-3 py-1.5 md:px-4 md:py-2.5
       rounded-3xl md:rounded-4xl text-[#294955]
       cursor-pointer hover:scale-99 transition-all duration-300
       hover:bg-gray-200 hover:text-[#5496ad]"
-            >
-              BROWSE
-            </button>
+              >
+                BROWSE
+              </button>
+            </div>
           </div>
-        </div>
+        </Link>
 
         {/* ---------------------------
             BRAND MARQUEE (working)
@@ -515,9 +604,11 @@ export default function Home() {
               <p className="text-[83px] leading-14 md:text-9xl md:leading-23 text-[#ffffffc9] font-extrabold">
                 SALE
               </p>
-              <button className="text-3xl md:text-4xl font-extrabold px-6 py-2 rounded-full text-[#0065a8] bg-[#ffffffea] hover:text-[#ffffffea] hover:bg-[#00548b] transition-all duration-300 mt-4">
-                SHOP
-              </button>
+              <Link to={`/allProduct`}>
+                <button className="cursor-pointer text-3xl md:text-4xl font-extrabold px-6 py-2 rounded-full text-[#0065a8] bg-[#ffffffea] hover:text-[#ffffffea] hover:bg-[#00548b] transition-all duration-300 mt-4">
+                  SHOP
+                </button>
+              </Link>
             </div>
           </div>
         </div>
