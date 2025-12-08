@@ -4,7 +4,7 @@ import {
   IconShoppingCartFilled,
   IconX,
 } from "@tabler/icons-react";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 export default function Nav() {
@@ -13,24 +13,60 @@ export default function Nav() {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [cartCount, setCartCount] = useState(0);
+  const [bump, setBump] = useState(false);
+  const prevCountRef = useRef(cartCount);
+
+  // compute total qty from cart array
+  const computeCountFromStorage = () => {
+    try {
+      const saved = JSON.parse(localStorage.getItem("cart")) || [];
+      // sum qty (default 1 if qty missing)
+      const total = saved.reduce(
+        (sum, item) => sum + (Number(item.qty) || 1),
+        0
+      );
+      return total;
+    } catch (e) {
+      return 0;
+    }
+  };
 
   useEffect(() => {
     const updateCart = () => {
-      const saved = JSON.parse(localStorage.getItem("cart")) || [];
-      setCartCount(saved.length);
+      const total = computeCountFromStorage();
+      setCartCount((prev) => {
+        // trigger bump if changed
+        if (prev !== total) {
+          // store prev for animation logic
+          prevCountRef.current = prev;
+          setBump(true);
+          // clear bump after short time
+          setTimeout(() => setBump(false), 220);
+        }
+        return total;
+      });
     };
 
+    // initial load
     updateCart();
+
+    // same-tab updates (dispatch Event("cart-updated"))
+    window.addEventListener("cart-updated", updateCart);
+
+    // cross-tab updates
     window.addEventListener("storage", updateCart);
 
-    return () => window.removeEventListener("storage", updateCart);
+    return () => {
+      window.removeEventListener("cart-updated", updateCart);
+      window.removeEventListener("storage", updateCart);
+    };
   }, []);
 
   const menus = () => setIsMenuOpen(true);
   const closeNav = () => setIsMenuOpen(false);
 
   return (
-    <div className="w-full flex justify-center fixed top-0 z-200">
+    <div className="w-full flex justify-center fixed top-0 z-[200]">
       <nav className="w-[98%] h-10 md:h-20 mt-2 bg-[#f7fbff] text-[#080f30] border border-[#5555556b] flex items-center justify-between pr-1 rounded-[50px] shadow-2xl">
         <Link to="/">
           <img
@@ -77,16 +113,20 @@ export default function Nav() {
           {/* Cart Icon */}
           <li className="hidden md:block">
             <Link
-              to="/cart/:id"
+              to="/cart"
               className={`relative hover:underline ${
-                currentPath === "/cart/:id" ? "font-bold text-[#0f76bb]" : ""
+                currentPath === "/cart" ? "font-bold text-[#0f76bb]" : ""
               }`}
             >
               <IconShoppingCartFilled />
 
               {/* Cart count badge */}
-              <p className="absolute bg-red-600 p-1 h-[15px] leading-[0.7] text-center 
-              rounded-full text-white text-xs -right-0.5 -top-1.5">
+              <p
+                className={`absolute bg-red-600 px-1 h-[15px] leading-[1.3] text-center 
+                rounded-full text-white text-xs -right-0.5 -top-2 transition-transform duration-180
+                ${cartCount === 0 ? "opacity-0 pointer-events-none" : "opacity-100"}`}
+                aria-live="polite"
+              >
                 {cartCount}
               </p>
             </Link>
@@ -136,7 +176,7 @@ export default function Nav() {
           </li>
 
           <li className="border-b my-5 border-gray-400 text-gray-800">
-            <Link to="/cart/:id" onClick={closeNav}>
+            <Link to="/cart" onClick={closeNav}>
               <IconShoppingCartFilled />
             </Link>
           </li>
