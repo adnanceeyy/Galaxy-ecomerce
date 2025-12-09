@@ -6,25 +6,48 @@ export default function ContactPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  // WhatsApp handler
-  const handleWhatsApp = (e) => {
+  // Backend API URL from .env
+ const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
+  // API Submit handler
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
-    // Add country code here
-    const phoneNumber = "917034887478";
+    try {
+      const response = await fetch(`${BACKEND_URL}contact`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          message,
+        }),
+      });
 
-    // Build the message string
-    const text = `Hello! 👋%0AName: ${name}%0AEmail: ${email}%0AMessage: ${message}`;
+      const data = await response.json();
 
-    // Open WhatsApp link
-    const url = `https://wa.me/${phoneNumber}?text=${text}`;
-    window.open(url, "_blank");
-
-    // Optional: clear the form after sending
-    setName("");
-    setEmail("");
-    setMessage("");
+      if (response.ok) {
+        // Show success alert with response message
+        alert(data.msg || "Message sent successfully! We'll get back to you soon.");
+        // Clear form
+        setName("");
+        setEmail("");
+        setMessage("");
+      } else {
+        // Show error alert with response message
+        alert(data.msg || "Submission failed. Please try again.");
+      }
+    } catch (error) {
+      // Show network error alert
+      alert("Network error. Please check your connection and try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -52,7 +75,7 @@ export default function ContactPage() {
           <div className="grid md:grid-cols-2 gap-8 md:gap-14 mb-12">
             {/* Contact Form */}
             <div className="bg-white p-6 md:p-10 rounded-3xl shadow-lg hover:shadow-xl transition-shadow duration-300">
-              <form className="space-y-4" onSubmit={handleWhatsApp}>
+              <form className="space-y-4" onSubmit={handleSubmit}>
                 <div>
                   <label className="block text-gray-700 font-bold mb-1">
                     Name
@@ -64,6 +87,7 @@ export default function ContactPage() {
                     onChange={(e) => setName(e.target.value)}
                     className="w-full p-3 rounded-xl border border-[#3f71b36c] focus:outline-none focus:ring-2 focus:ring-[#3f71b3]"
                     required
+                    disabled={isLoading}
                   />
                 </div>
                 <div>
@@ -77,6 +101,7 @@ export default function ContactPage() {
                     onChange={(e) => setEmail(e.target.value)}
                     className="w-full p-3 rounded-xl border border-[#3f71b36c] focus:outline-none focus:ring-2 focus:ring-[#3f71b3]"
                     required
+                    disabled={isLoading}
                   />
                 </div>
                 <div>
@@ -89,13 +114,20 @@ export default function ContactPage() {
                     onChange={(e) => setMessage(e.target.value)}
                     className="w-full p-3 rounded-xl border border-[#3f71b36c] h-32 focus:outline-none focus:ring-2 focus:ring-[#3f71b3]"
                     required
+                    disabled={isLoading}
                   />
                 </div>
+
                 <button
                   type="submit"
-                  className="bg-[#265592] hover:bg-[#15355e] text-white font-semibold py-3 px-6 rounded-xl w-full transition-colors duration-300"
+                  disabled={isLoading}
+                  className={`py-3 px-6 rounded-xl w-full font-semibold transition-colors duration-300 ${
+                    isLoading
+                      ? "bg-gray-400 cursor-not-allowed text-white"
+                      : "bg-[#265592] hover:bg-[#15355e] text-white"
+                  }`}
                 >
-                  Send Message
+                  {isLoading ? "Sending..." : "Send Message"}
                 </button>
               </form>
             </div>

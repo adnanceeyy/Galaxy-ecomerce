@@ -1,7 +1,7 @@
 import React from 'react'
 import Nav from '../components/nav'
 import Home from '../components/home'
-import Footer from '../components/footer'
+import LoginModal from '../components/loging'
 
 export default function HomePage() {
   return (
