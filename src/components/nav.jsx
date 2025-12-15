@@ -8,7 +8,7 @@ import {
 } from "@tabler/icons-react";
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
-import LoginModal from "../components/loging"; // Adjust the import path to your LoginModal.jsx file
+import { useAuth } from "./AuthWrapper";
 
 export default function Nav() {
   const location = useLocation();
@@ -17,8 +17,10 @@ export default function Nav() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [cartCount, setCartCount] = useState(0);
   const [bump, setBump] = useState(false);
-  const [showLogin, setShowLogin] = useState(false); // State for login modal
   const prevCountRef = useRef(cartCount);
+
+  // Added: Use global auth context for live login state (no local state needed)
+  const { isLoggedIn, currentUser, openModal, handleLogout } = useAuth();
 
   // compute total qty from cart array
   const computeCountFromStorage = () => {
@@ -69,22 +71,22 @@ export default function Nav() {
   const menus = () => setIsMenuOpen(true);
   const closeNav = () => setIsMenuOpen(false);
 
+  // Updated: Use context's openModal for immediate login trigger
   const handleLoginClick = () => {
-    setShowLogin(true);
+    openModal();
     // Optionally close mobile menu if open
     if (isMenuOpen) closeNav();
   };
 
-  const handleCloseModal = () => {
-    setShowLogin(false);
+  // Updated: Use context's handleLogout for global clear
+  const handleLogoutClick = () => {
+    handleLogout();
+    // Optional: Close mobile menu
+    if (isMenuOpen) closeNav();
   };
 
-  const handleLoginSuccess = (credentials) => {
-    console.log("User logged in with:", credentials);
-    // Add your auth logic here (e.g., update user state, redirect, etc.)
-    alert("Login successful!"); // Demo - replace with real logic
-    handleCloseModal();
-  };
+  // Updated: Derive userName from currentUser (live from context)
+  const userName = currentUser?.name || currentUser?.email?.split('@')[0] || "User";
 
   return (
     <div className="w-full flex justify-center fixed top-0 z-[200]">
@@ -156,48 +158,59 @@ export default function Nav() {
             </Link>
           </li>
 
-          <li className="hidden md:block relative group">
-            <Link
-              className={`hover:underline ${
-                currentPath === "/moProfile" ? "font-bold text-[#0f76bb]" : ""
-              }`}
-            >
-              <IconUserFilled />
-            </Link>
-            {/* Dropdown Menu */}
-            <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-30 bg-[#87d0eb] rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-              <ul className="py-0">
-                <li>
-                  <button
-                    onClick={handleLoginClick}
-                    className="block w-full px-4 py-1 text-center font-bold text-sm text-gray-100 hover:bg-gray-900 cursor-pointer"
-                  >
-                    Login
-                  </button>
-                </li>
-                <li>
-                  <button
-                    className="block w-full px-4 py-1 text-center font-bold text-sm text-gray-100 hover:bg-gray-900 cursor-pointer"
-                    onClick={() => {
-                      /* Close dropdown if needed */
-                    }}
-                  >
-                    My Orders
-                  </button>
-                </li>
-                <li className="text-gray-800">
-                  <button
-                    className="block w-full px-4 py-1 text-center font-bold text-sm text-gray-100 hover:bg-gray-900 cursor-pointer"
-                    onClick={() => {
-                      /* Close dropdown if needed */
-                    }}
-                  >
-                    Logout
-                  </button>
-                </li>
-              </ul>
-            </div>
-          </li>
+          {/* Desktop User/Login Section - Live via context */}
+          {!isLoggedIn ? (
+            <li className="hidden md:block">
+              <button
+                onClick={handleLoginClick}
+                className="hover:underline flex items-center gap-1"
+              >
+                <IconUser />
+                Login
+              </button>
+            </li>
+          ) : (
+            <li className="hidden md:block relative group">
+              <Link
+                className={`hover:underline flex items-center gap-1 ${
+                  currentPath === "/moProfile" ? "font-bold text-[#0f76bb]" : ""
+                }`}
+              >
+                <IconUserFilled />
+                {userName}
+              </Link>
+              {/* Dropdown Menu */}
+              <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-30 bg-[#5fa4bd] rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                <ul className="py-0">
+                  <li>
+                    <Link
+                      to="/profile"
+                      className="block w-full px-4 py-1 text-center font-bold text-sm text-gray-100 hover:bg-gray-900 cursor-pointer"
+                    >
+                      Profile
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/profile"
+                      className="block w-full px-4 py-1 text-center font-bold text-sm text-gray-100 hover:bg-gray-900 cursor-pointer"
+                    >
+                      My Orders
+                    </Link>
+                  </li>
+                  <li className="text-gray-800">
+                    <button
+                      onClick={handleLogoutClick}
+                      className="block w-full px-4 py-1 text-center font-bold text-sm text-gray-100 hover:bg-gray-900 cursor-pointer"
+                    >
+                      Logout
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            </li>
+          )}
+
           {/* Mobile Menu Button */}
           <li className="block md:hidden px-2 text-[#292929]">
             <IconMenu2 size={28} onClick={menus} />
@@ -241,31 +254,44 @@ export default function Nav() {
             </Link>
           </li>
 
-          <li className="border-b my-5 border-gray-400 text-gray-800">
-            <Link to="/moProfile" onClick={closeNav}>
-              <IconUser />
-            </Link>
-          </li>
-
-          {/* Mobile Login Button */}
-          <li className="border-b my-5 border-gray-400 text-gray-800">
-            <button
-              onClick={handleLoginClick}
-              className="w-full text-left flex items-center gap-2 text-gray-800 hover:text-blue-600"
-            >
-              <IconUser size={20} />
-              Login
-            </button>
-          </li>
+          {/* Mobile User/Login Section - Live via context */}
+          {!isLoggedIn ? (
+            <li className="border-b my-5 border-gray-400 text-gray-800">
+              <button
+                onClick={handleLoginClick}
+                className="w-full text-left flex items-center gap-2 text-gray-800 hover:text-blue-600"
+              >
+                <IconUser size={20} />
+                Login
+              </button>
+            </li>
+          ) : (
+            <>
+              <li className="border-b my-5 border-gray-400 text-gray-800">
+                  <div className="flex items-center gap-2">
+                    <IconUserFilled size={20} />
+                    {userName}
+                  </div>
+              </li>
+              <li className="border-b my-5 border-gray-400 text-gray-800">
+                <Link to="/profile" onClick={closeNav}>
+                  My Orders
+                </Link>
+              </li>
+              <li className="border-b my-5 border-gray-400 text-gray-800">
+                <button
+                  onClick={handleLogoutClick}
+                  className="w-full text-left flex items-center gap-2 text-gray-800 hover:text-blue-600"
+                >
+                  Logout
+                </button>
+              </li>
+            </>
+          )}
         </ul>
       </div>
 
-      {/* Login Modal - Rendered here for navbar integration */}
-      <LoginModal
-        isOpen={showLogin}
-        onClose={handleCloseModal}
-        onLogin={handleLoginSuccess}
-      />
+      {/* Removed: Local LoginModal render - Now handled globally by AuthContext */}
     </div>
   );
 }

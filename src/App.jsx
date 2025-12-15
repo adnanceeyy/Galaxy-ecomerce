@@ -1,3 +1,4 @@
+// src/App.js - Updated: Wrap with AuthProvider (replaces old AuthWrapper)
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 // PAGES
@@ -11,10 +12,12 @@ import Nav from "./components/nav";
 import Footer from "./components/footer";
 import Catogerypages from "./pages/catogerypages";
 import Checkout from "./pages/Checkout";
+import AuthProvider from "./components/AuthWrapper";
+import Profile from "./pages/profile";
 
 function App() {
   return (
-    <>
+    <AuthProvider> {/* Wraps entire app */}
       <Router>
         <Nav />
         <Routes>
@@ -26,10 +29,11 @@ function App() {
           <Route path="/cart" element={<CartPage />} />
           <Route path="/singleProduct/:id" element={<SingleProduct />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
         <Footer />
       </Router>
-    </>
+    </AuthProvider>
   );
 }
 

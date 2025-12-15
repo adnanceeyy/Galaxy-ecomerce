@@ -123,7 +123,7 @@ export default function Home() {
     },
   ];
 
-    const allProductCatogery = [
+  const allProductCatogery = [
     {
       id: 1,
       productName: "Headsets",
@@ -131,7 +131,7 @@ export default function Home() {
     },
     {
       id: 2,
-      productName: "Laptops",
+      productName: "computers",
       productimage: "./assets/images/clap.webp",
     },
     {
@@ -139,8 +139,7 @@ export default function Home() {
       productName: "Phones",
       productimage: "./assets/images/cphone.webp",
     },
-    { id: 4, productName: "Watches",
-       productimage: "./assets/images/cwh.webp" },
+    { id: 4, productName: "Watches", productimage: "./assets/images/cwh.webp" },
     {
       id: 5,
       productName: "Speakers",
@@ -153,8 +152,8 @@ export default function Home() {
     },
     {
       id: 7,
-      productName: "Air Pods",
-      productimage: "./assets/images/cairpods.webp",
+      productName: "electronics ",
+      productimage: "./assets/images/projector.png",
     },
     {
       id: 8,
@@ -179,8 +178,8 @@ export default function Home() {
     },
     {
       id: 13,
-      productName: "Other",
-      productimage: "./assets/images/ccharger.webp",
+      productName: "cameras",
+      productimage: "./assets/images/Ccamera.webp",
     },
   ];
   const ProductDetails = newProductDetails;
@@ -212,7 +211,9 @@ export default function Home() {
               <Icon24Hours className="text-gray-800 size-9 md:size-12" />
             </div>
             <p className="text-left text-[9px] md:text-lg font-semibold ml-1 md:ml-3 leading-tight text-gray-800">
-              24 h open <br /> website support
+              24 website
+              <br />
+              support
             </p>
           </div>
 
@@ -348,9 +349,8 @@ export default function Home() {
 
         {/* sections (section1) */}
         {/* section 1 */}
-        <Link to={`/catogerypages/${allProductCatogery.id}`}>
           <div
-          key={allProductCatogery.id}
+            key={allProductCatogery.id}
             className="flex flex-row w-full md:w-[97%] place-self-center px-2 md:px-4 pt-4 md:pt-10 gap-2 md:gap-3
   overflow-x-auto md:overflow-x-visible
   snap-x snap-mandatory scrollbar-hide scroll-smooth"
@@ -375,6 +375,7 @@ export default function Home() {
               >
                 SW
               </p>
+              <Link to={`/catogerypages/4`}>
               <button
                 className="absolute z-30 bottom-3 right-3 md:bottom-5 md:right-5 font-extrabold
       text-2xl md:text-3xl bg-[#ffffff]
@@ -386,6 +387,7 @@ export default function Home() {
               >
                 BROWSE
               </button>
+              </Link>
             </div>
 
             {/* CARD 2 */}
@@ -408,6 +410,7 @@ export default function Home() {
               >
                 HF
               </p>
+             <Link to={`/catogerypages/1`}>
               <button
                 className="absolute z-30 bottom-3 right-3 md:bottom-5 md:right-5 font-extrabold
       text-2xl md:text-3xl bg-[#ffffff]
@@ -419,6 +422,7 @@ export default function Home() {
               >
                 BROWSE
               </button>
+              </Link>
             </div>
 
             {/* CARD 3 */}
@@ -442,6 +446,7 @@ export default function Home() {
               >
                 LAPTOP
               </p>
+              <Link to={`/catogerypages/9`}>
               <button
                 className="absolute z-30 bottom-3 right-3 md:bottom-5 md:right-5 font-extrabold
       text-2xl md:text-3xl bg-[#ffffff]
@@ -453,13 +458,12 @@ export default function Home() {
               >
                 BROWSE
               </button>
+              </Link>
             </div>
           </div>
-        </Link>
         {/* section 2 */}
-         <Link to={`/catogerypages/${allProductCatogery.id}`}>
           <div
-          key={allProductCatogery.id}
+            key={allProductCatogery.id}
             className="flex flex-row w-full md:w-[97%] place-self-center px-2 pt-2 md:px-4 md:pt-10 gap-2 md:gap-3
   overflow-x-auto md:overflow-x-visible
   snap-x snap-mandatory scrollbar-hide scroll-smooth"
@@ -483,16 +487,19 @@ export default function Home() {
               <p className="absolute top-14 md:top-20 right-1 text-[50px] md:text-[80px] font-extrabold text-[#ffffff56]">
                 STATION
               </p>
+              <Link to={`/catogerypages/9`}>
               <button
                 className="absolute z-30 bottom-3 right-3 md:bottom-5 md:right-5 font-extrabold
       text-2xl md:text-3xl bg-[#ffffff]
       px-3 py-1.5 md:px-4 md:py-2.5
-      rounded-3xl md:rounded-4xl text-[#294955]
-      cursor-pointer hover:scale-99 transition-all duration-300
-      hover:bg-gray-200 hover:text-[#5496ad]"
+      rounded-3xl md:rounded-4xl
+      text-[#294955] cursor-pointer
+      hover:bg-gray-200 hover:text-[#5496ad]
+      transition-all duration-300"
               >
                 BROWSE
               </button>
+              </Link>
             </div>
 
             {/* CARD 2 */}
@@ -511,16 +518,19 @@ export default function Home() {
               <p className="absolute text-[90px] md:text-[120px] text-[#ffffff56] font-extrabold -top-5 md:-top-8 -left-2 md:left-4 z-10">
                 MOUSE
               </p>
+              <Link to={`/catogerypages/6`}>
               <button
                 className="absolute z-30 bottom-3 right-3 md:bottom-5 md:right-5 font-extrabold
       text-2xl md:text-3xl bg-[#ffffff]
       px-3 py-1.5 md:px-4 md:py-2.5
-      rounded-3xl md:rounded-4xl text-[#294955]
-      cursor-pointer hover:scale-99 transition-all duration-300
-      hover:bg-gray-200 hover:text-[#5496ad]"
+      rounded-3xl md:rounded-4xl
+      text-[#294955] cursor-pointer
+      hover:bg-gray-200 hover:text-[#5496ad]
+      transition-all duration-300"
               >
                 BROWSE
               </button>
+              </Link>
             </div>
 
             {/* CARD 3 */}
@@ -540,19 +550,21 @@ export default function Home() {
               <p className="absolute z-0 text-[150px] md:text-[230px] font-extrabold text-[#ffffff56] md:bottom-1 -bottom-3 -left-20 -rotate-90">
                 BS
               </p>
+              <Link to={`/catogerypages/5`}>
               <button
                 className="absolute z-30 bottom-3 right-3 md:bottom-5 md:right-5 font-extrabold
       text-2xl md:text-3xl bg-[#ffffff]
       px-3 py-1.5 md:px-4 md:py-2.5
-      rounded-3xl md:rounded-4xl text-[#294955]
-      cursor-pointer hover:scale-99 transition-all duration-300
-      hover:bg-gray-200 hover:text-[#5496ad]"
+      rounded-3xl md:rounded-4xl
+      text-[#294955] cursor-pointer
+      hover:bg-gray-200 hover:text-[#5496ad]
+      transition-all duration-300"
               >
                 BROWSE
               </button>
+              </Link>
             </div>
           </div>
-        </Link>
 
         {/* ---------------------------
             BRAND MARQUEE (working)

@@ -73,7 +73,7 @@
       "color":"color:light blue",
       "off":"15%",
       "productImg": "/assets/images/airpods.png",
-      "catogeryId":7
+      "catogeryId":1
     },
     {
       "id": 6,
@@ -161,7 +161,7 @@
       "color":"color:golden color",
       "off":"10%",
       "productImg": "/assets/images/pdrimmer.png",
-      "catogeryId":13
+      "catogeryId":7
     },
     {
       "id": 16,
@@ -175,7 +175,7 @@
       "color":"color:Black Color",
       "off":"15%",
       "productImg": "/assets/images/projector.png",
-      "catogeryId":13
+      "catogeryId":7
     },
     {
       "id": 17,
@@ -248,7 +248,7 @@
       "color":"color:black",
       "off":"30%",
       "productImg": "/assets/images/vr.webp",
-      "catogeryId":13
+      "catogeryId":9
     },
     {
       "id": 22,
@@ -262,7 +262,7 @@
       "color":"color:black",
       "off":"20%",
       "productImg": "/assets/images/sr.png",
-      "catogeryId":13
+      "catogeryId":7
     },
     {
       "id": 23,
@@ -318,7 +318,7 @@
       "color":"color:black and white",
       "off":"15%",
       "productImg": "/assets/images/powerbbank.webp",
-      "catogeryId":13
+      "catogeryId":7
     },
     {
       "id": 27,
@@ -332,7 +332,7 @@
       "color":"color:White",
       "off":"10%",
       "productImg": "/assets/images/3pin.webp",
-      "catogeryId":13
+      "catogeryId":7
     },
     {
       "id": 28,
@@ -346,7 +346,7 @@
       "color":"color:black",
       "off":"15%",
       "productImg": "/assets/images/wifiruter.webp",
-      "catogeryId":13
+      "catogeryId":7
     },
     {
       "id": 29,
@@ -391,7 +391,7 @@
       "color":"color:White",
       "off":"12%",
       "productImg": "/assets/images/airobo.webp",
-      "catogeryId":13
+      "catogeryId":7
     },
     {
       "id": 32,
@@ -405,7 +405,7 @@
       "color":"color:silver",
       "off":"15%",
       "productImg": "/assets/images/lamb.webp",
-      "catogeryId":13
+      "catogeryId":7
     },
     {
       "id": 33,
@@ -419,7 +419,7 @@
       "color":"color:White and yellow",
       "off":"18%",
       "productImg": "/assets/images/pfan.webp",
-      "catogeryId":13
+      "catogeryId":7
     },
     {
       "id": 34,
@@ -433,7 +433,7 @@
       "color":"black",
       "off":"10%",
       "productImg": "/assets/images/cargharger.png",
-      "catogeryId":13
+      "catogeryId":7
     },
     {
       "id": 35,
@@ -461,7 +461,7 @@
       "color":"color:black",
       "off":"10%",
       "productImg": "/assets/images/wireless.webp",
-      "catogeryId":13
+      "catogeryId":7
     },
     {
       "id": 37,
@@ -517,7 +517,7 @@
       "color":"color:black",
       "off":"10%",
       "productImg": "/assets/images/condroller.webp",
-      "catogeryId":13
+      "catogeryId":9
     }
   ]
 }

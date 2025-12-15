@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import Nav from "../components/nav";
-import Footer from "../components/footer";
 import {
+  newProductDetails,
   ProductDetails,
   ProductDetails2,
   ProductDetails3,
@@ -19,6 +18,7 @@ export default function CatogeryPages() {
     window.scrollTo(0, 0);
 
     const allProducts = [
+      ...newProductDetails,
       ...ProductDetails,
       ...ProductDetails2,
       ...ProductDetails3,

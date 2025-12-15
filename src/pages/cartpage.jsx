@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from "react";
-import Nav from "../components/nav";
 import { IconTrashFilled } from "@tabler/icons-react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom"; // Added for navigation
+import { useAuth } from "../components/AuthWrapper";
 
 export default function Cartpage() {
   const [cartItems, setCartItems] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
+  const { isLoggedIn, openModal } = useAuth(); // Added: Get auth state and modal trigger
+  const navigate = useNavigate(); // Added: For programmatic navigation
 
-  // Load cart from localStorage
   useEffect(() => {
     const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
     setCartItems(savedCart);
     window.scrollTo(0, 0);
   }, []);
 
-  // Increase Qty
   const increaseQty = (id) => {
     const updated = cartItems.map((item) =>
       item.id === id ? { ...item, qty: (item.qty || 1) + 1 } : item
@@ -24,7 +24,6 @@ export default function Cartpage() {
     localStorage.setItem("cart", JSON.stringify(updated));
   };
 
-  // Decrease Qty
   const decreaseQty = (id) => {
     const updated = cartItems.map((item) =>
       item.id === id ? { ...item, qty: Math.max(1, (item.qty || 1) - 1) } : item
@@ -33,7 +32,6 @@ export default function Cartpage() {
     localStorage.setItem("cart", JSON.stringify(updated));
   };
 
-  // Open delete popup
   const confirmDelete = (id) => {
     setDeleteId(id);
     setShowPopup(true);
@@ -53,6 +51,22 @@ export default function Cartpage() {
     (total, item) => total + Number(item.offerPrice) * (item.qty || 1),
     0
   );
+
+  // Added: Handle Proceed to Checkout with auth check
+  const handleProceedToCheckout = () => {
+    if (!isLoggedIn) {
+      // Immediately open modal (no delay) and block proceed
+      openModal();
+      return;
+    }
+    // If logged in, navigate to checkout
+    navigate("/checkout");
+  };
+
+  // Added: Handle Purchase more Items (no auth required)
+  const handlePurchaseMore = () => {
+    navigate("/allproduct");
+  };
 
   return (
     <div>
@@ -153,17 +167,21 @@ export default function Cartpage() {
                 </div>
               </div>
 
-              <Link to="/checkout">
-                <button className="w-full bg-[#2b5f72] hover:bg-[#244c5a] text-white py-3 rounded-2xl text-lg font-semibold mt-6">
-                  Proceed to Checkout
-                </button>
-              </Link>
+              {/* Updated: Button with auth check */}
+              <button
+                onClick={handleProceedToCheckout}
+                className="w-full bg-[#2b5f72] hover:bg-[#244c5a] text-white py-3 rounded-2xl text-lg font-semibold mt-6"
+              >
+                Proceed to Checkout
+              </button>
 
-              <Link to={`/allproduct`}>
-                <button className="w-full bg-[#208d12] hover:bg-[#265a24] text-white py-3 rounded-2xl text-lg font-semibold mt-3">
-                  Purchase more Items
-                </button>
-              </Link>
+              {/* Updated: Button for more items */}
+              <button
+                onClick={handlePurchaseMore}
+                className="w-full bg-[#208d12] hover:bg-[#265a24] text-white py-3 rounded-2xl text-lg font-semibold mt-3"
+              >
+                Purchase more Items
+              </button>
             </div>
           </div>
         ) : (
@@ -175,7 +193,7 @@ export default function Cartpage() {
 
       {/* DELETE CONFIRM POPUP (OUTSIDE LOOP) */}
       {showPopup && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-1000">
           <div className="bg-white w-80 md:w-96 p-6 rounded-2xl shadow-xl">
             <h2 className="text-2xl font-bold text-gray-800 text-center">
               Remove Item?

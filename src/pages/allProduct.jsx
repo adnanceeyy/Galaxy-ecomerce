@@ -23,7 +23,7 @@ export default function AllProduct() {
     },
     {
       id: 2,
-      productName: "Laptops",
+      productName: "computers",
       productimage: "./assets/images/clap.webp",
     },
     {
@@ -31,8 +31,7 @@ export default function AllProduct() {
       productName: "Phones",
       productimage: "./assets/images/cphone.webp",
     },
-    { id: 4, productName: "Watches",
-       productimage: "./assets/images/cwh.webp" },
+    { id: 4, productName: "Watches", productimage: "./assets/images/cwh.webp" },
     {
       id: 5,
       productName: "Speakers",
@@ -45,8 +44,8 @@ export default function AllProduct() {
     },
     {
       id: 7,
-      productName: "Air Pods",
-      productimage: "./assets/images/cairpods.webp",
+      productName: "electronics ",
+      productimage: "./assets/images/projector.png",
     },
     {
       id: 8,
@@ -71,8 +70,8 @@ export default function AllProduct() {
     },
     {
       id: 13,
-      productName: "Other",
-      productimage: "./assets/images/ccharger.webp",
+      productName: "cameras",
+      productimage: "./assets/images/Ccamera.webp",
     },
   ];
   const singleproduct = () => {
