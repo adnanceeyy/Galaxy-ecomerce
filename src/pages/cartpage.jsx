@@ -14,7 +14,7 @@ export default function Cartpage() {
     const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
     setCartItems(savedCart);
     window.scrollTo(0, 0);
-  }, []);
+  }, [isLoggedIn]); // Updated: Depend on isLoggedIn to reload cart on auth changes (e.g., logout)
 
   const increaseQty = (id) => {
     const updated = cartItems.map((item) =>
@@ -22,6 +22,8 @@ export default function Cartpage() {
     );
     setCartItems(updated);
     localStorage.setItem("cart", JSON.stringify(updated));
+    // Dispatch event for Nav cart count update
+    window.dispatchEvent(new Event("cart-updated"));
   };
 
   const decreaseQty = (id) => {
@@ -30,6 +32,8 @@ export default function Cartpage() {
     );
     setCartItems(updated);
     localStorage.setItem("cart", JSON.stringify(updated));
+    // Dispatch event for Nav cart count update
+    window.dispatchEvent(new Event("cart-updated"));
   };
 
   const confirmDelete = (id) => {
@@ -42,6 +46,8 @@ export default function Cartpage() {
     const updated = cartItems.filter((item) => item.id !== deleteId);
     setCartItems(updated);
     localStorage.setItem("cart", JSON.stringify(updated));
+    // Dispatch event for Nav cart count update
+    window.dispatchEvent(new Event("cart-updated"));
     setShowPopup(false);
     setDeleteId(null);
   };

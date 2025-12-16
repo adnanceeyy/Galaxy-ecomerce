@@ -22,105 +22,95 @@ export default function Home() {
   ];
   const brandPartners = [
     {
-      id: 1,
-      name: "Boat",
-      imagelogo: "/assets/images/boatlogo.webp",
-    },
-    {
-      id: 2,
-      name: "Salpido",
-      imagelogo: "/assets/images/salpidologo.webp",
-    },
-    {
-      id: 3,
-      name: "Sony",
-      imagelogo: "/assets/images/Sonylogo.webp",
-    },
-    {
-      id: 4,
-      name: "Samsung",
-      imagelogo: "/assets/images/samsunglogo.webp",
-    },
-    {
-      id: 5,
-      name: "Lenovo",
-      imagelogo: "/assets/images/lenovologo.webp",
-    },
-    {
-      id: 1,
-      name: "Boat",
-      imagelogo: "/assets/images/boatlogo.webp",
-    },
-    {
-      id: 2,
-      name: "Salpido",
-      imagelogo: "/assets/images/salpidologo.webp",
-    },
-    {
-      id: 3,
-      name: "Sony",
-      imagelogo: "/assets/images/Sonylogo.webp",
-    },
-    {
-      id: 4,
-      name: "Samsung",
-      imagelogo: "/assets/images/samsunglogo.webp",
-    },
-    {
-      id: 5,
-      name: "Lenovo",
-      imagelogo: "/assets/images/lenovologo.webp",
-    },
-    {
-      id: 1,
-      name: "Boat",
-      imagelogo: "/assets/images/boatlogo.webp",
-    },
-    {
-      id: 2,
-      name: "Salpido",
-      imagelogo: "/assets/images/salpidologo.webp",
-    },
-    {
-      id: 3,
-      name: "Sony",
-      imagelogo: "/assets/images/Sonylogo.webp",
-    },
-    {
-      id: 4,
-      name: "Samsung",
-      imagelogo: "/assets/images/samsunglogo.webp",
-    },
-    {
-      id: 5,
-      name: "Lenovo",
-      imagelogo: "/assets/images/lenovologo.webp",
-    },
-    {
-      id: 1,
-      name: "Boat",
-      imagelogo: "/assets/images/boatlogo.webp",
-    },
-    {
-      id: 2,
-      name: "Salpido",
-      imagelogo: "/assets/images/salpidologo.webp",
-    },
-    {
-      id: 3,
-      name: "Sony",
-      imagelogo: "/assets/images/Sonylogo.webp",
-    },
-    {
-      id: 4,
-      name: "Samsung",
-      imagelogo: "/assets/images/samsunglogo.webp",
-    },
-    {
-      id: 5,
-      name: "Lenovo",
-      imagelogo: "/assets/images/lenovologo.webp",
-    },
+    id: 1,
+    name: "Boat",
+    imagelogo: "/assets/images/boatlogo.webp",
+    linka: "https://www.boat-lifestyle.com/"
+  },
+  {
+    id: 2,
+    name: "Salpido",
+    imagelogo: "/assets/images/salpidologo.webp",
+    linka: "https://salpido.com/"
+  },
+  {
+    id: 3,
+    name: "Sony",
+    imagelogo: "/assets/images/Sonylogo.webp",
+    linka: "https://www.sony.com/in/"
+  },
+  {
+    id: 4,
+    name: "Samsung",
+    imagelogo: "/assets/images/samsunglogo.webp",
+    linka: "https://www.samsung.com/in/"
+  },
+  {
+    id: 5,
+    name: "Lenovo",
+    imagelogo: "/assets/images/lenovologo.webp",
+    linka: "https://www.lenovo.com/in/en/"
+  },
+  {
+    id: 1,
+    name: "Boat",
+    imagelogo: "/assets/images/boatlogo.webp",
+    linka: "https://www.boat-lifestyle.com/"
+  },
+  {
+    id: 2,
+    name: "Salpido",
+    imagelogo: "/assets/images/salpidologo.webp",
+    linka: "https://salpido.com/"
+  },
+  {
+    id: 3,
+    name: "Sony",
+    imagelogo: "/assets/images/Sonylogo.webp",
+    linka: "https://www.sony.com/in/"
+  },
+  {
+    id: 4,
+    name: "Samsung",
+    imagelogo: "/assets/images/samsunglogo.webp",
+    linka: "https://www.samsung.com/in/"
+  },
+  {
+    id: 5,
+    name: "Lenovo",
+    imagelogo: "/assets/images/lenovologo.webp",
+    linka: "https://www.lenovo.com/in/en/"
+  },
+  {
+    id: 1,
+    name: "Boat",
+    imagelogo: "/assets/images/boatlogo.webp",
+    linka: "https://www.boat-lifestyle.com/"
+  },
+  {
+    id: 2,
+    name: "Salpido",
+    imagelogo: "/assets/images/salpidologo.webp",
+    linka: "https://salpido.com/"
+  },
+  {
+    id: 3,
+    name: "Sony",
+    imagelogo: "/assets/images/Sonylogo.webp",
+    linka: "https://www.sony.com/in/"
+  },
+  {
+    id: 4,
+    name: "Samsung",
+    imagelogo: "/assets/images/samsunglogo.webp",
+    linka: "https://www.samsung.com/in/"
+  },
+  {
+    id: 5,
+    name: "Lenovo",
+    imagelogo: "/assets/images/lenovologo.webp",
+    linka: "https://www.lenovo.com/in/en/"
+  }
   ];
 
   const allProductCatogery = [
@@ -583,11 +573,14 @@ export default function Home() {
                   className="marquee__group flex items-center gap-10 md:gap-20"
                 >
                   <div className="w-[80px] h-[50px] md:w-[150px] md:h-[90px] flex justify-center items-center">
+                    <Link
+                    to={partner.linka}>
                     <img
                       className="w-fit h-auto grayscale hover:grayscale-0 opacity-70"
                       src={partner.imagelogo}
                       alt={partner.name}
                     />
+                    </Link>
                   </div>
                 </div>
               ))}

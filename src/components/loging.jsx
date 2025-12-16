@@ -1,4 +1,5 @@
 // src/components/LoginModal.jsx - Enhanced: Email/password stored in localStorage ("users" array). Login reuses saved credentials across sessions. All features professional.
+import { IconCamera } from '@tabler/icons-react';
 import React, { useState, useEffect, useCallback } from 'react';
 
 export default function LoginModal({ isOpen, onClose, onLogin }) {
@@ -11,6 +12,8 @@ export default function LoginModal({ isOpen, onClose, onLogin }) {
   const [googleLoaded, setGoogleLoaded] = useState(false);
   const [facebookLoaded, setFacebookLoaded] = useState(false);
   const [users, setUsers] = useState([]);
+  const [profileImage, setProfileImage] = useState(null);
+
 
   const GOOGLE_CLIENT_ID = 'YOUR_GOOGLE_CLIENT_ID_HERE.apps.googleusercontent.com';
   const FACEBOOK_APP_ID = 'YOUR_FACEBOOK_APP_ID_HERE';
@@ -273,13 +276,31 @@ export default function LoginModal({ isOpen, onClose, onLogin }) {
 
   if (!isOpen) return null;
 
+  const handleImageUpload = (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  if (!file.type.startsWith("image/")) {
+    setError("Please upload an image file");
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onloadend = () => {
+    setProfileImage(reader.result);
+    setError("");
+  };
+  reader.readAsDataURL(file);
+};
+
+
   return (
     <>
       <div className="fixed inset-0 z-[999] flex items-center justify-center p-4" onClick={handleClose}>
         <div className="bg-black/50 backdrop-blur-sm w-full h-full absolute" onClick={handleClose} />
         <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl relative z-10 mx-auto transform transition-all duration-300 scale-100" onClick={(e) => e.stopPropagation()}>
-          <div className="flex justify-between items-center p-8 pb-6 border-b border-gray-200">
-            <h2 className="text-2xl font-bold text-gray-800">
+          <div className="flex justify-between items-center p-3 md:p-8 md:pb-6 border-b border-gray-200">
+            <h2 className="text-xl md:text-2xl font-bold text-gray-800">
               {isSignup ? 'Create Account' : 'Welcome Back'}
             </h2>
             <button className="text-gray-400 hover:text-gray-600 text-2xl font-bold transition-colors duration-200" onClick={handleClose}>
@@ -287,46 +308,74 @@ export default function LoginModal({ isOpen, onClose, onLogin }) {
             </button>
           </div>
 
-          <div className="flex justify-center p-6 border-b border-gray-100">
+          <div className="flex justify-center p-6 ">
             <button
               type="button"
               onClick={() => setIsSignup(false)}
-              className={`px-6 py-3 rounded-full font-semibold text-base transition-all ${!isSignup ? 'bg-blue-500 text-white shadow-lg' : 'bg-gray-100 text-gray-600'}`}
+              className={`px-4 py-2 md:px-6 md:py-3 rounded-full font-semibold md:text-base transition-all ${!isSignup ? 'bg-blue-500 text-white shadow-lg' : 'bg-gray-100 text-gray-600'}`}
             >
               Login
             </button>
             <button
               type="button"
               onClick={() => setIsSignup(true)}
-              className={`px-6 py-3 rounded-full font-semibold text-base ml-4 transition-all ${isSignup ? 'bg-blue-500 text-white shadow-lg' : 'bg-gray-100 text-gray-600'}`}
+              className={`px-4 py-2 md:px-6 md:py-3 rounded-full font-semibold text-base ml-4 transition-all ${isSignup ? 'bg-blue-500 text-white shadow-lg' : 'bg-gray-100 text-gray-600'}`}
             >
               Sign Up
             </button>
           </div>
 
-          <form onSubmit={handleSubmit} className="p-8 space-y-5">
+            {isSignup && (
+  <div className="flex flex-col items-center gap-1 md:gap-3">
+    <div className="w-15 h-15 md:w-24 md:h-24 rounded-full border border-dashed overflow-hidden bg-gray-50 flex items-center justify-center">
+      {profileImage ? (
+        <img
+          src={profileImage}
+          alt="Profile"
+          className="w-full h-full object-cover"
+        />
+      ) : (
+        <span className="text-gray-400 text-sm"><IconCamera /></span>
+      )}
+    </div>
+
+    <label className="text-blue-500 text-xs md:text-sm cursor-pointer">
+      Upload photo
+      <input
+        type="file"
+        hidden
+        accept="image/*"
+        onChange={handleImageUpload}
+      />
+    </label>
+
+    {error && <p className="text-red-500 text-sm">{error}</p>}
+  </div>
+)}
+
+          <form onSubmit={handleSubmit} className="p-8 py-3  space-y-5">
             {isSignup && (
               <div>
-                <label htmlFor="name" className="block text-base font-medium text-gray-700 mb-2">
-                  Full Name *
+                <label htmlFor="name" className="block text-sm md:text-base font-medium text-gray-700 mb-1 md:mb-2">
+                  Just Name *
                 </label>
                 <input
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-base"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm md:text-base"
                   type="text"
                   id="name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder="Enter your full name"
+                  placeholder="Enter your Just name"
                   required
                 />
               </div>
             )}
             <div>
-              <label htmlFor="email" className="block text-base font-medium text-gray-700 mb-2">
+              <label htmlFor="email" className="block text-sm md:text-base font-medium text-gray-700 mb-1 md:mb-2">
                 Email Address *
               </label>
               <input
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-base"
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm md:text-base"
                 type="email"
                 id="email"
                 value={email}
@@ -336,12 +385,12 @@ export default function LoginModal({ isOpen, onClose, onLogin }) {
               />
             </div>
             <div>
-              <label htmlFor="password" className="block text-base font-medium text-gray-700 mb-2">
+              <label htmlFor="password" className="block text-sm md:text-base font-medium text-gray-700 mb-1 md:mb-2">
                 Password *
               </label>
               <div className="relative">
                 <input
-                  className="w-full pr-10 px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-base"
+                  className="w-full pr-10 px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm md:text-base"
                   type={showPassword ? "text" : "password"}
                   id="password"
                   value={password}
@@ -367,7 +416,7 @@ export default function LoginModal({ isOpen, onClose, onLogin }) {
                 </button>
               </div>
               {isSignup && (
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-[10px] md:text-xs text-gray-500 mt-1">
                   Password must include at least one letter, one number, and be 6+ characters.
                 </p>
               )}
@@ -400,7 +449,7 @@ export default function LoginModal({ isOpen, onClose, onLogin }) {
                 Forgot password?
               </a>
             )}
-            <p className="text-gray-600 text-sm">
+            <p className="text-gray-600 text-xs my-2 md:text-sm">
               {isSignup ? 'Already have an account?' : "Don't have an account?"}{' '}
               <button
                 type="button"
@@ -410,7 +459,7 @@ export default function LoginModal({ isOpen, onClose, onLogin }) {
                 {isSignup ? 'Login' : 'Sign up'}
               </button>
             </p>
-            <div className="flex items-center">
+            <div className="flex items-center mb-1">
               <div className="flex-grow border-t border-gray-300"></div>
               <span className="px-4 text-gray-500 text-sm">or</span>
               <div className="flex-grow border-t border-gray-300"></div>

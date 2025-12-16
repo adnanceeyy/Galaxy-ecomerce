@@ -1,13 +1,18 @@
-// src/contexts/AuthContext.jsx - Updated: Expose currentUser for Nav to display live details
-import React, { createContext, useState, useEffect, useRef, useContext } from 'react';
-import LoginModal from './loging';
+import React, {
+  createContext,
+  useState,
+  useEffect,
+  useRef,
+  useContext,
+} from "react";
+import LoginModal from "./loging";
 
 const AuthContext = createContext();
 
 export function useAuth() {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error('useAuth must be used within AuthProvider');
+    throw new Error("useAuth must be used within AuthProvider");
   }
   return context;
 }
@@ -15,70 +20,92 @@ export function useAuth() {
 export default function AuthProvider({ children }) {
   const [showModal, setShowModal] = useState(false);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
-  const [currentUser, setCurrentUser] = useState(null); // Added: Track current user
+  const [currentUser, setCurrentUser] = useState(null);
   const timeoutRef = useRef(null);
 
-  // Added: Sync currentUser with localStorage on mount/load
+  /* ---------------- LOAD USER ON REFRESH ---------------- */
   useEffect(() => {
-    const userData = localStorage.getItem('currentUser');
+    const userData = localStorage.getItem("currentUser");
     if (userData) {
       setCurrentUser(JSON.parse(userData));
     }
   }, []);
 
+  /* ---------------- INITIAL LOGIN POPUP LOGIC ---------------- */
   useEffect(() => {
-    // Mark as initial load
     const timer = setTimeout(() => {
       setIsInitialLoad(false);
-    }, 5000); // Allow 5s for initial checks
+    }, 5000);
 
-    // Check localStorage for auto-open with delay only on initial load
     if (!currentUser && isInitialLoad) {
       timeoutRef.current = setTimeout(() => {
         setShowModal(true);
-      }, 5000); // 5s delay only on initial website open
+      }, 5000);
     }
 
     return () => {
       clearTimeout(timer);
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
-  }, [isInitialLoad, currentUser]); // Added currentUser dependency
+  }, [isInitialLoad, currentUser]);
 
+  /* ---------------- OPEN LOGIN MODAL ---------------- */
   const openModal = () => {
-    // Immediately open modal (no delay) - for triggers like checkout
     setShowModal(true);
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
   };
 
+  /* ---------------- LOGIN HANDLER ---------------- */
   const handleLogin = (userData) => {
-    localStorage.setItem('currentUser', JSON.stringify(userData));
-    setCurrentUser(userData); // Added: Update local state
+    // Save logged-in user
+    localStorage.setItem("currentUser", JSON.stringify(userData));
+    setCurrentUser(userData);
+
+    // Optional: Merge guest cart into user session if needed (uncomment and adjust if you want to preserve guest cart on login)
+    // const guestCart = localStorage.getItem("cart");
+    // if (guestCart && guestCart !== "[]") {
+    //   const userCartKey = `cart_${userData.email}`;
+    //   const userCart = localStorage.getItem(userCartKey);
+    //   const mergedCart = userCart ? [...JSON.parse(userCart), ...JSON.parse(guestCart)] : JSON.parse(guestCart);
+    //   localStorage.setItem(userCartKey, JSON.stringify(mergedCart));
+    //   localStorage.setItem("cart", JSON.stringify([])); // Clear guest cart
+    // }
+
     setShowModal(false);
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
   };
 
+  /* ---------------- LOGOUT HANDLER ---------------- */
   const handleLogout = () => {
-    localStorage.removeItem('currentUser');
-    localStorage.removeItem('users'); // Optional: Clear users DB
-    setCurrentUser(null); // Added: Clear local state
-    setShowModal(isInitialLoad ? false : true); // Re-show if not initial
+    if (currentUser?.email) {
+      // Clear guest cart (used in Cartpage)
+      localStorage.removeItem("cart");
+      
+      // Optional: Clear user-specific cart if implemented elsewhere
+      // const userCartKey = `cart_${currentUser.email}`;
+      // localStorage.removeItem(userCartKey);
+      
+      // Clear any active cart session
+      localStorage.removeItem("activeCart");
+    }
+
+    localStorage.removeItem("currentUser");
+    setCurrentUser(null);
+
+    // Show login again (except first visit)
+    setShowModal(!isInitialLoad);
   };
 
+  /* ---------------- CONTEXT VALUE ---------------- */
   const value = {
     isLoggedIn: !!currentUser,
-    currentUser, // Added: Expose for Nav to use
+    currentUser,
     openModal,
+    handleLogin,
     handleLogout,
-    handleLogin, // Optional: For manual login calls
-  };
 
+    // cartKey: currentUser ? `cart_${currentUser.email}` : null, // Commented out if not used in Cartpage
+  };
   return (
     <AuthContext.Provider value={value}>
       {children}

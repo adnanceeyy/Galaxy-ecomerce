@@ -38,3 +38,10 @@
   max-height: 120px;
   object-fit: contain;
 }
+@keyframes bump {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+.animate-bump {
+  animation: bump 0.22s ease-in-out;
+}
