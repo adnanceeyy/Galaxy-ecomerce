@@ -1,136 +1,100 @@
-import React, { useEffect, useState } from "react";
-import { useAuth } from "../components/AuthWrapper";
+import React from "react";
+
+// Example user data - replace this with real data from API, context, or props
+const mockUser = {
+  name: "Fathima pathu",
+  email: "pathufathima221@gmail.com",
+  photoUrl:
+    "https://imgs.search.brave.com/ppAKovkBSGPYcIAkbLfyiahNkoYx-nhQ4_-rBp2D-n8/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzQ3Lzg0/L2U5LzQ3ODRlOTdk/OTlkNjBmYmJjNDcy/Mzg2NGUzZjU3Mjgx/LmpwZw",
+  isVerified: true,
+};
+
+// Example data for the grid cards (you can fetch these dynamically too)
+const gridItems = [
+  { id: 1, title: "Posts", value: 42 },
+  { id: 2, title: "Followers", value: "1.2k" },
+  { id: 3, title: "Following", value: 320 },
+  { id: 4, title: "Likes", value: "5.8k" },
+  { id: 5, title: "Comments", value: 890 },
+  { id: 6, title: "Shares", value: 120 },
+];
+
+// Example content for the bottom section (e.g., recent posts, bio, etc.)
+const bottomContent = {
+  bio: "Passionate about coding, design, and building beautiful web experiences. ✨",
+  recentPosts: ["Post 1", "Post 2", "Post 3"],
+};
 
 export default function Profile() {
-  const { handleLogout } = useAuth();
-
-  const [user, setUser] = useState(null);
-
-  // Load logged-in user (with profile image)
-  useEffect(() => {
-    const savedUser = localStorage.getItem("currentUser");
-    if (savedUser) {
-      setUser(JSON.parse(savedUser));
-    }
-  }, []);
+  // In a real app, you'd get this from props, context, or useEffect + fetch
+  const user = mockUser;
 
   return (
     <>
-      {/* BACKGROUND */}
-      <div className="h-screen w-full bg-gradient-to-br from-[#7db9d1] to-[#5294ad] fixed top-0 left-0 -z-10"></div>
+      <div className="h-screen w-full bg-gradient-to-br from-[#7db9d1] to-[#5294ad] md:pb-[400px] fixed top-0"></div>
 
-      {/* MAIN CONTAINER */}
-      <div className="w-[99.5%] min-h-screen mx-auto rounded-[30px] md:rounded-[80px] bg-[#f7fbff] relative z-10 top-16 md:top-32 p-3 md:p-6 overflow-y-auto shadow-lg mb-60 md:mb-96">
-
-        {/* PROFILE HEADER */}
-        <div className="flex flex-col md:flex-row items-center gap-4 bg-white rounded-2xl p-4 md:p-6 shadow-sm border-b border-gray-100 mb-4">
-          <img
-            src={user?.profileImage || "https://i.pravatar.cc/150"}
-            alt="profile"
-            className="w-20 h-20 md:w-24 md:h-24 rounded-full border-2 border-blue-400 object-cover"
-          />
-
-          <div className="text-center md:text-left flex-1">
-            <h2 className="text-xl md:text-2xl font-semibold text-gray-800">
-              {user?.fullName || "User"}
-            </h2>
-            <p className="text-sm md:text-base text-gray-600">
-              {user?.email || ""}
-            </p>
-            <p className="text-xs md:text-sm text-green-600">
-              ✔ Verified Account
-            </p>
-          </div>
-
-          <button className="bg-gray-800 text-white px-4 py-2 rounded-lg text-sm hover:bg-gray-900 transition-colors">
-            Edit Profile
-          </button>
-        </div>
-
-        {/* ACCOUNT STATS */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
-          {[
-            ["42", "Orders"],
-            ["18", "Wishlist"],
-            ["₹1,750", "Wallet"],
-            ["2,400", "Reward Points"],
-          ].map(([value, label]) => (
-            <div
-              key={label}
-              className="bg-white rounded-xl p-4 text-center shadow-sm border border-gray-100"
-            >
-              <h3 className="text-lg md:text-xl font-bold text-gray-800">
-                {value}
-              </h3>
-              <p className="text-xs md:text-sm text-gray-600">{label}</p>
+      <div className="w-[99.5%] place-self-center h-auto rounded-[30px] md:rounded-[80px] bg-[#f7fbff] relative z-10 top-15 md:top-30 p-1 md:p-5 overflow-hidden shadow-lg shadow-black mb-60 md:mb-96">
+        {/* Header Section */}
+        <div className="w-full h-72 bg-gradient-to-r from-[#7db9d1] to-[#c5f0ff] rounded-[60px] flex items-center justify-between p-6">
+          <div className="flex h-full w-auto">
+            <div className="bg-green-400 h-56 w-56 rounded-full border-4 border-red-50 overflow-hidden">
+              <img
+                className="w-full h-full object-cover bg-center"
+                src={user.photoUrl}
+                alt={user.name}
+              />
             </div>
-          ))}
-        </div>
 
-        {/* COUPONS */}
-        <div className="bg-white rounded-2xl p-4 md:p-6 shadow-sm mb-4 border border-gray-100">
-          <h3 className="text-base md:text-lg font-semibold mb-3">
-            Available Coupons
-          </h3>
-          <div className="space-y-2 text-sm text-gray-700">
-            <p>🎉 SAVE10 – Flat 10% OFF</p>
-            <p>🎉 FREESHIP – Free Delivery</p>
-            <p>🎉 WELCOME20 – 20% OFF</p>
-            <p>🎉 FLASH30 – 30% OFF</p>
-          </div>
-        </div>
+            <div className="h-full w-auto p-7 pb-5 flex flex-col justify-between">
+              <div>
+                <h1 className="text-4xl font-semibold">{user.name}</h1>
+                <h4 className="text-lg">{user.email}</h4>
+              </div>
 
-        {/* RECENT ORDERS */}
-        <div className="bg-white rounded-2xl p-4 md:p-6 shadow-sm mb-4 border border-gray-100">
-          <h3 className="text-base md:text-lg font-semibold mb-3">
-            Recent Orders
-          </h3>
-          <div className="space-y-3 text-sm">
-            <div className="flex justify-between">
-              <span>Boat Smart Watch</span>
-              <span>₹4,999</span>
-              <span className="text-green-600 font-medium">Shipped</span>
-            </div>
-            <div className="flex justify-between">
-              <span>Nike Shoes</span>
-              <span>₹2,999</span>
-              <span className="text-blue-600 font-medium">Delivered</span>
+              {user.isVerified && (
+                <h3 className="text-xl p-4 py-3 font-medium rounded-4xl bg-[#ffffffda] w-fit">
+                  Verified Account
+                </h3>
+              )}
             </div>
           </div>
-        </div>
 
-        {/* WISHLIST */}
-        <div className="bg-white rounded-2xl p-4 md:p-6 shadow-sm mb-4 border border-gray-100">
-          <h3 className="text-base md:text-lg font-semibold mb-3">Wishlist</h3>
-          <div className="space-y-2 text-sm text-gray-700">
-            <p>❤️ Noise Smart Watch</p>
-            <p>❤️ Sony Headphones</p>
-            <p>❤️ Apple AirPods</p>
+          <div className="p-10 h-full items-center flex">
+            <button className="bg-[#ffffff] px-6 py-3 rounded-2xl text-xl font-semibold border-4 border-[#5294ad] hover:bg-[#5294ad] hover:text-white transition">
+              Edit Profile
+            </button>
           </div>
         </div>
 
-        {/* SECURITY */}
-        <div className="bg-white rounded-2xl p-4 md:p-6 shadow-sm mb-4 border border-gray-100">
-          <h3 className="text-base md:text-lg font-semibold mb-3">
-            Security
-          </h3>
-          <div className="space-y-2 text-sm text-gray-700">
-            <p>🔐 Two-factor authentication: Enabled</p>
-            <p>📧 Email verified</p>
-            <p>📱 Mobile verified</p>
+        {/* Dynamic Grid Section (e.g., stats) */}
+        <div className="w-full py-5">
+          <div className="grid grid-cols-3 gap-5">
+            {gridItems.map((item) => (
+              <div
+                key={item.id}
+                className="bg-white border border-gray-400 p-6 rounded-2xl text-center shadow-md"
+              >
+                <h3 className="text-2xl font-bold">{item.value}</h3>
+                <p className="text-gray-600">{item.title}</p>
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* LOGOUT */}
-        <div className="bg-white rounded-2xl p-4 md:p-6 text-center border border-gray-100">
-          <button
-            onClick={handleLogout}
-            className="bg-red-600 text-white px-10 py-3 rounded-lg text-sm hover:bg-red-700 transition-colors"
-          >
-            Logout
-          </button>
-        </div>
+        {/* Dynamic Bottom Section (e.g., bio, posts, gallery) */}
+        <div className="w-full bg-white rounded-3xl p-8 shadow-inner">
+          <h2 className="text-2xl font-semibold mb-4">About Me</h2>
+          <p className="text-lg text-gray-700 mb-6">{bottomContent.bio}</p>
 
+          <h3 className="text-xl font-medium mb-3">Recent Activity</h3>
+          <div className="space-y-3">
+            {bottomContent.recentPosts.map((post, index) => (
+              <div key={index} className="bg-gray-100 p-4 rounded-xl">
+                {post}
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </>
   );
