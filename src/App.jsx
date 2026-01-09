@@ -14,6 +14,8 @@ import Catogerypages from "./pages/catogerypages";
 import Checkout from "./pages/Checkout";
 import AuthProvider from "./components/AuthWrapper";
 import Profile from "./pages/profile";
+import LoginPage from "./pages/LoginPage";
+import OrdersPage from "./pages/OrdersPage";
 
 function App() {
   return (
@@ -30,6 +32,8 @@ function App() {
           <Route path="/singleProduct/:id" element={<SingleProduct />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/orders" element={<OrdersPage />} />
         </Routes>
         <Footer />
       </Router>

@@ -80,9 +80,9 @@ export default function CatogeryPages() {
 
   return (
     <>
-      <div className="fixed top-0 left-0 w-full h-full -z-10 bg-gradient-to-br from-[#7db9d1] to-[#5294ad]" />
+      <div className="min-h-screen bg-gradient-to-br from-[#7db9d1] to-[#5294ad] pt-20 pb-20">
       
-      <div className="w-[99.5%] place-self-center min-h-screen rounded-[30px] md:rounded-[80px] bg-[#f7fbff] relative z-10 top-15 md:top-30 p-3 md:p-6 overflow-hidden shadow-lg mb-60 md:mb-96">
+      <div className="w-[99.5%] place-self-center min-h-screen rounded-[30px] md:rounded-[80px] bg-[#f7fbff] relative z-10 p-3 md:p-6 overflow-hidden shadow-2xl mb-10">
         {/* Banner */}
         <div className="w-full h-[110px] md:h-[350px] rounded-[28px] md:rounded-[60px] overflow-hidden mb-4">
           <img
@@ -173,6 +173,7 @@ export default function CatogeryPages() {
           </div>
         )}
       </div>
+    </div>
     </>
   );
 }

@@ -1,3 +1,4 @@
+// src/pages/Cartpage.jsx - FINAL VERSION: User-specific cart persistence
 import React, { useEffect, useState } from "react";
 import { IconTrashFilled } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
@@ -7,35 +8,45 @@ export default function Cartpage() {
   const [cartItems, setCartItems] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
-  const { isLoggedIn, openModal } = useAuth();
+  const { isLoggedIn, currentUser, openModal } = useAuth();
   const navigate = useNavigate();
 
   const backendBase = import.meta.env.VITE_BACKEND_URL 
     ? import.meta.env.VITE_BACKEND_URL.replace('/api', '') 
     : "http://localhost:5000";
 
+  // Load cart on mount
   useEffect(() => {
     const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
     setCartItems(savedCart);
     window.scrollTo(0, 0);
   }, []);
 
+  // Helper: Save cart to both main and user-specific
+  const saveCart = (updatedCart) => {
+    setCartItems(updatedCart);
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+
+    if (currentUser) {
+      const userCartKey = `cart_${currentUser.email}`;
+      localStorage.setItem(userCartKey, JSON.stringify(updatedCart));
+    }
+
+    window.dispatchEvent(new Event("cart-updated"));
+  };
+
   const increaseQty = (id) => {
     const updated = cartItems.map((item) =>
       item.id === id ? { ...item, qty: (item.qty || 1) + 1 } : item
     );
-    setCartItems(updated);
-    localStorage.setItem("cart", JSON.stringify(updated));
-    window.dispatchEvent(new Event("cart-updated"));
+    saveCart(updated);
   };
 
   const decreaseQty = (id) => {
     const updated = cartItems.map((item) =>
       item.id === id ? { ...item, qty: Math.max(1, (item.qty || 1) - 1) } : item
     );
-    setCartItems(updated);
-    localStorage.setItem("cart", JSON.stringify(updated));
-    window.dispatchEvent(new Event("cart-updated"));
+    saveCart(updated);
   };
 
   const confirmDelete = (id) => {
@@ -45,27 +56,25 @@ export default function Cartpage() {
 
   const deleteItem = () => {
     const updated = cartItems.filter((item) => item.id !== deleteId);
-    setCartItems(updated);
-    localStorage.setItem("cart", JSON.stringify(updated));
-    window.dispatchEvent(new Event("cart-updated"));
+    saveCart(updated);
     setShowPopup(false);
     setDeleteId(null);
   };
 
   const subtotal = cartItems.reduce(
-    (total, item) => total + Number(item.price) * (item.qty || 1),
+    (total, item) => total + Number(item.price || item.offerPrice || 0) * (item.qty || 1),
     0
   );
 
   const totalSavings = cartItems.reduce(
     (save, item) => 
-      save + (Number(item.mrPrice || item.price) - Number(item.price)) * (item.qty || 1),
+      save + (Number(item.mrPrice || item.price || 0) - Number(item.price || item.offerPrice || 0)) * (item.qty || 1),
     0
   );
 
   const handleProceedToCheckout = () => {
     if (!isLoggedIn) {
-      openModal();
+      navigate("/login");
       return;
     }
     navigate("/checkout");
@@ -77,65 +86,17 @@ export default function Cartpage() {
 
   return (
     <div>
-      <div className="fixed top-0 left-0 w-full h-full -z-10 bg-gradient-to-br from-[#7db9d1] to-[#5294ad]" />
-
-      <div className="w-[99.5%] place-self-center h-auto rounded-[30px] md:rounded-[80px] bg-[#f7fbff] relative z-10 top-15 md:top-30 p-1 md:p-5 md:py-10 overflow-hidden shadow-[gray] shadow-lg shadow-black mb-60 md:mb-96">
-
+      <div className="min-h-screen bg-gradient-to-br from-[#7db9d1] to-[#5294ad] pt-20 pb-20">
+      
+      <div className="w-[99.5%] place-self-center h-auto rounded-[30px] md:rounded-[80px] bg-[#f7fbff] relative z-10 p-4 md:p-10 shadow-2xl mb-10">
         <h1 className="text-3xl md:text-5xl font-extrabold text-[#2b5f72] text-center mb-10 md:mb-16">
           🛒 Your Cart ({cartItems.length} items)
         </h1>
 
         {cartItems.length > 0 ? (
-          <div className="flex flex-col gap-6 md:gap-8">
-            {/* Summary First on Mobile */}
-            <div className="order-1 md:order-2 bg-white rounded-3xl shadow-2xl p-5 md:p-7">
-              <h3 className="text-2xl md:text-3xl font-extrabold text-[#2b5f72] mb-5">
-                Order Summary
-              </h3>
-
-              <div className="space-y-3 text-gray-700">
-                <div className="flex justify-between text-base md:text-lg">
-                  <p>Subtotal</p>
-                  <p className="font-semibold">₹{subtotal}</p>
-                </div>
-
-                {totalSavings > 0 && (
-                  <div className="flex justify-between text-green-600">
-                    <p>You Save</p>
-                    <p className="font-bold">₹{totalSavings}</p>
-                  </div>
-                )}
-
-                <div className="flex justify-between text-base md:text-lg">
-                  <p>Shipping</p>
-                  <p className="text-green-600 font-bold">Free</p>
-                </div>
-
-                <hr className="my-5 border-gray-300" />
-
-                <div className="flex justify-between text-xl md:text-2xl font-extrabold text-[#2b5f72]">
-                  <p>Total</p>
-                  <p>₹{subtotal}</p>
-                </div>
-              </div>
-
-              <button
-                onClick={handleProceedToCheckout}
-                className="w-full bg-[#2b5f72] hover:bg-[#244c5a] text-white py-4 rounded-2xl text-lg md:text-xl font-bold mt-6 shadow-lg hover:shadow-xl transition"
-              >
-                Proceed to Checkout
-              </button>
-
-              <button
-                onClick={handlePurchaseMore}
-                className="w-full bg-gray-600 hover:bg-gray-700 text-white py-4 rounded-2xl text-lg md:text-xl font-bold mt-3 shadow-lg hover:shadow-xl transition"
-              >
-                Continue Shopping
-              </button>
-            </div>
-
+          <div className="flex flex-col md:flex-row gap-6 md:gap-8">
             {/* Cart Items */}
-            <div className="order-2 md:order-1 flex flex-col gap-4">
+            <div className="flex-1 flex flex-col gap-4">
               {cartItems.map((product) => (
                 <div
                   key={product.id}
@@ -147,7 +108,7 @@ export default function Cartpage() {
                       src={`${backendBase}${product.image}`}
                       alt={product.name}
                       className="w-full h-full object-contain rounded-2xl bg-gray-50 p-4"
-                      onError={(e) => e.target.src = "https://via.placeholder.com/300?text=No+Image"}
+                      onError={(e) => (e.target.src = "https://via.placeholder.com/300?text=No+Image")}
                     />
                   </div>
 
@@ -193,7 +154,7 @@ export default function Cartpage() {
                       {/* Price */}
                       <div className="text-right">
                         <p className="text-xl md:text-2xl font-extrabold text-[#2b5f72]">
-                          ₹{Number(product.price) * (product.qty || 1)}
+                          ₹{Number(product.price || product.offerPrice || 0) * (product.qty || 1)}
                         </p>
                         {product.mrPrice && (
                           <p className="text-sm text-gray-500 line-through">
@@ -207,12 +168,59 @@ export default function Cartpage() {
                   {/* Delete */}
                   <button
                     onClick={() => confirmDelete(product.id)}
-                    className="absolute top-4 right-4 text-red-600 hover:text-red-700 bg-gray-200 p-2.5 rounded-full hover:bg-redgray400 transition-all duration-300 "
+                    className="absolute top-4 right-4 text-red-600 hover:text-red-700 bg-gray-200 p-2.5 rounded-full hover:bg-red-100 transition-all duration-300"
                   >
                     <IconTrashFilled size={26} />
                   </button>
                 </div>
               ))}
+            </div>
+
+            {/* Order Summary */}
+            <div className="bg-white rounded-3xl shadow-2xl p-5 md:p-7">
+              <h3 className="text-2xl md:text-3xl font-extrabold text-[#2b5f72] mb-5">
+                Order Summary
+              </h3>
+
+              <div className="space-y-3 text-gray-700">
+                <div className="flex justify-between text-base md:text-lg">
+                  <p>Subtotal</p>
+                  <p className="font-semibold">₹{subtotal}</p>
+                </div>
+
+                {totalSavings > 0 && (
+                  <div className="flex justify-between text-green-600">
+                    <p>You Save</p>
+                    <p className="font-bold">₹{totalSavings}</p>
+                  </div>
+                )}
+
+                <div className="flex justify-between text-base md:text-lg">
+                  <p>Shipping</p>
+                  <p className="text-green-600 font-bold">Free</p>
+                </div>
+
+                <hr className="my-5 border-gray-300" />
+
+                <div className="flex justify-between text-xl md:text-2xl font-extrabold text-[#2b5f72]">
+                  <p>Total</p>
+                  <p>₹{subtotal}</p>
+                </div>
+              </div>
+
+              <button
+                onClick={handleProceedToCheckout}
+                className="w-full bg-[#2b5f72] hover:bg-[#244c5a] text-white py-4 rounded-2xl text-lg md:text-xl font-bold mt-6 shadow-lg hover:shadow-xl transition"
+              >
+                Proceed to Checkout
+              </button>
+
+              <button
+                onClick={handlePurchaseMore}
+                className="w-full bg-gray-600 hover:bg-gray-700 text-white py-4 rounded-2xl text-lg md:text-xl font-bold mt-3 shadow-lg hover:shadow-xl transition"
+              >
+                Continue Shopping
+              </button>
             </div>
           </div>
         ) : (
@@ -234,7 +242,7 @@ export default function Cartpage() {
         )}
       </div>
 
-      {/* Delete Confirmation */}
+      {/* Delete Confirmation Popup */}
       {showPopup && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 px-4">
           <div className="bg-white w-full max-w-sm p-8 rounded-3xl shadow-2xl text-center">
@@ -260,6 +268,7 @@ export default function Cartpage() {
           </div>
         </div>
       )}
+      </div>
     </div>
   );
 }

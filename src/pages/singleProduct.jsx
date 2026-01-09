@@ -1,38 +1,34 @@
+// src/pages/SingleProduct.jsx - FINAL VERSION: User-specific cart persistence
 import React, { useEffect, useState } from "react";
 import { IconArrowRight, IconHeart, IconStarFilled } from "@tabler/icons-react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 
 export default function SingleProduct() {
-  const { id } = useParams(); // This gets the custom id (1, 2, 3...) from URL
+  const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [recommended, setRecommended] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
 
-  // Backend base for images: http://localhost:5000
   const backendBase = import.meta.env.VITE_BACKEND_URL 
     ? import.meta.env.VITE_BACKEND_URL.replace('/api', '') 
     : "http://localhost:5000";
 
   useEffect(() => {
     const fetchProduct = async () => {
+      setLoading(true);
       try {
-        // Fetch by custom id (number like 1, 2, 3...)
         const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/products/${id}`);
         setProduct(res.data);
         setLoading(false);
       } catch (err) {
         console.error("Error fetching product:", err);
-        setError("Product not found or server error");
-        setLoading(false);
       }
     };
 
     const fetchRecommended = async () => {
       try {
         const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/products`);
-        // Show 8 random recommended products
         const shuffled = res.data.sort(() => 0.5 - Math.random());
         setRecommended(shuffled.slice(0, 8));
       } catch (err) {
@@ -45,9 +41,10 @@ export default function SingleProduct() {
     window.scrollTo(0, 0);
   }, [id]);
 
+  // FIXED: User-specific cart persistence
   const addToCart = (product) => {
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    const exists = cart.find((p) => p.id === product.id); // Use custom id
+    const exists = cart.find((p) => p.id === product.id);
 
     if (exists) {
       exists.qty = (exists.qty || 1) + 1;
@@ -55,7 +52,16 @@ export default function SingleProduct() {
       cart.push({ ...product, qty: 1 });
     }
 
+    // Save to main cart (for current view)
     localStorage.setItem("cart", JSON.stringify(cart));
+
+    // Save user-specific cart if logged in
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    if (currentUser) {
+      const userCartKey = `cart_${currentUser.email}`;
+      localStorage.setItem(userCartKey, JSON.stringify(cart));
+    }
+
     window.dispatchEvent(new Event("cart-updated"));
   };
 
@@ -63,27 +69,59 @@ export default function SingleProduct() {
     window.location.href = "/allProduct";
   };
 
-  if (loading) {
+  // Skeleton while loading
+  if (loading || !product) {
     return (
-      <div className="h-screen w-full flex items-center justify-center text-3xl font-bold text-gray-600 bg-gradient-to-br from-[#7db9d1] to-[#5294ad]">
-        Loading product...
-      </div>
-    );
-  }
+      <>
+        <div className="h-screen w-full bg-gradient-to-br from-[#7db9d1] to-[#5294ad] fixed top-0 -z-10" />
 
-  if (error || !product) {
-    return (
-      <div className="h-screen w-full flex items-center justify-center text-3xl text-red-600 bg-gradient-to-br from-[#7db9d1] to-[#5294ad]">
-        {error || "Product Not Found"}
-      </div>
+        <div className="w-[99.5%] mx-auto place-self-center rounded-[30px] md:rounded-[80px] bg-[#f7fbff] relative top-14 md:top-28 p-1 md:p-5 shadow-lg mb-20 z-10">
+          <div className="text-center py-10">
+            <p className="text-2xl text-gray-600">Loading product...</p>
+            <p className="text-lg text-gray-500 mt-4">Not loading? Try refreshing.</p>
+          </div>
+
+          <div className="flex flex-col md:flex-row items-start gap-4 md:gap-8 animate-pulse">
+            <div className="bg-gray-200 w-full md:min-w-[650px] md:max-w-[700px] h-[360px] md:min-h-[670px] md:max-h-[730px] border border-[#a8a8a859] rounded-[28px] md:rounded-[70px]" />
+
+            <div className="mx-2 mt-2 md:mt-8 w-full space-y-6">
+              <div className="h-12 bg-gray-200 rounded w-3/4" />
+              <div className="h-8 bg-gray-200 rounded w-1/2" />
+              <div className="flex items-center gap-4">
+                <div className="h-10 w-24 bg-gray-200 rounded" />
+                <div className="h-6 w-32 bg-gray-200 rounded" />
+              </div>
+              <div className="h-16 bg-gray-200 rounded w-2/3" />
+              <div className="space-y-4">
+                <div className="h-6 bg-gray-200 rounded w-full" />
+                <div className="h-6 bg-gray-200 rounded w-full" />
+                <div className="h-6 bg-gray-200 rounded w-4/5" />
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                {[...Array(4)].map((_, i) => (
+                  <div key={i} className="flex flex-col items-center space-y-2">
+                    <div className="h-12 w-12 bg-gray-200 rounded-full" />
+                    <div className="h-5 w-32 bg-gray-200 rounded" />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-col md:flex-row gap-4 mt-10 px-2 md:justify-center">
+            <div className="h-16 bg-gray-200 rounded-full w-full" />
+            <div className="h-16 bg-gray-200 rounded-full w-full" />
+          </div>
+        </div>
+      </>
     );
   }
 
   return (
     <>
-      <div className="h-screen w-full bg-gradient-to-br from-[#7db9d1] to-[#5294ad] md:pb-[400px] fixed top-0 -z-10" />
+      <div className="h-screen w-full bg-gradient-to-br from-[#7db9d1] to-[#5294ad] fixed top-0 -z-10" />
 
-      <div className="w-[99.5%] mx-auto place-self-center rounded-[30px] md:rounded-[80px] bg-[#f7fbff] relative top-14 md:top-28 p-1 md:p-5 shadow-lg mb-56 md:mb-94 z-10">
+      <div className="w-[99.5%] mx-auto place-self-center rounded-[30px] md:rounded-[80px] bg-[#f7fbff] relative top-14 md:top-28 p-1 md:p-5 shadow-lg mb-20 z-10">
         <div className="flex flex-col md:flex-row items-start gap-4 md:gap-8">
           {/* LEFT IMAGE */}
           <div className="bg-gray-200 w-full md:min-w-[650px] md:max-w-[700px] h-[360px] md:min-h-[670px] md:max-h-[730px] border border-[#a8a8a859] rounded-[28px] md:rounded-[70px] p-8 flex items-center justify-center">
@@ -219,7 +257,7 @@ export default function SingleProduct() {
           <div className="flex gap-3 md:gap-7 px-2 md:p-5 w-max">
             {recommended.map((recProduct) => (
               <Link
-                to={`/singleProduct/${recProduct.id}`} // Use custom id here too!
+                to={`/singleProduct/${recProduct.id}`}
                 key={recProduct.id}
                 onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
               >
@@ -266,11 +304,11 @@ export default function SingleProduct() {
         </div>
 
         {/* OFFER CARD */}
-        <div className="flex flex-col md:flex-row mx-10 rounded-[30px] group w-[96%] md:w-[80%] place-self-center bg-[#a7f2ff] h-[480px] md:h-[400px] pb-2 mb-10 md:mb-32 md:mt-32">
+        <div className="flex flex-col md:flex-row mx-10 rounded-[30px] group w-[96%] md:w-[80%] place-self-center bg-[#62bfcf] h-[480px] md:h-[400px] pb-2 mb-10 md:mb-32 md:mt-32">
           <div className="leftDiv relative w-[100%] md:w-[45%] h-[50%] md:h-full">
             <img
-              className="absolute -top-8 place-self-center-safe w-[300px] md:w-[480px] md:-top-26 md:left-30 cursor-pointer transition-all duration-300 md:group-hover:scale-110 md:group-hover:-rotate-10"
-              src="/assets/images/airobo.webp"
+              className="absolute -top-12 place-self-center-safe w-[420px] md:w-[560px] md:-top-26 md:left-30 cursor-pointer transition-all duration-300 md:group-hover:scale-110 md:group-hover:-rotate-10"
+              src="/assets/images/cc.webp"
               alt="Offer"
             />
           </div>
