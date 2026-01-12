@@ -13,6 +13,7 @@ import { useAuth } from "./AuthWrapper";
 
 const Nav = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const { isLoggedIn, currentUser, logout, cartItemCount } = useAuth();
@@ -21,6 +22,15 @@ const Nav = () => {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [allProducts, setAllProducts] = useState([]);
   const searchRef = useRef(null);
+
+  // Handle menu close with animation
+  const handleCloseMenu = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+      setIsMobileMenuOpen(false);
+      setIsClosing(false);
+    }, 300); // Match animation duration
+  };
 
   // Fetch all products for suggestions
   useEffect(() => {
@@ -64,7 +74,7 @@ const Nav = () => {
     e.preventDefault();
     if (searchQuery.trim()) {
       navigate(`/allProduct?search=${encodeURIComponent(searchQuery.trim())}`);
-      setIsMobileMenuOpen(false);
+      handleCloseMenu();
       setShowSuggestions(false);
     }
   };
@@ -73,7 +83,7 @@ const Nav = () => {
     navigate(`/singleProduct/${id}`);
     setSearchQuery("");
     setShowSuggestions(false);
-    setIsMobileMenuOpen(false);
+    handleCloseMenu();
   };
   
   const currentPath = location.pathname;
@@ -90,7 +100,7 @@ const Nav = () => {
     <>
       <nav className="sticky top-0 z-50 w-full bg-white border-b border-gray-100 shadow-sm font-sans">
         {/* Top Bar */}
-        <div className="bg-primary text-white text-[11px] md:text-xs py-2 text-center tracking-wide uppercase font-semibold">
+        <div className="bg-primary text-white text-[8px] md:text-xs py-1 md:py-2 text-center tracking-wide uppercase font-semibold">
           Free Shipping on Orders Over ₹4999 | International Delivery Available
         </div>
 
@@ -98,8 +108,8 @@ const Nav = () => {
         <div className="max-w-[1280px] mx-auto px-4 md:px-8 h-16 items-center justify-between flex">
           
           {/* Logo */}
-          <Link to="/" className="flex-shrink-0 flex items-center gap-2 group">
-            <img src="/assets/images/logo.png" alt="Eleckyo Logo" className="h-8 md:h-10 w-auto object-contain" />
+          <Link to="/" className="flex-shrink-0 flex items-center  gap-2 group">
+            <img src="/assets/images/fulllogo.png" alt="Eleckyo Logo" className="h-8 md:h-9 w-auto object-contain group-hover:scale-105 transition self-center items-center place-content-center place-self-center" />
           </Link>
 
           {/* Desktop Navigation Links */}
@@ -189,68 +199,126 @@ const Nav = () => {
               )}
             </Link>
 
-            {/* Mobile Menu Button */}
+            {/* Mobile Menu Toggle */}
             <button 
-              className="md:hidden text-secondary hover:text-primary transition"
-              onClick={() => setIsMobileMenuOpen(true)}
+              className="md:hidden text-secondary hover:text-primary transition-all duration-300 z-[70] relative"
+              onClick={() => isMobileMenuOpen ? handleCloseMenu() : setIsMobileMenuOpen(true)}
+              aria-label="Toggle menu"
             >
-              <IconMenu2 size={24} stroke={1.5} />
+              <div className="relative w-6 h-6 flex items-center justify-center">
+                <span className={`absolute w-6 h-0.5 bg-current transition-all duration-300 ${isMobileMenuOpen ? 'rotate-45' : '-translate-y-2'}`}></span>
+                <span className={`absolute w-6 h-0.5 bg-current transition-all duration-300 ${isMobileMenuOpen ? 'opacity-0' : 'opacity-100'}`}></span>
+                <span className={`absolute w-6 h-0.5 bg-current transition-all duration-300 ${isMobileMenuOpen ? '-rotate-45' : 'translate-y-2'}`}></span>
+              </div>
             </button>
           </div>
         </div>
       </nav>
 
-      {/* Mobile Menu Overlay */}
+      {/* Premium Full-Screen Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm md:hidden">
-          <div className="fixed inset-y-0 right-0 w-[85%] max-w-sm bg-white shadow-2xl p-6 flex flex-col h-full transform transition-transform duration-300 ease-in-out">
-            <div className="flex justify-between items-center mb-8 border-b border-gray-100 pb-4">
-              <span className="text-xl font-serif font-bold text-primary">Menu</span>
-              <button 
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="text-secondary hover:text-accent transition p-2 bg-gray-50 rounded-full"
-              >
-                <IconX size={24} />
-              </button>
-            </div>
-
-            <div className="flex flex-col gap-2">
-              {navLinks.map((link) => (
+        <div 
+          className={`fixed inset-0 z-[65] md:hidden ${isClosing ? 'animate-fadeOut' : 'animate-fadeIn'}`}
+        >
+          {/* Gradient Background */}
+          <div className="absolute inset-0 bg-gradient-to-br from-primary via-secondary to-primary opacity-98"></div>
+          
+          {/* Decorative Elements */}
+          <div className="absolute top-20 right-10 w-64 h-64 bg-accent/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 left-10 w-80 h-80 bg-accent/5 rounded-full blur-3xl"></div>
+          
+          {/* Menu Content */}
+          <div className="relative h-full flex flex-col p-8 pt-24 overflow-y-auto">
+            
+            {/* Navigation Links */}
+            <nav className="flex-1 flex flex-col justify-center space-y-2 mb-8">
+              {navLinks.map((link, index) => (
                 <Link
                   key={link.path}
                   to={link.path}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className={`text-lg font-medium px-4 py-3 rounded-lg transition-colors ${
-                    currentPath === link.path 
-                      ? "bg-gray-50 text-accent font-semibold" 
-                      : "text-secondary hover:bg-gray-50 hover:text-primary"
-                  }`}
+                  onClick={handleCloseMenu}
+                  className={`group relative overflow-hidden ${isClosing ? '' : 'animate-slideInLeft'}`}
+                  style={{ animationDelay: `${index * 0.1}s`, animationFillMode: 'both' }}
                 >
-                  {link.label}
+                  <div className={`py-4 px-6 rounded-xl transition-all duration-300 ${
+                    currentPath === link.path 
+                      ? "bg-white/20 backdrop-blur-sm" 
+                      : "hover:bg-white/10"
+                  }`}>
+                    <span className="text-2xl font-bold text-white tracking-tight group-hover:translate-x-2 inline-block transition-transform duration-300">
+                      {link.label}
+                    </span>
+                    {currentPath === link.path && (
+                      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-accent rounded-r-full"></div>
+                    )}
+                  </div>
                 </Link>
               ))}
+            </nav>
+
+            {/* Bottom Section */}
+            <div className={`space-y-4 ${isClosing ? '' : 'animate-slideInLeft'}`} style={{ animationDelay: '0.5s', animationFillMode: 'both' }}>
               
-              {/* Mobile Search */}
-              <form onSubmit={handleSearch} className="mt-4 flex items-center bg-gray-50 border border-gray-200 rounded-lg px-3 py-2">
+              {/* Search Bar */}
+              <form onSubmit={handleSearch} className="relative">
                 <input 
                   type="text" 
                   placeholder="Search products..." 
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="bg-transparent border-none focus:ring-0 text-sm flex-1 text-secondary"
+                  className="w-full bg-white/10 backdrop-blur-md border border-white/20 rounded-xl px-5 py-4 text-white placeholder:text-white/60 focus:outline-none focus:border-accent focus:bg-white/15 transition-all"
                 />
-                <button type="submit" className="text-secondary">
-                  <IconSearch size={20} stroke={1.5} />
+                <button type="submit" className="absolute right-4 top-1/2 -translate-y-1/2 text-white/80 hover:text-accent transition-colors">
+                  <IconSearch size={22} stroke={1.5} />
                 </button>
               </form>
 
-              {!isLoggedIn && (
+              {/* Quick Links */}
+              <div className="flex gap-3">
+                <Link 
+                  to="/wishlist" 
+                  onClick={handleCloseMenu}
+                  className="flex-1 flex items-center justify-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl px-4 py-3 text-white hover:bg-white/15 transition-all"
+                >
+                  <IconHeart size={20} stroke={1.5} />
+                  <span className="font-medium text-sm">Wishlist</span>
+                </Link>
+                
+                <Link 
+                  to="/cart" 
+                  onClick={handleCloseMenu}
+                  className="flex-1 flex items-center justify-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl px-4 py-3 text-white hover:bg-white/15 transition-all relative"
+                >
+                  <IconShoppingCart size={20} stroke={1.5} />
+                  <span className="font-medium text-sm">Cart</span>
+                  {cartItemCount > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-accent text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">
+                      {cartItemCount}
+                    </span>
+                  )}
+                </Link>
+              </div>
+
+              {/* Account Button */}
+              {!isLoggedIn ? (
                 <Link 
                   to="/login"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="mt-6 bg-primary text-white py-3.5 rounded-lg text-center font-bold tracking-wide shadow-md hover:bg-secondary transition-colors"
+                  onClick={handleCloseMenu}
+                  className="block w-full bg-accent hover:bg-accent-hover text-white py-4 rounded-xl text-center font-bold tracking-wide shadow-lg shadow-accent/30 transition-all transform hover:scale-[1.02]"
                 >
                   LOGIN / REGISTER
+                </Link>
+              ) : (
+                <Link 
+                  to="/profile"
+                  onClick={handleCloseMenu}
+                  className="flex items-center gap-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl px-5 py-4 text-white hover:bg-white/15 transition-all"
+                >
+                  <IconUser size={20} stroke={1.5} />
+                  <div className="flex-1 text-left">
+                    <p className="font-bold text-sm">My Account</p>
+                    <p className="text-xs text-white/70">{currentUser?.email}</p>
+                  </div>
                 </Link>
               )}
             </div>
