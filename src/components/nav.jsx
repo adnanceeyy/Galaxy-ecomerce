@@ -1,355 +1,264 @@
-import {
-  IconMenu2,
-  IconSearch,
-  IconShoppingCartFilled,
-  IconUser,
-  IconUserFilled,
-  IconX as IconClose,
-  IconHome2,
-  IconInfoCircle,
-  IconPackage,
-  IconLogout,
-  IconUserCircle,
-  IconClipboardList,
-} from "@tabler/icons-react";
 import React, { useState, useEffect, useRef } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { 
+  IconSearch, 
+  IconShoppingCart, 
+  IconUser, 
+  IconMenu2, 
+  IconX,
+  IconHeart 
+} from "@tabler/icons-react";
 import { useAuth } from "./AuthWrapper";
 
-export default function Nav() {
+const Nav = () => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
-  const currentPath = location.pathname;
+  const navigate = useNavigate();
+  const { isLoggedIn, currentUser, logout, cartItemCount } = useAuth();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [allProducts, setAllProducts] = useState([]);
+  const searchRef = useRef(null);
 
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [cartCount, setCartCount] = useState(0);
-  const [cartItems, setCartItems] = useState([]);
-  const [showCartDropdown, setShowCartDropdown] = useState(false);
-  const [bump, setBump] = useState(false);
-  const prevCountRef = useRef(cartCount);
-  const dropdownRef = useRef(null);
-
-  const { isLoggedIn, currentUser, openModal, handleLogout } = useAuth();
-
-  const backendBase = import.meta.env.VITE_BACKEND_URL 
-    ? import.meta.env.VITE_BACKEND_URL.replace('/api', '') 
-    : "http://localhost:5000";
-
-  const computeCartData = () => {
-    try {
-      const saved = JSON.parse(localStorage.getItem("cart")) || [];
-      const totalQty = saved.reduce((sum, item) => sum + (Number(item.qty) || 1), 0);
-      return { items: saved, totalQty };
-    } catch (e) {
-      return { items: [], totalQty: 0 };
-    }
-  };
-
+  // Fetch all products for suggestions
   useEffect(() => {
-    const updateCart = () => {
-      const { items, totalQty } = computeCartData();
-      setCartItems(items);
-      setCartCount((prev) => {
-        if (prev !== totalQty) {
-          prevCountRef.current = prev;
-          setBump(true);
-          setTimeout(() => setBump(false), 220);
-        }
-        return totalQty;
-      });
-    };
-
-    updateCart();
-
-    window.addEventListener("cart-updated", updateCart);
-    window.addEventListener("storage", (e) => {
-      if (e.key === "cart") updateCart();
-    });
-
-    return () => {
-      window.removeEventListener("cart-updated", updateCart);
-      window.removeEventListener("storage", updateCart);
-    };
-  }, []);
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setShowCartDropdown(false);
+    const fetchAll = async () => {
+      try {
+        const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/products`);
+        setAllProducts(res.data);
+      } catch (err) {
+        console.error("Error fetching for suggestions:", err);
       }
     };
+    fetchAll();
+  }, []);
 
-    if (showCartDropdown) {
-      document.addEventListener("mousedown", handleClickOutside);
+  // Filter suggestions
+  useEffect(() => {
+    if (searchQuery.trim().length > 1) {
+      const filtered = allProducts
+        .filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase()))
+        .slice(0, 5);
+      setSuggestions(filtered);
+      setShowSuggestions(true);
+    } else {
+      setSuggestions([]);
+      setShowSuggestions(false);
     }
+  }, [searchQuery, allProducts]);
 
+  // Close suggestions when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (searchRef.current && !searchRef.current.contains(event.target)) {
+        setShowSuggestions(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [showCartDropdown]);
+  }, []);
 
-  const menus = () => setIsMenuOpen(true);
-  const closeNav = () => setIsMenuOpen(false);
-
-  const handleLoginClick = () => {
-    window.location.href = "/login";
-    if (isMenuOpen) closeNav();
-  };
-
-  const handleLogoutClick = () => {
-    handleLogout(); // This already clears currentUser instantly
-    if (isMenuOpen) closeNav();
-    setShowCartDropdown(false);
-    window.dispatchEvent(new Event("cart-updated"));
-  };
-
-  const userName = currentUser?.name || currentUser?.email?.split('@')[0] || "User";
-  const userPhoto = currentUser?.profileImage || null; // Real uploaded image
-
-  const subtotal = cartItems.reduce(
-    (total, item) => total + Number(item.price || item.offerPrice || 0) * (item.qty || 1),
-    0
-  );
-
-  const toggleCartDropdown = () => setShowCartDropdown(!showCartDropdown);
-  const handleCartLinkClick = () => setShowCartDropdown(false);
-
-  const handleProceedToCheckout = () => {
-    if (!isLoggedIn) {
-      window.location.href = "/login";
-      return;
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/allProduct?search=${encodeURIComponent(searchQuery.trim())}`);
+      setIsMobileMenuOpen(false);
+      setShowSuggestions(false);
     }
-    setShowCartDropdown(false);
-    window.location.href = "/checkout";
   };
+
+  const handleSuggestionClick = (id) => {
+    navigate(`/singleProduct/${id}`);
+    setSearchQuery("");
+    setShowSuggestions(false);
+    setIsMobileMenuOpen(false);
+  };
+  
+  const currentPath = location.pathname;
+
+  const navLinks = [
+    { path: "/", label: "Home" },
+    { path: "/allProduct", label: "Shop" },
+    { path: "/about", label: "About Us" },
+    { path: "/contact", label: "Contact" },
+    { path: "/orders", label: "My Orders" },
+  ];
 
   return (
-    <div className="w-full flex justify-center fixed top-0 z-[200]">
-      <nav className="w-[98%] h-10 md:h-20 mt-2 bg-[#f7fbff] text-[#080f30] border border-[#5555556b] flex items-center justify-between pr-1 rounded-[50px] shadow-2xl">
-        <Link to="/">
-          <img className="w-[30px] md:w-[70px] m-2" src="/assets/images/logo.png" alt="logo" />
-        </Link>
+    <>
+      <nav className="sticky top-0 z-50 w-full bg-white border-b border-gray-100 shadow-sm font-sans">
+        {/* Top Bar */}
+        <div className="bg-primary text-white text-[11px] md:text-xs py-2 text-center tracking-wide uppercase font-semibold">
+          Free Shipping on Orders Over ₹4999 | International Delivery Available
+        </div>
 
-        <ul className="flex space-x-6 md:space-x-20 text-lg md:text-xl font-medium items-center">
-          <div className="hidden md:flex items-center gap-2 border border-gray-300 rounded-full px-2 pr-16 py-1 mr-10 focus-within:bg-[#508cb825] focus-within:border-[#387eb1] transition-all duration-300">
-            <IconSearch className="text-gray-400" />
-            <input type="text" placeholder="Search..." className="hidden md:block rounded-full text-[21px] outline-0" />
-          </div>
+        {/* Main Navbar */}
+        <div className="max-w-[1280px] mx-auto px-4 md:px-8 h-16 items-center justify-between flex">
+          
+          {/* Logo */}
+          <Link to="/" className="flex-shrink-0 flex items-center gap-2 group">
+            <img src="/assets/images/logo.png" alt="Eleckyo Logo" className="h-8 md:h-10 w-auto object-contain" />
+          </Link>
 
-          {[
-            { path: "/", label: "Home" },
-            { path: "/about", label: "About" },
-            { path: "/allproduct", label: "Product" },
-          ].map((item) => (
-            <li key={item.path} className="hidden md:block">
+          {/* Desktop Navigation Links */}
+          <div className="hidden md:flex items-center gap-8">
+            {navLinks.map((link) => (
               <Link
-                to={item.path}
-                className={`hover:underline ${currentPath === item.path ? "font-bold text-[#0f76bb]" : ""}`}
-              >
-                {item.label}
-              </Link>
-            </li>
-          ))}
-
-          {/* Cart */}
-          <li className="hidden md:block relative" ref={dropdownRef}>
-            <button
-              onClick={toggleCartDropdown}
-              className={`hover:underline cursor-pointer flex items-center gap-1 ${currentPath === "/cart" ? "font-bold text-[#0f76bb]" : ""}`}
-            >
-              <div className={`relative ${bump ? "animate-bump" : ""}`}>
-                <IconShoppingCartFilled />
-              </div>
-              <p
-                className={`absolute bg-red-600 px-1 h-[15px] leading-[1.3] text-center rounded-full text-white text-xs -right-0.5 -top-2 transition-transform duration-180 ${
-                  cartCount === 0 ? "opacity-0 pointer-events-none" : "opacity-100"
+                key={link.path}
+                to={link.path}
+                className={`text-sm font-medium transition-colors hover:text-accent tracking-wide ${
+                  currentPath === link.path ? "text-accent font-semibold" : "text-secondary"
                 }`}
               >
-                {cartCount}
-              </p>
-            </button>
-
-            {/* Cart Dropdown */}
-            {showCartDropdown && (
-              <div className="absolute right-0 top-full mt-2 w-80 bg-white rounded-2xl shadow-2xl border border-gray-200 z-50 p-4">
-                <h3 className="text-lg font-bold text-[#2b5f72] mb-3">Your Cart ({cartCount} items)</h3>
-                {cartItems.length === 0 ? (
-                  <p className="text-gray-500 text-center py-4">Your cart is empty</p>
-                ) : (
-                  <div className="max-h-60 overflow-y-auto space-y-3">
-                    {cartItems.map((item) => (
-                      <div key={item.id} className="flex items-center gap-3 p-2 bg-gray-50 rounded-lg">
-                        <img
-                          src={`${backendBase}${item.image}`}
-                          alt={item.name}
-                          className="w-12 h-12 rounded object-cover"
-                          onError={(e) => (e.target.src = "https://via.placeholder.com/100?text=No+Image")}
-                        />
-                        <div className="flex-1">
-                          <p className="font-medium text-sm">{item.name}</p>
-                          <p className="text-xs text-gray-500">Qty: {item.qty || 1}</p>
-                          <p className="text-sm font-bold">₹{Number(item.price || item.offerPrice) * (item.qty || 1)}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-                <div className="border-t pt-3 mt-3">
-                  <div className="flex justify-between text-sm font-bold">
-                    <span>Subtotal:</span>
-                    <span>₹{subtotal}</span>
-                  </div>
-                  <div className="flex gap-2 mt-3">
-                    <Link to="/cart" onClick={handleCartLinkClick} className="flex-1 bg-[#2b5f72] text-white text-center py-2 rounded-xl hover:bg-[#244c5a]">
-                      View Cart
-                    </Link>
-                    <button onClick={handleProceedToCheckout} className="flex-1 bg-[#208d12] text-white py-2 rounded-xl hover:bg-[#265a24] disabled:opacity-50" disabled={cartCount === 0}>
-                      Checkout
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
-          </li>
-
-          {/* User Section - Now with Real Profile Image */}
-          {!isLoggedIn ? (
-            <li className="hidden md:block">
-                <Link to="/login" className="hover:underline flex items-center gap-1">
-                <IconUser />
-                Login
+                {link.label}
               </Link>
-            </li>
-          ) : (
-            <li className="hidden md:block relative group">
-              <div className="flex items-center gap-2 cursor-pointer">
-                {userPhoto ? (
-                  <img
-                    src={userPhoto}
-                    alt={userName}
-                    className="w-10 h-10 rounded-full object-cover border-2 border-white shadow-md"
-                  />
-                ) : (
-                  <IconUserFilled className="w-10 h-10 text-[#0f76bb]" />
-                )}
-                <span className={`font-medium ${currentPath === "/profile" ? "text-[#0f76bb] font-bold" : ""}`}>
-                  {userName}
-                </span>
-              </div>
+            ))}
+          </div>
 
-              {/* Dropdown */}
-              <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-200 z-50 p-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150">
-                <ul className="space-y-0.5">
-                  <li>
-                    <Link to="/profile" className="flex items-center gap-2 px-2 py-1.5 rounded-md hover:bg-gray-50 text-sm text-gray-700 w-full text-left">
-                      <IconUserCircle size={14} />
-                      Profile
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/orders" className="flex items-center gap-2 px-2 py-1.5 rounded-md hover:bg-gray-50 text-sm text-gray-700 w-full text-left">
-                      <IconClipboardList size={14} />
-                      My Orders
-                    </Link>
-                  </li>
-                  <li className="border-t border-gray-100 pt-1">
-                    <button onClick={handleLogoutClick} className="flex items-center gap-2 px-2 py-1.5 rounded-md hover:bg-red-50 text-red-600 text-sm w-full text-left">
-                      <IconLogout size={14} />
-                      Logout
+          {/* Actions: Search, Account, Cart */}
+          <div className="flex items-center gap-5 md:gap-8">
+            
+            {/* Search Bar (Desktop) */}
+            <div className="relative" ref={searchRef}>
+              <form onSubmit={handleSearch} className="hidden md:flex items-center bg-gray-50 border border-gray-200 rounded-full px-3 py-1.5 focus-within:border-accent transition-all">
+                <input 
+                  type="text" 
+                  placeholder="Search products..." 
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onFocus={() => searchQuery.trim().length > 1 && setShowSuggestions(true)}
+                  className="bg-transparent border-none outline-none  focus:ring-0 text-xs w-32 lg:w-48 text-secondary"
+                />
+                <button type="submit" className="text-secondary hover:text-primary transition h-full flex items-center">
+                  <IconSearch size={18} stroke={1.5} />
+                </button>
+              </form>
+
+              {/* Suggestions Dropdown */}
+              {showSuggestions && suggestions.length > 0 && (
+                <div className="absolute top-full left-0 mt-2 w-full min-w-[250px] bg-white border border-gray-100 rounded-xl shadow-xl z-[100] overflow-hidden">
+                  {suggestions.map((item) => (
+                    <button
+                      key={item.id}
+                      onClick={() => handleSuggestionClick(item.id)}
+                      className="w-full text-left px-4 py-3 hover:bg-gray-50 flex items-center gap-3 transition-colors border-b border-gray-50 last:border-0"
+                    >
+                      <div className="w-8 h-8 flex-shrink-0">
+                         <img src={`${import.meta.env.VITE_BACKEND_URL.replace("/api", "")}${item.image}`} className="w-full h-full object-contain" />
+                      </div>
+                      <div>
+                        <p className="text-xs font-bold text-primary truncate">{item.name}</p>
+                        <p className="text-[10px] text-accent">₹{item.price}</p>
+                      </div>
                     </button>
-                  </li>
-                </ul>
-              </div>
-            </li>
-          )}
+                  ))}
+                  <button 
+                    onClick={handleSearch}
+                    className="w-full py-2 bg-gray-50 text-[10px] font-bold text-gray-500 hover:text-accent transition-colors"
+                  >
+                    View all results
+                  </button>
+                </div>
+              )}
+            </div>
 
-          {/* Mobile Menu Button */}
-          <li className="block md:hidden px-2 text-[#292929]">
-            <IconMenu2 size={28} onClick={menus} />
-          </li>
-        </ul>
+            {/* Wishlist (Desktop) */}
+             <Link to="/wishlist" className="relative hidden md:block text-secondary hover:text-primary transition transform hover:scale-105">
+              <IconHeart size={22} stroke={1.5} />
+              {/* Optional: Add count badge if needed */}
+              {/* {wishlistCount > 0 && <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[9px] w-3 h-3 rounded-full flex items-center justify-center">{wishlistCount}</span>} */}
+            </Link>
+
+            {/* Account */}
+            <div className="relative group">
+              <Link to={isLoggedIn ? "/profile" : "/login"} className="text-secondary hover:text-primary transition flex items-center gap-2">
+                 <IconUser size={20} stroke={1.5} />
+                 {isLoggedIn && <span className="hidden lg:block text-[10px] font-bold uppercase tracking-wider text-secondary group-hover:text-primary transition">{currentUser?.name?.split(' ')[0]}</span>}
+              </Link>
+            </div>
+
+            {/* Cart */}
+            <Link to="/cart" className="relative text-secondary hover:text-primary transition transform hover:scale-105">
+              <IconShoppingCart size={20} stroke={1.5} />
+              {cartItemCount > 0 && (
+                <span className="absolute -top-1.5 -right-1.5 bg-accent text-white text-[9px] font-bold h-3.5 w-3.5 rounded-full flex items-center justify-center shadow-sm">
+                  {cartItemCount}
+                </span>
+              )}
+            </Link>
+
+            {/* Mobile Menu Button */}
+            <button 
+              className="md:hidden text-secondary hover:text-primary transition"
+              onClick={() => setIsMobileMenuOpen(true)}
+            >
+              <IconMenu2 size={24} stroke={1.5} />
+            </button>
+          </div>
+        </div>
       </nav>
 
-      {/* Mobile Menu - Also shows profile image */}
-      <div className={`fixed top-0 right-0 h-full w-[80%] max-w-sm bg-white text-gray-800 shadow-2xl transform transition-transform duration-300 ease-in-out border-l border-gray-200 z-[300] ${isMenuOpen ? "translate-x-0" : "translate-x-full"}`}>
-        <div className="flex items-center justify-between p-6 pb-4 border-b border-gray-200">
-          <h2 className="text-xl font-bold text-[#2b5f72]">Menu</h2>
-          <IconClose onClick={closeNav} className="cursor-pointer text-gray-500 hover:text-gray-700" size={24} />
-        </div>
+      {/* Mobile Menu Overlay */}
+      {isMobileMenuOpen && (
+        <div className="fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm md:hidden">
+          <div className="fixed inset-y-0 right-0 w-[85%] max-w-sm bg-white shadow-2xl p-6 flex flex-col h-full transform transition-transform duration-300 ease-in-out">
+            <div className="flex justify-between items-center mb-8 border-b border-gray-100 pb-4">
+              <span className="text-xl font-serif font-bold text-primary">Menu</span>
+              <button 
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="text-secondary hover:text-accent transition p-2 bg-gray-50 rounded-full"
+              >
+                <IconX size={24} />
+              </button>
+            </div>
 
-        <div className="overflow-y-auto h-full py-4">
-          <ul className="space-y-2 px-4">
-            <li>
-              <Link to="/" onClick={closeNav} className={`flex items-center gap-3 p-3 rounded-xl transition-all ${currentPath === "/" ? "bg-[#e3f2fd] text-[#0f76bb]" : "hover:bg-gray-100"}`}>
-                <IconHome2 size={20} />
-                <span className="font-medium">Home</span>
-              </Link>
-            </li>
-            <li>
-              <Link to="/about" onClick={closeNav} className={`flex items-center gap-3 p-3 rounded-xl transition-all ${currentPath === "/about" ? "bg-[#e3f2fd] text-[#0f76bb]" : "hover:bg-gray-100"}`}>
-                <IconInfoCircle size={20} />
-                <span className="font-medium">About</span>
-              </Link>
-            </li>
-            <li>
-              <Link to="/allproduct" onClick={closeNav} className={`flex items-center gap-3 p-3 rounded-xl transition-all ${currentPath === "/allproduct" ? "bg-[#e3f2fd] text-[#0f76bb]" : "hover:bg-gray-100"}`}>
-                <IconPackage size={20} />
-                <span className="font-medium">Products</span>
-              </Link>
-            </li>
-            <li>
-              <Link to="/cart" onClick={closeNav} className={`flex items-center gap-3 p-3 rounded-xl transition-all relative ${currentPath === "/cart" ? "bg-[#e3f2fd] text-[#0f76bb]" : "hover:bg-gray-100"}`}>
-                <IconShoppingCartFilled size={20} />
-                <span className="font-medium">Cart</span>
-                {cartCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                    {cartCount}
-                  </span>
-                )}
-              </Link>
-            </li>
-
-            {!isLoggedIn ? (
-              <li>
-                <Link to="/login" onClick={closeNav} className="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 text-left">
-                  <IconUser size={20} />
-                  <span className="font-medium">Login</span>
+            <div className="flex flex-col gap-2">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className={`text-lg font-medium px-4 py-3 rounded-lg transition-colors ${
+                    currentPath === link.path 
+                      ? "bg-gray-50 text-accent font-semibold" 
+                      : "text-secondary hover:bg-gray-50 hover:text-primary"
+                  }`}
+                >
+                  {link.label}
                 </Link>
-              </li>
-            ) : (
-              <>
-                <li className="p-3 bg-gray-50 rounded-xl">
-                  <div className="flex items-center gap-3">
-                    {userPhoto ? (
-                      <img src={userPhoto} alt={userName} className="w-10 h-10 rounded-full object-cover border-2 border-white" />
-                    ) : (
-                      <IconUserFilled size={20} className="text-[#0f76bb]" />
-                    )}
-                    <span className="font-semibold text-[#2b5f72]">Hi, {userName}</span>
-                  </div>
-                </li>
-                <li>
-                  <Link to="/profile" onClick={closeNav} className="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100">
-                    <IconUserCircle size={20} />
-                    <span className="font-medium">Profile</span>
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/orders" onClick={closeNav} className="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100">
-                    <IconClipboardList size={20} />
-                    <span className="font-medium">My Orders</span>
-                  </Link>
-                </li>
-                <li>
-                  <button onClick={handleLogoutClick} className="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-red-50 text-red-600 text-left">
-                    <IconLogout size={20} />
-                    <span className="font-medium">Logout</span>
-                  </button>
-                </li>
-              </>
-            )}
-          </ul>
-        </div>
-      </div>
+              ))}
+              
+              {/* Mobile Search */}
+              <form onSubmit={handleSearch} className="mt-4 flex items-center bg-gray-50 border border-gray-200 rounded-lg px-3 py-2">
+                <input 
+                  type="text" 
+                  placeholder="Search products..." 
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="bg-transparent border-none focus:ring-0 text-sm flex-1 text-secondary"
+                />
+                <button type="submit" className="text-secondary">
+                  <IconSearch size={20} stroke={1.5} />
+                </button>
+              </form>
 
-      {isMenuOpen && <div className="fixed inset-0 bg-black/30 z-[250] md:hidden" onClick={closeNav} />}
-    </div>
+              {!isLoggedIn && (
+                <Link 
+                  to="/login"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="mt-6 bg-primary text-white py-3.5 rounded-lg text-center font-bold tracking-wide shadow-md hover:bg-secondary transition-colors"
+                >
+                  LOGIN / REGISTER
+                </Link>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
-}
+};
+
+export default Nav;

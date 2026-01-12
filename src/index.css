@@ -1,8 +1,37 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap');
 
 @theme {
-  --font-sans: "Montserrat", sans-serif;
+  --font-sans: "Inter", sans-serif;
+  --font-serif: "Playfair Display", serif;
+  
+  --color-primary: #0d4f5f; /* Rich Deep Teal - professional and bold */
+  --color-secondary: #1a7a92; /* Vibrant Teal */
+  --color-accent: #3eb8d4; /* Bright Turquoise - eye-catching */
+  --color-accent-hover: #2a9bb5; /* Deeper Turquoise */
+  
+  --color-bg-main: #ffffff;
+  --color-bg-muted: #f5fcfe; /* Subtle cool tint */
+  --color-bg-card: #ffffff;
+  
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem; /* Standard rounded */
+  --radius-lg: 0.5rem;
+  
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-card: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+html {
+  font-size: 14px; /* Scaled down from 16px */
+}
+
+body {
+  background-color: var(--color-bg-muted);
+  color: var(--color-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.5;
 }
 /* ---------- Marquee CSS - add this to index.css (after @tailwind base/components/utilities) ---------- */
 

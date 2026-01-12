@@ -1,6 +1,7 @@
-// src/components/LoginModal.jsx - FULLY WORKING with Google & Facebook + Profile Image
 import { IconCamera } from "@tabler/icons-react";
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
+import { GoogleLogin } from "@react-oauth/google";
+import axios from "axios";
 
 export default function LoginModal({ isOpen, onClose, onLogin }) {
   const [name, setName] = useState("");
@@ -9,15 +10,10 @@ export default function LoginModal({ isOpen, onClose, onLogin }) {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [isSignup, setIsSignup] = useState(false);
-  const [googleLoaded, setGoogleLoaded] = useState(false);
-  const [facebookLoaded, setFacebookLoaded] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [users, setUsers] = useState([]);
   const [profileImage, setProfileImage] = useState(null);
 
-  // REPLACE THESE WITH YOUR REAL IDs
-  const GOOGLE_CLIENT_ID =
-    "482780462210-8lek18unaerjv42kuc0bgrmsqhsgam55.apps.googleusercontent.com"; // ← Put your real ID here
-  const FACEBOOK_APP_ID = "YOUR_FACEBOOK_APP_ID_HERE"; // ← Put your real App ID here
 
   useEffect(() => {
     if (isOpen) {
@@ -31,63 +27,7 @@ export default function LoginModal({ isOpen, onClose, onLogin }) {
     }
   }, [isOpen]);
 
-  // Load Google Sign-In
-  useEffect(() => {
-    if (isOpen && !googleLoaded) {
-      const script = document.createElement("script");
-      script.src = "https://accounts.google.com/gsi/client";
-      script.async = true;
-      script.defer = true;
-      script.onload = () => {
-        setGoogleLoaded(true);
-        if (
-          window.google &&
-          GOOGLE_CLIENT_ID !==
-            "YOUR_GOOGLE_CLIENT_ID_HERE.apps.googleusercontent.com"
-        ) {
-          window.google.accounts.id.initialize({
-            client_id: GOOGLE_CLIENT_ID,
-            callback: handleGoogleResponse,
-            auto_select: false,
-            cancel_on_tap_outside: false,
-          });
-          window.google.accounts.id.renderButton(
-            document.getElementById("google-signin-button"),
-            { theme: "outline", size: "large", text: "continue_with" }
-          );
-        }
-      };
-      script.onerror = () => setGoogleLoaded(true);
-      document.head.appendChild(script);
-    }
-  }, [isOpen, googleLoaded]);
 
-  // Load Facebook SDK
-  useEffect(() => {
-    if (isOpen && !facebookLoaded) {
-      window.fbAsyncInit = function () {
-        FB.init({
-          appId: FACEBOOK_APP_ID,
-          cookie: true,
-          xfbml: true,
-          version: "v20.0",
-        });
-        setFacebookLoaded(true);
-      };
-
-      (function (d, s, id) {
-        var js,
-          fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s);
-        js.id = id;
-        js.src = "https://connect.facebook.net/en_US/sdk.js";
-        js.onload = () => setFacebookLoaded(true);
-        js.onerror = () => setFacebookLoaded(true);
-        fjs.parentNode.insertBefore(js, fjs);
-      })(document, "script", "facebook-jssdk");
-    }
-  }, [isOpen, facebookLoaded]);
 
   const getShortName = (fullName) => (fullName ? fullName.split(" ")[0] : "");
 
@@ -118,163 +58,66 @@ export default function LoginModal({ isOpen, onClose, onLogin }) {
     reader.readAsDataURL(file);
   };
 
-  // Google Login Handler
-  const handleGoogleResponse = useCallback(
-    (response) => {
-      try {
-        let payload;
-        if (GOOGLE_CLIENT_ID.includes("YOUR_GOOGLE")) {
-          // Mock mode
-          payload = {
-            name: "Mock Google User",
-            email: `google${Date.now()}@example.com`,
-            picture: "https://via.placeholder.com/150?text=Google",
-          };
-        } else {
-          payload = JSON.parse(atob(response.credential.split(".")[1]));
-        }
-
-        let userData = findUserByEmail(payload.email);
-        if (!userData) {
-          userData = {
-            id: Date.now(),
-            name: getShortName(payload.name || payload.email),
-            fullName: payload.name || payload.email,
-            email: payload.email,
-            provider: "google",
-            profileImage: payload.picture || null,
-          };
-          saveUsers([...users, userData]);
-        }
-
-        localStorage.setItem("currentUser", JSON.stringify(userData));
-        onLogin?.(userData);
-        onClose();
-        setError("");
-      } catch (err) {
-        setError("Google login failed. Try again.");
-      }
-    },
-    [users, onLogin, onClose]
-  );
-
-  const handleGoogleSignIn = () => {
-    if (
-      googleLoaded &&
-      window.google &&
-      GOOGLE_CLIENT_ID !==
-        "YOUR_GOOGLE_CLIENT_ID_HERE.apps.googleusercontent.com"
-    ) {
-      window.google.accounts.id.prompt();
-    } else {
-      // Mock login for testing
-      handleGoogleResponse({ credential: "mock" });
-    }
-  };
-
-  // Facebook Login Handler
-  const handleFacebookResponse = useCallback(
-    (fbResponse) => {
-      if (!fbResponse || !fbResponse.email) {
-        setError("Facebook login failed or cancelled.");
-        return;
-      }
-
-      let userData = findUserByEmail(fbResponse.email);
-      if (!userData) {
-        userData = {
-          id: Date.now(),
-          name: getShortName(fbResponse.name),
-          fullName: fbResponse.name,
-          email: fbResponse.email,
-          provider: "facebook",
-          profileImage: `https://graph.facebook.com/${fbResponse.id}/picture?type=large`,
-        };
-        saveUsers([...users, userData]);
-      }
-
-      localStorage.setItem("currentUser", JSON.stringify(userData));
-      onLogin?.(userData);
-      onClose();
-      setError("");
-    },
-    [users, onLogin, onClose]
-  );
-
-  const handleFacebookSignIn = () => {
-    if (
-      facebookLoaded &&
-      window.FB &&
-      FACEBOOK_APP_ID !== "YOUR_FACEBOOK_APP_ID_HERE"
-    ) {
-      window.FB.login(
-        (response) => {
-          if (response.authResponse) {
-            window.FB.api("/me?fields=name,email,picture", (fbResponse) => {
-              handleFacebookResponse(fbResponse);
-            });
-          } else {
-            setError("Facebook login cancelled.");
-          }
-        },
-        { scope: "email" }
-      );
-    } else {
-      // Mock Facebook login
-      handleFacebookResponse({
-        id: "123456789",
-        name: "Mock Facebook User",
-        email: `fb${Date.now()}@example.com`,
+  const handleGoogleSuccess = async (credentialResponse) => {
+    setLoading(true);
+    setError("");
+    const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000/api";
+    try {
+      const res = await axios.post(`${backendUrl}/users/google-login`, {
+        token: credentialResponse.credential
       });
+      localStorage.setItem("currentUser", JSON.stringify(res.data));
+      onLogin?.(res.data);
+      onClose();
+    } catch (err) {
+      console.error("Google Login Backend Error:", err);
+      setError("Failed to sign in with Google. Check backend connection.");
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleGoogleError = () => {
+    console.error("Google Login Failed");
+    setError("Google Login failed. Please try again.");
+  };
+
+
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setLoading(true);
 
-    if (!email || !password) {
-      setError("Email and password required");
-      return;
-    }
+    const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000/api";
 
-    if (isSignup) {
-      if (!name) {
-        setError("Name required");
-        return;
+    try {
+      if (isSignup) {
+        if (findUserByEmail(email)) {
+          throw new Error("Email already exists");
+        }
+        const res = await axios.post(`${backendUrl}/users`, {
+          name,
+          email,
+          password,
+          profileImage
+        });
+        localStorage.setItem("currentUser", JSON.stringify(res.data));
+        onLogin?.(res.data);
+        onClose();
+      } else {
+        const res = await axios.post(`${backendUrl}/users/login`, {
+          email,
+          password
+        });
+        localStorage.setItem("currentUser", JSON.stringify(res.data));
+        onLogin?.(res.data);
+        onClose();
       }
-      if (!validatePassword(password)) {
-        setError("Password must be 6+ chars with letter & number");
-        return;
-      }
-      if (findUserByEmail(email)) {
-        setError("Email already exists");
-        return;
-      }
-
-      const newUser = {
-        id: Date.now(),
-        name: getShortName(name),
-        fullName: name,
-        email,
-        password,
-        provider: "email",
-        profileImage: profileImage || null,
-      };
-
-      saveUsers([...users, newUser]);
-      localStorage.setItem("currentUser", JSON.stringify(newUser));
-      onLogin?.(newUser);
-      onClose();
-    } else {
-      const user = findUserByEmail(email);
-      if (!user || user.password !== password) {
-        setError("Wrong email or password");
-        return;
-      }
-      localStorage.setItem("currentUser", JSON.stringify(user));
-      onLogin?.(user);
-      onClose();
+    } catch (err) {
+      setError(err.response?.data?.message || err.message || "Login failed");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -421,9 +264,10 @@ export default function LoginModal({ isOpen, onClose, onLogin }) {
 
             <button
               type="submit"
-              className="w-full bg-blue-500 hover:bg-blue-600 text-white py-4 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transition"
+              disabled={loading}
+              className="w-full bg-blue-500 hover:bg-blue-600 text-white py-4 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transition flex items-center justify-center gap-2"
             >
-              {isSignup ? "Create Account" : "Login"}
+              {loading ? "Processing..." : (isSignup ? "Create Account" : "Login")}
             </button>
           </form>
 
@@ -436,13 +280,18 @@ export default function LoginModal({ isOpen, onClose, onLogin }) {
               <div className="flex-grow border-t border-gray-300"></div>
             </div>
 
-            <div className="space-y-3">
-              {/* Google Sign-In Button - Auto rendered by Google */}
-              <div
-                id="google-signin-button"
-                className="w-full flex items-center justify-center "
-              ></div>
-
+            <div className="flex flex-col gap-3">
+              <div className="flex justify-center w-full">
+                <GoogleLogin 
+                  onSuccess={handleGoogleSuccess}
+                  onError={handleGoogleError}
+                  theme="outline"
+                  size="large"
+                  width="100%"
+                  text="continue_with"
+                  shape="rectangular"
+                />
+              </div>
             </div>
 
             <p className="text-sm text-gray-600 mt-6">
