@@ -13,6 +13,7 @@ const CheckoutPage = () => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
+    phone: "",
     email: currentUser?.email || "",
     address: "",
     city: "",
@@ -40,8 +41,10 @@ const CheckoutPage = () => {
   }, []);
   
   const backendBase = import.meta.env.VITE_BACKEND_URL
-    ? import.meta.env.VITE_BACKEND_URL.replace("/api", "")
+    ? import.meta.env.VITE_BACKEND_URL.replace("/api", "") // http://localhost:5000
     : "http://localhost:5000";
+
+  const apiBase = `${backendBase}/api`;
 
   const handleChange = (e) => {
      setFormData({...formData, [e.target.name]: e.target.value});
@@ -55,20 +58,23 @@ const CheckoutPage = () => {
         return;
      }
 
-     const orderData = {
+      const orderData = {
         customerDetails: {
+           name: `${formData.firstName} ${formData.lastName}`,
+           phone: formData.phone,
            email: currentUser.email,
-           firstName: formData.firstName,
-           lastName: formData.lastName,
-           address: formData.address,
-           city: formData.city,
-           zip: formData.zip,
-           country: formData.country,
+           address: {
+             street: formData.address,
+             city: formData.city,
+             postalCode: formData.zip,
+             country: formData.country
+           }
         },
         orderedItems: cartItems.map(item => ({
            productId: item.id || item._id,
            itemName: item.name,
            quantity: item.qty || 1,
+           unitPrice: Number(item.price),
            totalPrice: Number(item.price) * (item.qty || 1),
            image: item.image
         })),
@@ -76,23 +82,30 @@ const CheckoutPage = () => {
            subtotal: subtotal,
            shipping: shipping,
            total: total,
+           currency: 'INR'
         },
-        status: "Processing"
+        status: "pending"
      };
 
      try {
-        await axios.post(`${backendBase}/orders`, orderData);
+        console.log("Sending Order Data:", orderData); // Debug log
+        await axios.post(`${apiBase}/orders`, orderData);
         alert("Order placed successfully!");
         
         // Clear cart logic (Synced to backend)
-        await axios.delete(`${backendBase}/cart/${currentUser.email}`);
+        try {
+           await axios.delete(`${apiBase}/cart/${currentUser.email}`);
+        } catch (clearErr) {
+           console.warn("Failed to clear remote cart", clearErr);
+        }
         
         localStorage.removeItem(`cart_${currentUser.email}`);
         window.dispatchEvent(new Event("cart-updated"));
         navigate("/orders");
      } catch (err) {
         console.error("Failed to place order", err);
-        alert("Failed to place order. Please try again.");
+        const errMsg = err.response?.data?.message || err.message;
+        alert(`Failed to place order: ${errMsg}`);
      }
   };
 
@@ -125,19 +138,30 @@ const CheckoutPage = () => {
                      <span className="w-7 h-7 rounded-full bg-blue-50 text-primary flex items-center justify-center text-xs font-sans font-bold">1</span>
                      Contact Information
                   </h2>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                     <div className="col-span-1 md:col-span-2">
-                        <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Email Address</label>
-                        <input 
-                           type="email" 
-                           name="email" 
-                           value={formData.email} 
-                           onChange={handleChange} 
-                           required 
-                           className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition"
-                        />
-                     </div>
-                  </div>
+                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="col-span-1 md:col-span-2">
+                         <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Email Address</label>
+                         <input 
+                            type="email" 
+                            name="email" 
+                            value={formData.email} 
+                            onChange={handleChange} 
+                            required 
+                            className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition"
+                         />
+                      </div>
+                      <div className="col-span-1 md:col-span-2">
+                         <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Phone Number</label>
+                         <input 
+                            type="tel" 
+                            name="phone" 
+                            value={formData.phone} 
+                            onChange={handleChange} 
+                            required 
+                            className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition"
+                         />
+                      </div>
+                   </div>
                </div>
 
                {/* Shipping Address */}
@@ -149,27 +173,67 @@ const CheckoutPage = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                      <div>
                         <label className="block text-[10px] font-bold text-gray-700 uppercase mb-1">First Name</label>
-                        <input type="text" name="firstName" required className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition" />
+                        <input 
+                           type="text" 
+                           name="firstName" 
+                           value={formData.firstName}
+                           onChange={handleChange}
+                           required 
+                           className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition" 
+                        />
                      </div>
                      <div>
                         <label className="block text-[10px] font-bold text-gray-700 uppercase mb-1">Last Name</label>
-                        <input type="text" name="lastName" required className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition" />
+                        <input 
+                           type="text" 
+                           name="lastName" 
+                           value={formData.lastName}
+                           onChange={handleChange}
+                           required 
+                           className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition" 
+                        />
                      </div>
                      <div className="col-span-1 md:col-span-2">
                         <label className="block text-[10px] font-bold text-gray-700 uppercase mb-1">Address</label>
-                        <input type="text" name="address" required className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition" />
+                        <input 
+                           type="text" 
+                           name="address" 
+                           value={formData.address}
+                           onChange={handleChange}
+                           required 
+                           className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition" 
+                        />
                      </div>
                      <div>
                         <label className="block text-[10px] font-bold text-gray-700 uppercase mb-1">City</label>
-                        <input type="text" name="city" required className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition" />
+                        <input 
+                           type="text" 
+                           name="city" 
+                           value={formData.city}
+                           onChange={handleChange}
+                           required 
+                           className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition" 
+                        />
                      </div>
                      <div>
                         <label className="block text-[10px] font-bold text-gray-700 uppercase mb-1">Postal Code</label>
-                        <input type="text" name="zip" required className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition" />
+                        <input 
+                           type="text" 
+                           name="zip" 
+                           value={formData.zip}
+                           onChange={handleChange}
+                           required 
+                           className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition" 
+                        />
                      </div>
                      <div className="col-span-1 md:col-span-2">
                         <label className="block text-[10px] font-bold text-gray-700 uppercase mb-1">Country</label>
-                        <select name="country" className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition bg-white">
+                        <select 
+                           name="country" 
+                           value={formData.country}
+                           onChange={handleChange}
+                           className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition bg-white"
+                        >
                            <option>India</option>
                            <option>United States</option>
                            <option>United Kingdom</option>

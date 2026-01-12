@@ -131,7 +131,7 @@ const Nav = () => {
           <div className="flex items-center gap-5 md:gap-8">
             
             {/* Search Bar (Desktop) */}
-            <div className="relative" ref={searchRef}>
+            <div className="relative hidden md:block" ref={searchRef}>
               <form onSubmit={handleSearch} className="hidden md:flex items-center bg-gray-50 border border-gray-200 rounded-full px-3 py-1.5 focus-within:border-accent transition-all">
                 <input 
                   type="text" 
@@ -173,6 +173,14 @@ const Nav = () => {
                 </div>
               )}
             </div>
+
+            {/* Mobile Search Icon Toggle */}
+            <button 
+               className="md:hidden text-secondary hover:text-primary transition"
+               onClick={() => setIsMobileMenuOpen(true)}
+            >
+               <IconSearch size={22} stroke={1.5} />
+            </button>
 
             {/* Wishlist (Desktop) */}
              <Link to="/wishlist" className="relative hidden md:block text-secondary hover:text-primary transition transform hover:scale-105">
@@ -272,6 +280,33 @@ const Nav = () => {
                   <IconSearch size={22} stroke={1.5} />
                 </button>
               </form>
+
+              {/* Mobile Suggestions */}
+              {showSuggestions && suggestions.length > 0 && (
+                <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl overflow-hidden max-h-60 overflow-y-auto">
+                    {suggestions.map((item) => (
+                      <button
+                        key={item.id}
+                        onClick={() => handleSuggestionClick(item.id)}
+                        className="w-full text-left px-5 py-3 hover:bg-white/10 flex items-center gap-4 transition-colors border-b border-white/10 last:border-0"
+                      >
+                         <div className="w-10 h-10 flex-shrink-0 bg-white rounded-lg p-1">
+                            <img src={`${import.meta.env.VITE_BACKEND_URL.replace("/api", "")}${item.image}`} className="w-full h-full object-contain" />
+                         </div>
+                         <div className="min-w-0">
+                           <p className="font-bold text-white truncate text-sm">{item.name}</p>
+                           <p className="text-accent text-xs">₹{item.price}</p>
+                         </div>
+                      </button>
+                    ))}
+                    <button 
+                      onClick={handleSearch}
+                      className="w-full py-3 text-center text-xs font-bold text-white/70 hover:text-accent transition-colors bg-white/5"
+                    >
+                      View all results
+                    </button>
+                </div>
+              )}
 
               {/* Quick Links */}
               <div className="flex gap-3">

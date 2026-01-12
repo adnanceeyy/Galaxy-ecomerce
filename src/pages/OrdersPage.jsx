@@ -3,11 +3,15 @@ import { Link } from "react-router-dom";
 import { IconPackage, IconBox, IconChevronRight, IconAlertCircle } from "@tabler/icons-react";
 import { useAuth } from "../components/AuthWrapper";
 import DashboardLayout from "../components/DashboardLayout";
+import InvoiceModal from "../components/InvoiceModal";
+import OrderTrackingModal from "../components/OrderTrackingModal";
 import axios from "axios";
 
 const OrdersPage = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [trackingOrder, setTrackingOrder] = useState(null);
   const { currentUser } = useAuth();
   
   const backendBase = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
@@ -137,12 +141,36 @@ const OrdersPage = () => {
 
                    {/* Order Footer Actions */}
                    <div className="px-6 py-4 bg-gray-50/30 border-t border-gray-50 flex justify-end gap-3">
-                      <button className="px-4 py-2 text-xs font-bold text-gray-600 border border-gray-200 rounded-lg hover:bg-white hover:shadow-sm transition-all">Track Order</button>
-                      <button className="px-4 py-2 text-xs font-bold text-primary border border-primary rounded-lg hover:bg-primary hover:text-white transition-all">Request Invoice</button>
+                      <button 
+                         onClick={() => setTrackingOrder(order)}
+                         className="px-4 py-2 text-xs font-bold text-gray-600 border border-gray-200 rounded-lg hover:bg-white hover:shadow-sm transition-all"
+                      >
+                         Track Order
+                      </button>
+                      <button 
+                         onClick={() => setSelectedOrder(order)}
+                         className="px-4 py-2 text-xs font-bold text-primary border border-primary rounded-lg hover:bg-primary hover:text-white transition-all"
+                      >
+                         View Invoice
+                      </button>
                    </div>
                 </div>
              ))}
           </div>
+       )}
+
+       {selectedOrder && (
+          <InvoiceModal 
+             order={selectedOrder} 
+             onClose={() => setSelectedOrder(null)} 
+          />
+       )}
+
+       {trackingOrder && (
+          <OrderTrackingModal 
+             order={trackingOrder} 
+             onClose={() => setTrackingOrder(null)} 
+          />
        )}
     </DashboardLayout>
   );

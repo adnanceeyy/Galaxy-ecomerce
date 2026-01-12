@@ -229,41 +229,49 @@ const HomePage = () => {
           <Link to="/allProduct" className="text-accent text-sm font-bold hover:underline">View All Categories</Link>
         </div>
 
-        <div className="relative group">
-          <button onClick={() => scroll(scrollContainerRef, 'left')} className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center text-primary opacity-0 group-hover:opacity-100 transition-opacity disabled:opacity-50 border border-gray-100 hidden md:flex hover:bg-gray-50">
+        <div className="relative group px-1">
+          <button 
+            onClick={() => scroll(scrollContainerRef, 'left')} 
+            className="absolute left-0 top-1/2 -translate-y-12 z-20 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center text-primary opacity-0 group-hover:opacity-100 transition-opacity disabled:opacity-50 border border-gray-100 hidden md:flex hover:bg-gray-50"
+            aria-label="Scroll Left"
+          >
             <IconChevronLeft size={20} />
           </button>
           
-          <div ref={scrollContainerRef} className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide snap-x px-1">
+          <div ref={scrollContainerRef} className="flex gap-6 overflow-x-auto pb-8 scrollbar-hide snap-x px-2 py-4">
           {[
             { id: 1, name: "Headphones", image: "/assets/images/chf.png", count: "4" },
             { id: 2, name: "Laptops", image: "/assets/images/clap.webp", count: "8" },
-            { id: 3, name: "Phones", image: "/assets/images/cphone.webp", count: "15" },
-            { id: 4, name: "Watches", image: "/assets/images/cwh.webp", count: "6" },
+            { id: 3, name: "Smartphones", image: "/assets/images/cphone.webp", count: "15" },
+            { id: 4, name: "Smart Watches", image: "/assets/images/cwh.webp", count: "6" },
             { id: 5, name: "Gaming", image: "/assets/images/cgm.png", count: "9" },
             { id: 6, name: "Cameras", image: "/assets/images/ccam.png", count: "5" },
             { id: 7, name: "Tablets", image: "/assets/images/ctab.webp", count: "7" },
             { id: 8, name: "Accessories", image: "/assets/images/ccharger.webp", count: "24" },
             { id: 9, name: "Speakers", image: "/assets/images/cspeaker.webp", count: "11" },
             { id: 10, name: "Monitors", image: "/assets/images/ctv.webp", count: "4" },
-            { id: 11, name: "Toy", image: "/assets/images/ccar.webp", count: "3" },
-            { id: 12, name: "Keybord", image: "/assets/images/ckey.webp", count: "2" },
+            { id: 11, name: "Toys", image: "/assets/images/ccar.webp", count: "3" },
+            { id: 12, name: "Keyboards", image: "/assets/images/ckey.webp", count: "2" },
           ].map((cat) => (
-            <Link key={cat.id} to={`/category/${cat.id}`} className="flex-shrink-0 flex flex-col items-center gap-2 group cursor-pointer snap-start">
-              <div className="relative w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 ring-4 ring-white group-hover:ring-accent/20">
+            <Link key={cat.id} to={`/category/${cat.id}`} className="flex-shrink-0 flex flex-col items-center gap-2 group/item cursor-pointer snap-start w-24 md:w-32">
+              <div className="relative w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden shadow-md group-hover/item:shadow-xl transition-all duration-300 ring-4 ring-white group-hover/item:ring-accent/20">
                 <div className="absolute inset-0 bg-gray-100">
-                  <img src={cat.image} alt={cat.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                  <img src={cat.image} alt={cat.name} className="w-full h-full object-cover transition-transform duration-500 group-hover/item:scale-110" />
                 </div>
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute inset-0 bg-black/10 group-hover/item:bg-black/0 transition-colors duration-300"></div>
               </div>
-              <div className="text-center">
-                <h3 className="font-bold text-xs md:text-sm text-primary group-hover:text-accent transition-colors">{cat.name}</h3>
+              <div className="text-center pt-2">
+                <h3 className="font-bold text-xs md:text-sm text-primary group-hover/item:text-accent transition-colors">{cat.name}</h3>
               </div>
             </Link>
           ))}
           </div>
 
-          <button onClick={() => scroll(scrollContainerRef, 'right')} className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center text-primary opacity-0 group-hover:opacity-100 transition-opacity disabled:opacity-50 border border-gray-100 hidden md:flex hover:bg-gray-50">
+          <button 
+            onClick={() => scroll(scrollContainerRef, 'right')} 
+            className="absolute right-0 top-1/2 -translate-y-12 z-20 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center text-primary opacity-0 group-hover:opacity-100 transition-opacity disabled:opacity-50 border border-gray-100 hidden md:flex hover:bg-gray-50"
+             aria-label="Scroll Right"
+          >
             <IconChevronRight size={20} />
           </button>
         </div>
@@ -282,16 +290,16 @@ const HomePage = () => {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 sc:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8">
             {loading ? (
                [...Array(4)].map((_, i) => (
-                 <div key={i} className="bg-white rounded-lg h-[400px] animate-pulse"></div>
+                 <div key={i} className="bg-white rounded-lg h-[280px] md:h-[400px] animate-pulse"></div>
                ))
             ) : (
               featuredProducts.map((product) => (
                 <Link to={`/singleProduct/${product.id}`} key={product.id} className="group bg-white rounded-lg overflow-hidden border border-gray-100 hover:shadow-xl hover:border-gray-200 transition-all duration-300 flex flex-col">
                   {/* Image */}
-                  <div className="relative h-64 bg-white p-6 flex items-center justify-center overflow-hidden">
+                  <div className="relative h-40 md:h-64 bg-white p-4 md:p-6 flex items-center justify-center overflow-hidden">
                     <img 
                       src={`${backendBase}${product.image}`} 
                       alt={product.name} 

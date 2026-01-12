@@ -218,16 +218,16 @@ const AllProducts = () => {
               </div>
 
               {/* Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-6">
                  {loading ? (
                     [...Array(6)].map((_, i) => (
-                       <div key={i} className="bg-white rounded-lg h-[350px] animate-pulse"></div>
+                       <div key={i} className="bg-white rounded-lg h-[250px] md:h-[350px] animate-pulse"></div>
                     ))
                  ) : (
                     currentProducts.map((product) => (
                        <div key={product.id} className="group bg-white rounded-lg border border-gray-100 hover:shadow-xl transition-all duration-300 flex flex-col overflow-hidden">
                           {/* Image */}
-                          <Link to={`/singleProduct/${product.id}`} className="relative h-60 p-6 flex items-center justify-center bg-white overflow-hidden">
+                          <Link to={`/singleProduct/${product.id}`} className="relative h-40 md:h-60 p-4 md:p-6 flex items-center justify-center bg-white overflow-hidden">
                              <img 
                                 src={`${backendBase}${product.image}`} 
                                 alt={product.name} 

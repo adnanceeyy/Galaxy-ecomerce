@@ -14,39 +14,25 @@ const CategoryPage = () => {
     ? import.meta.env.VITE_BACKEND_URL.replace("/api", "")
     : "http://localhost:5000";
 
-  // Mock category names mapping (since API typically returns filtered products)
-  const categoryNames = {
-     1: "Headsets",
-     2: "Laptops",
-     3: "Smartphones",
-     4: "Smart Watches",
-     5: "Speakers",
-     6: "Mice",
-     9: "Gaming"
-  };
-
   useEffect(() => {
     const fetchCategoryProducts = async () => {
       setLoading(true);
       try {
-        // Fetch all products and filter locally for now if backend doesn't support direct cat-fetch well, 
-        // or assumes the endpoint structure. Based on previous code, it might filter or full fetch.
-        // Assuming we fetch all and filter by categoryId or use a specific endpoint if known.
-        // Previous code used: axios.get(`${import.meta.env.VITE_BACKEND_URL}/products`) and filtered? 
-        // Let's assume fetching all and filtering is safer if we don't know the exact endpoint for category.
-        // Or if the previous code just displayed "Category Items". 
-        // Let's stick to fetching all and filtering by a dummy matched ID or check if previous code did something specific.
-        // Previous code just fetched `products` and filtered by `catogeryId`.
-        
         const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/products`);
         const allProducts = res.data;
-        // Filter logic: assuming 'productCategory' or similar matches ID or simple filter
-        // For demonstration, let's filter randomly or by a property if consistent.
-        // The previous code filtered: product.catogeryId === id
         
+        // Filter purely by database 'catogeryId'
+        // Ensure strictly matching numbers (or string equivalent)
         const filtered = allProducts.filter(p => p.catogeryId == id);
-        setProducts(filtered.length > 0 ? filtered : allProducts.slice(0, 4)); // Fallback to avoid empty page
-        setCategoryName(categoryNames[id] || "Category");
+        
+        setProducts(filtered);
+        
+        // Derive Category Name from the first found product
+        if (filtered.length > 0) {
+            setCategoryName(filtered[0].category || "Category");
+        } else {
+            setCategoryName("Category Not Found");
+        }
         
       } catch (err) {
         console.error(err);
