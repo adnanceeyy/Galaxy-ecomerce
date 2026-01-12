@@ -218,7 +218,7 @@ const Nav = () => {
       {/* Premium Full-Screen Mobile Menu */}
       {isMobileMenuOpen && (
         <div 
-          className={`fixed inset-0 z-[65] md:hidden ${isClosing ? 'animate-fadeOut' : 'animate-fadeIn'}`}
+          className={`fixed inset-0 z-[40] md:hidden ${isClosing ? 'animate-fadeOut' : 'animate-fadeIn'}`}
         >
           {/* Gradient Background */}
           <div className="absolute inset-0 bg-gradient-to-br from-primary via-secondary to-primary opacity-98"></div>

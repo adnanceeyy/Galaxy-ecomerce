@@ -53,7 +53,7 @@ const HomePage = () => {
   }, []);
 
   const categories = [
-    { id: 1, name: "Headsets", image: "./assets/images/chf.webp", count: "12 Products" },
+    { id: 1, name: "Headsets", image: "./assets/images/chf.png", count: "12 Products" },
     { id: 2, name: "Laptops", image: "./assets/images/clap.webp", count: "8 Products" },
     { id: 3, name: "Smartphones", image: "./assets/images/cphone.webp", count: "15 Products" },
     { id: 4, name: "Smart Wathes", image: "./assets/images/cwh.webp", count: "6 Products" },
@@ -236,29 +236,28 @@ const HomePage = () => {
           
           <div ref={scrollContainerRef} className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide snap-x px-1">
           {[
-            { id: 1, name: "Headphones", image: "./assets/images/chf.webp", count: "12" },
-            { id: 2, name: "Laptops", image: "./assets/images/clap.webp", count: "8" },
-            { id: 3, name: "Phones", image: "./assets/images/cphone.webp", count: "15" },
-            { id: 4, name: "Watches", image: "./assets/images/cwh.webp", count: "6" },
-            { id: 5, name: "Gaming", image: "https://images.unsplash.com/photo-1598550476439-c92309798050?q=80&w=300&auto=format&fit=crop", count: "9" },
-            { id: 6, name: "Cameras", image: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=300&auto=format&fit=crop", count: "5" },
-            { id: 7, name: "Tablets", image: "https://images.unsplash.com/photo-1561154464-82e9adf32764?q=80&w=300&auto=format&fit=crop", count: "7" },
-            { id: 8, name: "Accessories", image: "https://images.unsplash.com/photo-1629813291567-d87b1c238b43?q=80&w=300&auto=format&fit=crop", count: "24" },
-            { id: 9, name: "Speakers", image: "https://images.unsplash.com/photo-1545454675-3531b543be5d?q=80&w=300&auto=format&fit=crop", count: "11" },
-            { id: 10, name: "Monitors", image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?q=80&w=300&auto=format&fit=crop", count: "4" },
-            { id: 11, name: "Drones", image: "https://images.unsplash.com/photo-1507582020474-9a35b7d455d9?q=80&w=300&auto=format&fit=crop", count: "3" },
-            { id: 12, name: "VR", image: "https://images.unsplash.com/photo-1622979135225-d2ba269fb1bd?q=80&w=300&auto=format&fit=crop", count: "2" },
+            { id: 1, name: "Headphones", image: "/assets/images/chf.png", count: "4" },
+            { id: 2, name: "Laptops", image: "/assets/images/clap.webp", count: "8" },
+            { id: 3, name: "Phones", image: "/assets/images/cphone.webp", count: "15" },
+            { id: 4, name: "Watches", image: "/assets/images/cwh.webp", count: "6" },
+            { id: 5, name: "Gaming", image: "/assets/images/cgm.png", count: "9" },
+            { id: 6, name: "Cameras", image: "/assets/images/ccam.png", count: "5" },
+            { id: 7, name: "Tablets", image: "/assets/images/ctab.webp", count: "7" },
+            { id: 8, name: "Accessories", image: "/assets/images/ccharger.webp", count: "24" },
+            { id: 9, name: "Speakers", image: "/assets/images/cspeaker.webp", count: "11" },
+            { id: 10, name: "Monitors", image: "/assets/images/ctv.webp", count: "4" },
+            { id: 11, name: "Toy", image: "/assets/images/ccar.webp", count: "3" },
+            { id: 12, name: "Keybord", image: "/assets/images/ckey.webp", count: "2" },
           ].map((cat) => (
             <Link key={cat.id} to={`/category/${cat.id}`} className="flex-shrink-0 flex flex-col items-center gap-2 group cursor-pointer snap-start">
               <div className="relative w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 ring-4 ring-white group-hover:ring-accent/20">
                 <div className="absolute inset-0 bg-gray-100">
-                  <img src={cat.image} alt={cat.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                  <img src={cat.image} alt={cat.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
                 </div>
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </div>
               <div className="text-center">
                 <h3 className="font-bold text-xs md:text-sm text-primary group-hover:text-accent transition-colors">{cat.name}</h3>
-                <p className="text-[9px] text-gray-400 font-medium">{cat.count} items</p>
               </div>
             </Link>
           ))}

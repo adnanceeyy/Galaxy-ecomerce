@@ -154,7 +154,7 @@ const SingleProduct = () => {
                     </div>
                     <button 
                        onClick={handleAddToCart}
-                       className={`flex-1 h-12 rounded-lg font-bold flex items-center justify-center gap-2 transition-all shadow-lg ${isAdded ? "bg-green-600 hover:bg-green-700 text-white" : "bg-accent hover:bg-accent-hover text-white hover:shadow-accent/40"}`}
+                       className={`p-3 flex-1 h-12 rounded-lg font-bold flex items-center justify-center gap-2 transition-all shadow-lg ${isAdded ? "bg-green-600 hover:bg-green-700 text-white" : "bg-accent hover:bg-accent-hover text-white hover:shadow-accent/40"}`}
                     >
                        {isAdded ? (
                           <>

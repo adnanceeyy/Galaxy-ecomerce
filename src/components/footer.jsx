@@ -20,7 +20,7 @@ export default function Footer() {
           {/* Column 1: Brand */}
           <div className="space-y-6">
             <Link to="/" className="flex items-center gap-3">
-               <img src="/assets/images/logo.png" alt="Eleckyo Logo" className="h-10 w-auto object-contain brightness-0 invert" />
+               <img src="/assets/images/fulllogo.png" alt="Eleckyo Logo" className="h-10 w-auto object-contain brightness-0 invert" />
             </Link>
             <p className="text-gray-400 text-sm leading-relaxed max-w-xs">
               Your premium destination for cutting-edge electronics. Quality products, exceptional service, and global shipping.
