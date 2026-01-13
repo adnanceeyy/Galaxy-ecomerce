@@ -151,7 +151,7 @@ const HomePage = () => {
             <Link to={`/singleProduct/${product.id}`} key={product.id} className="flex-shrink-0 w-[280px] group bg-white rounded-xl overflow-hidden border border-gray-100 hover:shadow-xl transition-all duration-300 snap-start">
               <div className="relative h-48 p-4 flex items-center justify-center bg-gray-50/50">
                 <img
-                  src={`${backendBase}${product.image}`}
+                  src={`${BACKEND_BASE}${product.image}`}
                   alt={product.name}
                   className="h-full w-full object-contain transform group-hover:scale-105 transition-transform duration-500"
                 />

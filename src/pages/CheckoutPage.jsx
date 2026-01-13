@@ -42,7 +42,7 @@ const CheckoutPage = () => {
    }, []);
 
 
-   const apiBase = `${backendBase}/api`;
+   const apiBase = API_URL;
 
    const handleChange = (e) => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
