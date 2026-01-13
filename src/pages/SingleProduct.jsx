@@ -13,6 +13,7 @@ import {
    IconUser
 } from "@tabler/icons-react";
 import { useAuth } from "../components/AuthWrapper";
+import { API_URL, BACKEND_BASE } from "../config/api";
 
 const SingleProduct = () => {
    const { id } = useParams();
@@ -24,15 +25,12 @@ const SingleProduct = () => {
 
    const { addToCart, isLoggedIn, addToWishlist, isInWishlist } = useAuth();
 
-   const backendBase = import.meta.env.VITE_BACKEND_URL
-      ? import.meta.env.VITE_BACKEND_URL.replace("/api", "")
-      : "http://localhost:5000";
 
    useEffect(() => {
       const fetchProduct = async () => {
          setLoading(true);
          try {
-            const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/products`);
+            const res = await axios.get(`${API_URL}/products`);
             // Simulate single item fetch by finding in array since filtering happens client side in previous logic
             // In a real app we'd fetch /products/:id
             const found = res.data.find((p) => p.id == id);
@@ -66,6 +64,22 @@ const SingleProduct = () => {
 
    // Image Gallery Logic
    const [activeImage, setActiveImage] = useState(null);
+   const [zoomStyles, setZoomStyles] = useState({ display: "none", transformOrigin: "center" });
+
+   const handleMouseMove = (e) => {
+      const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
+      const x = ((e.pageX - left - window.scrollX) / width) * 100;
+      const y = ((e.pageY - top - window.scrollY) / height) * 100;
+      setZoomStyles({
+         display: "block",
+         transformOrigin: `${x}% ${y}%`,
+         transform: "scale(2)"
+      });
+   };
+
+   const handleMouseLeave = () => {
+      setZoomStyles({ display: "none", transformOrigin: "center", transform: "scale(1)" });
+   };
 
    useEffect(() => {
       if (product) {
@@ -94,15 +108,23 @@ const SingleProduct = () => {
 
                {/* LEFT: GALLERY */}
                <div className="space-y-4">
-                  <div className="w-full h-[400px] md:h-[550px] bg-gray-50 border border-gray-100 rounded-2xl flex items-center justify-center p-8 relative">
+                  <div
+                     className="w-full h-[400px] md:h-[550px] bg-gray-50 border border-gray-100 rounded-2xl flex items-center justify-center p-8 relative overflow-hidden cursor-zoom-in"
+                     onMouseMove={handleMouseMove}
+                     onMouseLeave={handleMouseLeave}
+                  >
                      <img
-                        src={`${backendBase}${activeImage || product.image}`}
+                        src={`${BACKEND_BASE}${activeImage || product.image}`}
                         alt={product.name}
-                        className="max-h-full max-w-full object-contain mix-blend-multiply transition-opacity duration-300"
+                        className="max-h-full max-w-full object-contain mix-blend-multiply transition-transform duration-150 ease-out pointer-events-none"
+                        style={{
+                           transform: zoomStyles.transform,
+                           transformOrigin: zoomStyles.transformOrigin
+                        }}
                         onError={(e) => (e.target.src = "https://via.placeholder.com/300?text=No+Image")}
                      />
                      {product.isNew && (
-                        <span className="absolute top-6 left-6 bg-primary text-white text-xs font-bold px-3 py-1 uppercase tracking-wider rounded">New Arrival</span>
+                        <span className="absolute top-6 left-6 bg-primary text-white text-xs font-bold px-3 py-1 uppercase tracking-wider rounded z-10">New Arrival</span>
                      )}
                   </div>
 
@@ -228,7 +250,7 @@ const SingleProduct = () => {
                         <Link to={`/singleProduct/${item.id}`} key={item.id} className="group bg-white rounded-lg border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300">
                            <div className="relative h-36 md:h-56 p-4 md:p-6 flex items-center justify-center bg-white overflow-hidden">
                               <img
-                                 src={`${backendBase}${item.image}`}
+                                 src={`${BACKEND_BASE}${item.image}`}
                                  alt={item.name}
                                  className="h-full w-full object-contain transform group-hover:scale-110 transition-transform duration-500"
                                  onError={(e) => (e.target.src = "https://via.placeholder.com/300?text=No+Image")}

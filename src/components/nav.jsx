@@ -1,13 +1,24 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { 
-  IconSearch, 
-  IconShoppingCart, 
-  IconUser, 
-  IconMenu2, 
+import { API_URL, BACKEND_BASE } from "../config/api";
+import {
+  IconSearch,
+  IconUser,
+  IconHeart,
+  IconShoppingBag,
+  IconMenu2,
   IconX,
-  IconHeart 
+  IconChevronRight,
+  IconLogout,
+  IconSettings,
+  IconPackage,
+  IconHelpCircle,
+  IconBell,
+  IconSun,
+  IconMoon,
+  IconArrowRight,
+  IconShoppingCart
 } from "@tabler/icons-react";
 import { useAuth } from "./AuthWrapper";
 
@@ -36,7 +47,7 @@ const Nav = () => {
   useEffect(() => {
     const fetchAll = async () => {
       try {
-        const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/products`);
+        const res = await axios.get(`${API_URL}/products`);
         setAllProducts(res.data);
       } catch (err) {
         console.error("Error fetching for suggestions:", err);
@@ -85,7 +96,7 @@ const Nav = () => {
     setShowSuggestions(false);
     handleCloseMenu();
   };
-  
+
   const currentPath = location.pathname;
 
   const navLinks = [
@@ -105,8 +116,8 @@ const Nav = () => {
         </div>
 
         {/* Main Navbar */}
-        <div className="max-w-[1280px] mx-auto px-4 md:px-8 h-16 items-center justify-between flex">
-          
+        <div className="max-w-[1280px] mx-auto px-4 md:px-8 h-12 items-center justify-between flex">
+
           {/* Logo */}
           <Link to="/" className="flex-shrink-0 flex items-center  gap-2 group">
             <img src="/assets/images/fulllogo.png" alt="Eleckyo Logo" className="h-8 md:h-9 w-auto object-contain group-hover:scale-105 transition self-center items-center place-content-center place-self-center" />
@@ -118,9 +129,8 @@ const Nav = () => {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`text-sm font-medium transition-colors hover:text-accent tracking-wide ${
-                  currentPath === link.path ? "text-accent font-semibold" : "text-secondary"
-                }`}
+                className={`text-sm font-medium transition-colors hover:text-accent tracking-wide ${currentPath === link.path ? "text-accent font-semibold" : "text-secondary"
+                  }`}
               >
                 {link.label}
               </Link>
@@ -129,13 +139,13 @@ const Nav = () => {
 
           {/* Actions: Search, Account, Cart */}
           <div className="flex items-center gap-5 md:gap-8">
-            
+
             {/* Search Bar (Desktop) */}
             <div className="relative hidden md:block" ref={searchRef}>
-              <form onSubmit={handleSearch} className="hidden md:flex items-center bg-gray-50 border border-gray-200 rounded-full px-3 py-1.5 focus-within:border-accent transition-all">
-                <input 
-                  type="text" 
-                  placeholder="Search products..." 
+              <form onSubmit={handleSearch} className="hidden md:flex items-center bg-gray-50 border border-gray-200 rounded-full px-3 py-1 text-xs focus-within:border-accent transition-all">
+                <input
+                  type="text"
+                  placeholder="Search products..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onFocus={() => searchQuery.trim().length > 1 && setShowSuggestions(true)}
@@ -156,7 +166,7 @@ const Nav = () => {
                       className="w-full text-left px-4 py-3 hover:bg-gray-50 flex items-center gap-3 transition-colors border-b border-gray-50 last:border-0"
                     >
                       <div className="w-8 h-8 flex-shrink-0">
-                         <img src={`${import.meta.env.VITE_BACKEND_URL.replace("/api", "")}${item.image}`} className="w-full h-full object-contain" />
+                        <img src={`${BACKEND_BASE}${item.image}`} className="w-full h-full object-contain" />
                       </div>
                       <div>
                         <p className="text-xs font-bold text-primary truncate">{item.name}</p>
@@ -164,7 +174,7 @@ const Nav = () => {
                       </div>
                     </button>
                   ))}
-                  <button 
+                  <button
                     onClick={handleSearch}
                     className="w-full py-2 bg-gray-50 text-[10px] font-bold text-gray-500 hover:text-accent transition-colors"
                   >
@@ -175,25 +185,23 @@ const Nav = () => {
             </div>
 
             {/* Mobile Search Icon Toggle */}
-            <button 
-               className="md:hidden text-secondary hover:text-primary transition"
-               onClick={() => setIsMobileMenuOpen(true)}
+            <button
+              className="md:hidden text-secondary hover:text-primary transition"
+              onClick={() => setIsMobileMenuOpen(true)}
             >
-               <IconSearch size={22} stroke={1.5} />
+              <IconSearch size={22} stroke={1.5} />
             </button>
 
             {/* Wishlist (Desktop) */}
-             <Link to="/wishlist" className="relative hidden md:block text-secondary hover:text-primary transition transform hover:scale-105">
+            <Link to="/wishlist" className="relative hidden md:block text-secondary hover:text-primary transition transform hover:scale-105">
               <IconHeart size={22} stroke={1.5} />
-              {/* Optional: Add count badge if needed */}
-              {/* {wishlistCount > 0 && <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[9px] w-3 h-3 rounded-full flex items-center justify-center">{wishlistCount}</span>} */}
             </Link>
 
             {/* Account */}
             <div className="relative group">
               <Link to={isLoggedIn ? "/profile" : "/login"} className="text-secondary hover:text-primary transition flex items-center gap-2">
-                 <IconUser size={20} stroke={1.5} />
-                 {isLoggedIn && <span className="hidden lg:block text-[10px] font-bold uppercase tracking-wider text-secondary group-hover:text-primary transition">{currentUser?.name?.split(' ')[0]}</span>}
+                <IconUser size={20} stroke={1.5} />
+                {isLoggedIn && <span className="hidden lg:block text-[10px] font-bold uppercase tracking-wider text-secondary group-hover:text-primary transition">{currentUser?.name?.split(' ')[0]}</span>}
               </Link>
             </div>
 
@@ -208,7 +216,7 @@ const Nav = () => {
             </Link>
 
             {/* Mobile Menu Toggle */}
-            <button 
+            <button
               className="md:hidden text-secondary hover:text-primary transition-all duration-300 z-[70] relative"
               onClick={() => isMobileMenuOpen ? handleCloseMenu() : setIsMobileMenuOpen(true)}
               aria-label="Toggle menu"
@@ -225,19 +233,19 @@ const Nav = () => {
 
       {/* Premium Full-Screen Mobile Menu */}
       {isMobileMenuOpen && (
-        <div 
+        <div
           className={`fixed inset-0 z-[40] md:hidden ${isClosing ? 'animate-fadeOut' : 'animate-fadeIn'}`}
         >
           {/* Gradient Background */}
           <div className="absolute inset-0 bg-gradient-to-br from-primary via-secondary to-primary opacity-98"></div>
-          
+
           {/* Decorative Elements */}
           <div className="absolute top-20 right-10 w-64 h-64 bg-accent/10 rounded-full blur-3xl"></div>
           <div className="absolute bottom-20 left-10 w-80 h-80 bg-accent/5 rounded-full blur-3xl"></div>
-          
+
           {/* Menu Content */}
           <div className="relative h-full flex flex-col p-8 pt-24 overflow-y-auto">
-            
+
             {/* Navigation Links */}
             <nav className="flex-1 flex flex-col justify-center space-y-2 mb-8">
               {navLinks.map((link, index) => (
@@ -248,11 +256,10 @@ const Nav = () => {
                   className={`group relative overflow-hidden ${isClosing ? '' : 'animate-slideInLeft'}`}
                   style={{ animationDelay: `${index * 0.1}s`, animationFillMode: 'both' }}
                 >
-                  <div className={`py-4 px-6 rounded-xl transition-all duration-300 ${
-                    currentPath === link.path 
-                      ? "bg-white/20 backdrop-blur-sm" 
-                      : "hover:bg-white/10"
-                  }`}>
+                  <div className={`py-4 px-6 rounded-xl transition-all duration-300 ${currentPath === link.path
+                    ? "bg-white/20 backdrop-blur-sm"
+                    : "hover:bg-white/10"
+                    }`}>
                     <span className="text-2xl font-bold text-white tracking-tight group-hover:translate-x-2 inline-block transition-transform duration-300">
                       {link.label}
                     </span>
@@ -266,12 +273,12 @@ const Nav = () => {
 
             {/* Bottom Section */}
             <div className={`space-y-4 ${isClosing ? '' : 'animate-slideInLeft'}`} style={{ animationDelay: '0.5s', animationFillMode: 'both' }}>
-              
+
               {/* Search Bar */}
               <form onSubmit={handleSearch} className="relative">
-                <input 
-                  type="text" 
-                  placeholder="Search products..." 
+                <input
+                  type="text"
+                  placeholder="Search products..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full bg-white/10 backdrop-blur-md border border-white/20 rounded-xl px-5 py-4 text-white placeholder:text-white/60 focus:outline-none focus:border-accent focus:bg-white/15 transition-all"
@@ -284,43 +291,43 @@ const Nav = () => {
               {/* Mobile Suggestions */}
               {showSuggestions && suggestions.length > 0 && (
                 <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl overflow-hidden max-h-60 overflow-y-auto">
-                    {suggestions.map((item) => (
-                      <button
-                        key={item.id}
-                        onClick={() => handleSuggestionClick(item.id)}
-                        className="w-full text-left px-5 py-3 hover:bg-white/10 flex items-center gap-4 transition-colors border-b border-white/10 last:border-0"
-                      >
-                         <div className="w-10 h-10 flex-shrink-0 bg-white rounded-lg p-1">
-                            <img src={`${import.meta.env.VITE_BACKEND_URL.replace("/api", "")}${item.image}`} className="w-full h-full object-contain" />
-                         </div>
-                         <div className="min-w-0">
-                           <p className="font-bold text-white truncate text-sm">{item.name}</p>
-                           <p className="text-accent text-xs">₹{item.price}</p>
-                         </div>
-                      </button>
-                    ))}
-                    <button 
-                      onClick={handleSearch}
-                      className="w-full py-3 text-center text-xs font-bold text-white/70 hover:text-accent transition-colors bg-white/5"
+                  {suggestions.map((item) => (
+                    <button
+                      key={item.id}
+                      onClick={() => handleSuggestionClick(item.id)}
+                      className="w-full text-left px-5 py-3 hover:bg-white/10 flex items-center gap-4 transition-colors border-b border-white/10 last:border-0"
                     >
-                      View all results
+                      <div className="w-10 h-10 flex-shrink-0 bg-white rounded-lg p-1">
+                        <img src={`${BACKEND_BASE}${item.image}`} className="w-full h-full object-contain" />
+                      </div>
+                      <div className="min-w-0">
+                        <p className="font-bold text-white truncate text-sm">{item.name}</p>
+                        <p className="text-accent text-xs">₹{item.price}</p>
+                      </div>
                     </button>
+                  ))}
+                  <button
+                    onClick={handleSearch}
+                    className="w-full py-3 text-center text-xs font-bold text-white/70 hover:text-accent transition-colors bg-white/5"
+                  >
+                    View all results
+                  </button>
                 </div>
               )}
 
               {/* Quick Links */}
               <div className="flex gap-3">
-                <Link 
-                  to="/wishlist" 
+                <Link
+                  to="/wishlist"
                   onClick={handleCloseMenu}
                   className="flex-1 flex items-center justify-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl px-4 py-3 text-white hover:bg-white/15 transition-all"
                 >
                   <IconHeart size={20} stroke={1.5} />
                   <span className="font-medium text-sm">Wishlist</span>
                 </Link>
-                
-                <Link 
-                  to="/cart" 
+
+                <Link
+                  to="/cart"
                   onClick={handleCloseMenu}
                   className="flex-1 flex items-center justify-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl px-4 py-3 text-white hover:bg-white/15 transition-all relative"
                 >
@@ -336,7 +343,7 @@ const Nav = () => {
 
               {/* Account Button */}
               {!isLoggedIn ? (
-                <Link 
+                <Link
                   to="/login"
                   onClick={handleCloseMenu}
                   className="block w-full bg-accent hover:bg-accent-hover text-white py-4 rounded-xl text-center font-bold tracking-wide shadow-lg shadow-accent/30 transition-all transform hover:scale-[1.02]"
@@ -344,7 +351,7 @@ const Nav = () => {
                   LOGIN / REGISTER
                 </Link>
               ) : (
-                <Link 
+                <Link
                   to="/profile"
                   onClick={handleCloseMenu}
                   className="flex items-center gap-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl px-5 py-4 text-white hover:bg-white/15 transition-all"
