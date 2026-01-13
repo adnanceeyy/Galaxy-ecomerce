@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { IconMail, IconLock, IconUser, IconCamera, IconX } from "@tabler/icons-react";
+import { useAuth } from "./AuthWrapper";
 import axios from "axios";
 import { API_URL } from "../config/api";
+import toast from "react-hot-toast";
 
 const LoginModal = ({ isOpen, onClose, onLogin }) => {
   const [isLogin, setIsLogin] = useState(true);
@@ -10,20 +12,18 @@ const LoginModal = ({ isOpen, onClose, onLogin }) => {
     email: "",
     password: "",
   });
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const { modalTitle, setModalTitle } = useAuth();
 
   if (!isOpen) return null;
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    setError("");
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError("");
 
     try {
       if (isLogin) {
@@ -32,6 +32,7 @@ const LoginModal = ({ isOpen, onClose, onLogin }) => {
           password: formData.password,
         });
         onLogin(res.data);
+        toast.success("Logged in successfully!");
       } else {
         const res = await axios.post(`${API_URL}/users`, {
           name: formData.name,
@@ -39,9 +40,10 @@ const LoginModal = ({ isOpen, onClose, onLogin }) => {
           password: formData.password,
         });
         onLogin(res.data);
+        toast.success("Account created successfully!");
       }
     } catch (err) {
-      setError(err.response?.data?.message || "Something went wrong");
+      toast.error(err.response?.data?.message || "Something went wrong");
     } finally {
       setLoading(false);
     }
@@ -49,9 +51,12 @@ const LoginModal = ({ isOpen, onClose, onLogin }) => {
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
-      <div className="bg-white w-full max-w-md rounded-2xl shadow-2xl relative overflow-hidden animate-slideUp">
+      <div className="bg-white w-full max-w-md rounded-2xl shadow-2xl relative overflow-hidden animate-slideInUp">
         <button
-          onClick={onClose}
+          onClick={() => {
+            onClose();
+            setModalTitle("Welcome Back");
+          }}
           className="absolute top-4 right-4 text-gray-400 hover:text-primary transition-colors"
         >
           <IconX size={24} />
@@ -60,18 +65,12 @@ const LoginModal = ({ isOpen, onClose, onLogin }) => {
         <div className="p-8">
           <div className="text-center mb-8">
             <h2 className="text-3xl font-serif font-bold text-primary mb-2">
-              {isLogin ? "Welcome Back" : "Create Account"}
+              {isLogin ? modalTitle : "Create Account"}
             </h2>
             <p className="text-gray-500 text-sm">
               {isLogin ? "Sign in to your account to continue" : "Join the Eleckyo community today"}
             </p>
           </div>
-
-          {error && (
-            <div className="bg-red-50 text-red-600 text-sm p-3 rounded-lg mb-6 border border-red-100 flex items-center justify-center">
-              {error}
-            </div>
-          )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {!isLogin && (

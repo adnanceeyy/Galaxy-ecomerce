@@ -1,8 +1,9 @@
 // src/components/AuthWrapper.jsx - FINAL VERSION: Global Cart + Auth
 import React, { createContext, useState, useEffect, useContext } from "react";
-import LoginModal from "./loging";
+import LoginRequiredModal from "./LoginRequiredModal";
 import axios from "axios";
 import { API_URL } from "../config/api";
+import toast from "react-hot-toast";
 
 const AuthContext = createContext();
 
@@ -18,6 +19,7 @@ export default function AuthProvider({ children }) {
    const [showModal, setShowModal] = useState(false);
    const [currentUser, setCurrentUser] = useState(null);
    const [cartItemCount, setCartItemCount] = useState(0);
+   const [modalTitle, setModalTitle] = useState("Welcome Back");
 
    // Helper to calculate count from array
    const getCount = (items) => items.reduce((acc, item) => acc + (item.qty || 1), 0);
@@ -76,6 +78,7 @@ export default function AuthProvider({ children }) {
       localStorage.setItem("currentUser", JSON.stringify(userData));
       setCurrentUser(userData);
       setShowModal(false);
+      setModalTitle("Welcome Back");
 
       // Merge Guest Cart
       const guestCart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -103,19 +106,23 @@ export default function AuthProvider({ children }) {
    };
 
    const addToCart = async (product) => {
-      let cartKey = "cart";
-      if (currentUser) {
-         try {
-            await axios.post(`${API_URL}/cart`, {
-               email: currentUser.email,
-               productId: product.id,
-               quantity: product.qty || 1,
-               productData: product
-            });
-         } catch (err) {
-            console.error("Cart sync error", err);
-         }
-         cartKey = `cart_${currentUser.email}`;
+      if (!currentUser) {
+         setModalTitle("Login Required");
+         toast.error("Please login to add items to your cart", { icon: '🔒' });
+         openModal();
+         return;
+      }
+
+      let cartKey = `cart_${currentUser.email}`;
+      try {
+         await axios.post(`${API_URL}/cart`, {
+            email: currentUser.email,
+            productId: product.id,
+            quantity: product.qty || 1,
+            productData: product
+         });
+      } catch (err) {
+         console.error("Cart sync error", err);
       }
 
       const cart = JSON.parse(localStorage.getItem(cartKey)) || [];
@@ -128,16 +135,6 @@ export default function AuthProvider({ children }) {
       }
 
       localStorage.setItem(cartKey, JSON.stringify(cart));
-
-      // Also sync to main 'cart' key if user is NOT logged in, 
-      // or if we want to keep them in sync? 
-      // The CartPage reads from cart_{email} if logged in.
-      if (!currentUser) {
-         localStorage.setItem("cart", JSON.stringify(cart));
-      }
-
-      updateCartState();
-      window.dispatchEvent(new Event("cart-updated"));
       updateCartState();
       window.dispatchEvent(new Event("cart-updated"));
    };
@@ -223,16 +220,17 @@ export default function AuthProvider({ children }) {
       openModal,
       handleLogin,
       logout,
+      modalTitle,
+      setModalTitle,
    };
 
    return (
       <AuthContext.Provider value={value}>
          {children}
          {showModal && (
-            <LoginModal
+            <LoginRequiredModal
                isOpen={true}
                onClose={() => setShowModal(false)}
-               onLogin={handleLogin}
             />
          )}
       </AuthContext.Provider>

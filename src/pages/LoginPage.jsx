@@ -5,6 +5,7 @@ import { API_URL } from "../config/api";
 import { useAuth } from "../components/AuthWrapper";
 import axios from "axios";
 import { GoogleLogin } from "@react-oauth/google";
+import toast from "react-hot-toast";
 
 const LoginPage = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -14,7 +15,6 @@ const LoginPage = () => {
     password: "",
     confirmPassword: ""
   });
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [profileImage, setProfileImage] = useState(null);
 
@@ -54,10 +54,11 @@ const LoginPage = () => {
         token: credentialResponse.credential // Now sending the ID token
       });
       login(res.data);
+      toast.success("Signed in with Google!");
       navigate("/");
     } catch (err) {
       console.error("Google Login Backend Error:", err);
-      setError("Failed to sign in with Google. Check backend connection.");
+      toast.error("Failed to sign in with Google. Check backend connection.");
     } finally {
       setLoading(false);
     }
@@ -65,7 +66,7 @@ const LoginPage = () => {
 
   const handleGoogleError = () => {
     console.error("Google Login Failed");
-    setError("Google Login failed. Please try again.");
+    toast.error("Google Login failed. Please try again.");
   };
 
   const handleSubmit = async (e) => {
@@ -81,11 +82,14 @@ const LoginPage = () => {
           password: formData.password
         });
         login(res.data);
+        toast.success("Logged in successfully!");
         navigate("/");
       } else {
         // REGISTER logic
         if (formData.password !== formData.confirmPassword) {
-          throw new Error("Passwords do not match");
+          toast.error("Passwords do not match");
+          setLoading(false);
+          return;
         }
         const res = await axios.post(`${API_URL}/users`, {
           name: formData.name,
@@ -94,11 +98,12 @@ const LoginPage = () => {
           profileImage: profileImage
         });
         login(res.data);
+        toast.success("Account created successfully!");
         navigate("/");
       }
     } catch (err) {
       console.error(err);
-      setError(err.response?.data?.message || err.message || "An error occurred. Please try again.");
+      toast.error(err.response?.data?.message || err.message || "An error occurred. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -116,12 +121,6 @@ const LoginPage = () => {
 
         {/* Form */}
         <div className="p-6">
-
-          {error && (
-            <div className="bg-red-50 text-red-600 text-sm p-3 rounded-lg mb-6 text-center border border-red-100">
-              {error}
-            </div>
-          )}
 
           {!isLogin && (
             <div className="flex flex-col items-center gap-3 mb-6">

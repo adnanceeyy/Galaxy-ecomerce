@@ -161,6 +161,32 @@ body {
   animation: slideUp 0.3s ease-out;
 }
 
-.animate-slideInLeft {
-  animation: slideInLeft 0.4s ease-out;
+.animate-slideInUp {
+  animation: slideInUp 0.4s ease-out;
+}
+
+@keyframes slideInDown {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slideInDown {
+  animation: slideInDown 0.4s ease-out;
+}
+
+@keyframes slideInUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }

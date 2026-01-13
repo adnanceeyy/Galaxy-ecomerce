@@ -14,6 +14,7 @@ import {
 } from "@tabler/icons-react";
 import { useAuth } from "../components/AuthWrapper";
 import { API_URL, BACKEND_BASE } from "../config/api";
+import toast from "react-hot-toast";
 
 const SingleProduct = () => {
    const { id } = useParams();
@@ -328,7 +329,7 @@ const ReviewsSection = ({ productId }) => {
       setEmail("");
       setComment("");
       setRating(5);
-      alert("Review submitted successfully!");
+      toast.success("Review submitted successfully!");
    };
 
    return (

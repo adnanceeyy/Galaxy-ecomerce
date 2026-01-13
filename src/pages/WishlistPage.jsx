@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { BACKEND_BASE } from "../config/api";
 import { IconTrash, IconShoppingCart, IconHeartFilled } from "@tabler/icons-react";
 import { useAuth } from "../components/AuthWrapper";
+import toast from "react-hot-toast";
 
 const WishlistPage = () => {
    const { wishlist, addToWishlist, addToCart } = useAuth();
@@ -63,7 +64,7 @@ const WishlistPage = () => {
                                     addToCart(product);
                                     // Optional: Remove from wishlist after adding to cart?
                                     // addToWishlist(product); 
-                                    alert("Moved to cart!"); // Keeping alert simple here or use toast
+                                    toast.success("Moved to cart!");
                                  }}
                                  className="px-3 py-2 bg-gray-100 hover:bg-primary hover:text-white rounded text-xs font-bold transition flex items-center gap-1"
                               >

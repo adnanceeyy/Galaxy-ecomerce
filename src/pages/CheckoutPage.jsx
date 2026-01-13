@@ -4,19 +4,23 @@ import { IconCheck, IconCreditCard, IconLock, IconTruck } from "@tabler/icons-re
 import { useAuth } from "../components/AuthWrapper";
 import { API_URL, BACKEND_BASE } from "../config/api";
 import axios from "axios";
+import toast from "react-hot-toast";
+import OrderSuccessModal from "../components/OrderSuccessModal";
 
 const CheckoutPage = () => {
    const navigate = useNavigate();
    const { isLoggedIn, currentUser } = useAuth();
    const [cartItems, setCartItems] = useState([]);
+   const [showSuccessModal, setShowSuccessModal] = useState(false);
+   const [placedOrderId, setPlacedOrderId] = useState(null);
 
    // Form State
    const [formData, setFormData] = useState({
-      firstName: "",
-      lastName: "",
-      phone: "",
+      firstName: currentUser?.name?.split(' ')[0] || "",
+      lastName: currentUser?.name?.split(' ').slice(1).join(' ') || "",
+      phone: currentUser?.phone || "",
       email: currentUser?.email || "",
-      address: "",
+      address: currentUser?.address || "",
       city: "",
       zip: "",
       country: "India",
@@ -52,7 +56,7 @@ const CheckoutPage = () => {
       e.preventDefault();
 
       if (!isLoggedIn || !currentUser) {
-         alert("Please log in to place an order.");
+         toast.error("Please log in to place an order.");
          return;
       }
 
@@ -87,8 +91,11 @@ const CheckoutPage = () => {
 
       try {
          console.log("Sending Order Data:", orderData); // Debug log
-         await axios.post(`${apiBase}/orders`, orderData);
-         alert("Order placed successfully!");
+         const res = await axios.post(`${apiBase}/orders`, orderData);
+         const newOrderId = res.data.orderId;
+
+         setPlacedOrderId(newOrderId);
+         toast.success("Order placed successfully!");
 
          // Clear cart logic (Synced to backend)
          try {
@@ -99,11 +106,13 @@ const CheckoutPage = () => {
 
          localStorage.removeItem(`cart_${currentUser.email}`);
          window.dispatchEvent(new Event("cart-updated"));
-         navigate("/orders");
+
+         // Show modal instead of immediate navigate
+         setShowSuccessModal(true);
       } catch (err) {
          console.error("Failed to place order", err);
          const errMsg = err.response?.data?.message || err.message;
-         alert(`Failed to place order: ${errMsg}`);
+         toast.error(`Order failed: ${errMsg}`);
       }
    };
 
@@ -336,6 +345,12 @@ const CheckoutPage = () => {
 
             </form>
          </div>
+
+         <OrderSuccessModal
+            isOpen={showSuccessModal}
+            onClose={() => setShowSuccessModal(false)}
+            orderId={placedOrderId}
+         />
       </div>
    );
 };

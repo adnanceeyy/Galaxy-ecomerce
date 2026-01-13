@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { IconPackage, IconBox, IconChevronRight, IconAlertCircle } from "@tabler/icons-react";
-import { BACKEND_BASE } from "../config/api";
+import { API_URL, BACKEND_BASE } from "../config/api";
 import { useAuth } from "../components/AuthWrapper";
 import DashboardLayout from "../components/DashboardLayout";
 import InvoiceModal from "../components/InvoiceModal";
@@ -19,9 +19,12 @@ const OrdersPage = () => {
    useEffect(() => {
       const fetchOrders = async () => {
          try {
-            const res = await axios.get(`${BACKEND_BASE}/orders`);
+            const res = await axios.get(`${API_URL}/orders`);
             if (currentUser?.email) {
-               const myOrders = res.data.filter(o => o.customerDetails?.email === currentUser.email);
+               const userEmail = currentUser.email.toLowerCase();
+               const myOrders = res.data.filter(o =>
+                  o.customerDetails?.email?.toLowerCase() === userEmail
+               );
                setOrders(myOrders.reverse());
             }
          } catch (err) {
