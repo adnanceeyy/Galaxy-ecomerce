@@ -49,7 +49,7 @@ const CheckoutPage = () => {
       }
 
       const subtotal = cartItems.reduce((acc, item) => acc + Number(item.price) * (item.qty || 1), 0);
-      const shipping = subtotal > 4999 ? 0 : 500;
+      const shipping = 0;
       const total = subtotal + shipping;
 
       const newOrderId = "ORD-" + Date.now() + "-" + Math.floor(Math.random() * 1000);
@@ -113,7 +113,7 @@ const CheckoutPage = () => {
    };
 
    const subtotal = cartItems.reduce((acc, item) => acc + Number(item.price) * (item.qty || 1), 0);
-   const shipping = subtotal > 4999 ? 0 : 500;
+   const shipping = 0;
    const total = subtotal + shipping;
 
    return (

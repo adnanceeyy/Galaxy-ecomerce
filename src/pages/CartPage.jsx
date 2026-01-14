@@ -13,7 +13,7 @@ const CartPage = () => {
   }, []);
 
   const subtotal = cartItems.reduce((acc, item) => acc + Number(item.price) * (item.qty || 1), 0);
-  const shipping = subtotal > 4999 ? 0 : 500;
+  const shipping = 0;
   const total = subtotal + shipping;
 
   return (
