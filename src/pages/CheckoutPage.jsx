@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IconCheck, IconCreditCard, IconLock, IconTruck } from "@tabler/icons-react";
 import { useAuth } from "../components/AuthWrapper";
-import { BACKEND_BASE } from "../config/api";
+import { API_URL, BACKEND_BASE } from "../config/api";
+import axios from "axios";
 import toast from "react-hot-toast";
 import OrderSuccessModal from "../components/OrderSuccessModal";
 
@@ -39,7 +40,7 @@ const CheckoutPage = () => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
    };
 
-   /* ---------------- MOCK ORDER PLACE ---------------- */
+   /* ---------------- PLACE ORDER ---------------- */
    const handlePlaceOrder = async (e) => {
       e.preventDefault();
 
@@ -52,11 +53,7 @@ const CheckoutPage = () => {
       const shipping = 0;
       const total = subtotal + shipping;
 
-      const newOrderId = "ORD-" + Date.now() + "-" + Math.floor(Math.random() * 1000);
-
       const orderData = {
-         _id: newOrderId,
-         id: newOrderId,
          customerDetails: {
             name: `${formData.firstName} ${formData.lastName}`,
             phone: formData.phone,
@@ -69,7 +66,7 @@ const CheckoutPage = () => {
             }
          },
          orderedItems: cartItems.map(item => ({
-            productId: item.id || item._id,
+            productId: String(item.id || item._id),
             itemName: item.name,
             quantity: item.qty || 1,
             unitPrice: Number(item.price),
@@ -82,34 +79,29 @@ const CheckoutPage = () => {
             total: total,
             currency: 'INR'
          },
-         status: "Processing",
-         createdAt: new Date().toISOString()
+         status: "Processing"
       };
 
-      // SIMULATE PROCESSING
-      const pendingToast = toast.loading("Processing secure payment...");
+      const pendingToast = toast.loading("Processing order...");
 
-      setTimeout(() => {
-         try {
-            // Save to LocalStorage "Database"
-            const allOrders = JSON.parse(localStorage.getItem("galaxy_orders")) || [];
-            allOrders.push(orderData);
-            localStorage.setItem("galaxy_orders", JSON.stringify(allOrders));
+      try {
+         // Submit to Backend
+         const res = await axios.post(`${API_URL}/orders`, orderData);
 
-            setPlacedOrderId(newOrderId);
-            toast.dismiss(pendingToast);
-            toast.success("Order placed successfully!");
+         setPlacedOrderId(res.data.orderId);
+         toast.dismiss(pendingToast);
+         toast.success("Order placed successfully! 🎉");
 
-            // Clear Cart
-            clearCart();
+         // Clear Cart (removes from backend)
+         await clearCart();
 
-            // Show Success Modal
-            setShowSuccessModal(true);
-         } catch (err) {
-            toast.dismiss(pendingToast);
-            toast.error("Failed to place order locally");
-         }
-      }, 1500); // 1.5s delay for realism
+         // Show Success Modal
+         setShowSuccessModal(true);
+      } catch (err) {
+         console.error("Order error:", err);
+         toast.dismiss(pendingToast);
+         toast.error(err.response?.data?.message || "Failed to place order. Please try again.");
+      }
    };
 
    const subtotal = cartItems.reduce((acc, item) => acc + Number(item.price) * (item.qty || 1), 0);

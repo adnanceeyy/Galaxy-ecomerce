@@ -52,7 +52,7 @@ const EntryLogic = () => {
               </button>
             </div>
           </div>
-        ), { duration: Infinity, position: 'top-center' });
+        ), { duration: 5000, position: 'top-center' });
         sessionStorage.setItem("entry-prompted", "true");
       }, 3000);
       return () => clearTimeout(timer);
@@ -66,7 +66,17 @@ function App() {
   return (
     <Router>
       <AuthProvider> {/* Wraps app logic that needs routing (like modals) */}
-        <Toaster position="top-right" reverseOrder={false} />
+        <Toaster
+          position="top-right"
+          reverseOrder={false}
+          toastOptions={{
+            duration: 3000,
+            style: {
+              background: '#363636',
+              color: '#fff',
+            },
+          }}
+        />
         <EntryLogic />
         <GdprNotice />
         <Nav />

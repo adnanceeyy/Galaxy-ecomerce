@@ -160,9 +160,13 @@ const Nav = () => {
               {showSuggestions && suggestions.length > 0 && (
                 <div className="absolute top-full left-0 mt-2 w-full min-w-[250px] bg-white border border-gray-100 rounded-xl shadow-xl z-[100] overflow-hidden">
                   {suggestions.map((item) => (
-                    <button
+                    <Link
                       key={item.id}
-                      onClick={() => handleSuggestionClick(item.id)}
+                      to={`/singleProduct/${item.id}`}
+                      onClick={() => {
+                        setSearchQuery("");
+                        setShowSuggestions(false);
+                      }}
                       className="w-full text-left px-4 py-3 hover:bg-gray-50 flex items-center gap-3 transition-colors border-b border-gray-50 last:border-0"
                     >
                       <div className="w-8 h-8 flex-shrink-0">
@@ -172,7 +176,7 @@ const Nav = () => {
                         <p className="text-xs font-bold text-primary truncate">{item.name}</p>
                         <p className="text-[10px] text-accent">₹{item.price}</p>
                       </div>
-                    </button>
+                    </Link>
                   ))}
                   <button
                     onClick={handleSearch}
@@ -292,9 +296,14 @@ const Nav = () => {
               {showSuggestions && suggestions.length > 0 && (
                 <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl overflow-hidden max-h-60 overflow-y-auto">
                   {suggestions.map((item) => (
-                    <button
+                    <Link
                       key={item.id}
-                      onClick={() => handleSuggestionClick(item.id)}
+                      to={`/singleProduct/${item.id}`}
+                      onClick={() => {
+                        setSearchQuery("");
+                        setShowSuggestions(false);
+                        handleCloseMenu();
+                      }}
                       className="w-full text-left px-5 py-3 hover:bg-white/10 flex items-center gap-4 transition-colors border-b border-white/10 last:border-0"
                     >
                       <div className="w-10 h-10 flex-shrink-0 bg-white rounded-lg p-1">
@@ -304,7 +313,7 @@ const Nav = () => {
                         <p className="font-bold text-white truncate text-sm">{item.name}</p>
                         <p className="text-accent text-xs">₹{item.price}</p>
                       </div>
-                    </button>
+                    </Link>
                   ))}
                   <button
                     onClick={handleSearch}

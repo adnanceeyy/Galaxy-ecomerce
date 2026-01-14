@@ -2,6 +2,8 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
 import LoginRequiredModal from "./LoginRequiredModal";
 import toast from "react-hot-toast";
+import axios from "axios";
+import { API_URL } from "../config/api";
 
 const AuthContext = createContext();
 
@@ -60,15 +62,44 @@ export default function AuthProvider({ children }) {
       setWishlist(JSON.parse(localStorage.getItem("wishlist")) || []);
    };
 
-   const loadUserData = (email) => {
-      setCart(JSON.parse(localStorage.getItem(getUserKey(email))) || []);
+   const loadUserData = async (email) => {
+      try {
+         // Fetch cart from backend
+         const res = await axios.get(`${API_URL}/cart/${email}`);
+         if (res.data && res.data.items) {
+            setCart(res.data.items);
+         } else {
+            setCart([]);
+         }
+      } catch (error) {
+         console.error("Error loading user cart:", error);
+         setCart([]);
+      }
       setWishlist(JSON.parse(localStorage.getItem(getWishlistKey(email))) || []);
    };
 
-   const saveCart = (newCart) => {
+   const saveCart = async (newCart, productId = null, quantity = 0, productData = null) => {
       setCart(newCart);
       if (currentUser) {
-         localStorage.setItem(getUserKey(currentUser.email), JSON.stringify(newCart));
+         try {
+            if (productId && quantity !== 0) {
+               // Incremental update (optimized for additions)
+               await axios.post(`${API_URL}/cart`, {
+                  email: currentUser.email,
+                  productId,
+                  quantity,
+                  productData
+               });
+            } else {
+               // Full sync for removals/quantity changes
+               await axios.put(`${API_URL}/cart`, {
+                  email: currentUser.email,
+                  items: newCart
+               });
+            }
+         } catch (error) {
+            console.error("Error saving cart to backend:", error);
+         }
       } else {
          localStorage.setItem("cart", JSON.stringify(newCart));
       }
@@ -89,36 +120,36 @@ export default function AuthProvider({ children }) {
 
    const openModal = () => setShowModal(true);
 
-   const handleLogin = (userData) => {
+   const handleLogin = async (userData) => {
       // 1. Save User
       localStorage.setItem("currentUser", JSON.stringify(userData));
       setCurrentUser(userData);
       setShowModal(false);
       setModalTitle("Welcome Back");
 
-      // 2. Mercury Guest Cart to User Cart
+      // 2. Merge Guest Cart to Backend
       const guestCart = JSON.parse(localStorage.getItem("cart")) || [];
-      const userKey = getUserKey(userData.email);
-      let userCart = JSON.parse(localStorage.getItem(userKey)) || [];
-
-      if (guestCart.length > 0) {
-         guestCart.forEach(gItem => {
-            const existing = userCart.find(uItem => uItem.id === gItem.id);
-            if (existing) {
-               existing.qty = (existing.qty || 1) + (gItem.qty || 1);
-            } else {
-               userCart.push(gItem);
-            }
-         });
-         localStorage.removeItem("cart"); // Clear guest cart
-         toast.success("Cart merged successfully!");
+      try {
+         if (guestCart.length > 0) {
+            const res = await axios.post(`${API_URL}/cart/merge`, {
+               email: userData.email,
+               guestItems: guestCart
+            });
+            localStorage.removeItem("cart"); // Clear guest cart
+            setCart(res.data.items);
+            toast.success("Cart synced with account!");
+         } else {
+            // Just load existing user cart
+            const res = await axios.get(`${API_URL}/cart/${userData.email}`);
+            setCart(res.data?.items || []);
+         }
+      } catch (error) {
+         console.error("Error merging cart:", error);
+         // Fallback to local if backend fails?
+         setCart([]);
       }
 
-      // 3. Save merged cart and load
-      localStorage.setItem(userKey, JSON.stringify(userCart));
-      setCart(userCart);
-
-      // 4. Load Wishlist
+      // 3. Load Wishlist
       setWishlist(JSON.parse(localStorage.getItem(getWishlistKey(userData.email))) || []);
    };
 
@@ -150,10 +181,10 @@ export default function AuthProvider({ children }) {
          newCart.push({ ...product, qty: product.qty || 1 });
          toast.success(`Added to cart: ${product.name}`);
       }
-      saveCart(newCart);
+      saveCart(newCart, product.id, product.qty || 1, product);
    };
 
-   const removeFromCart = (productId) => {
+   const removeFromCart = async (productId) => {
       const newCart = cart.filter(item => item.id !== productId);
       saveCart(newCart);
       toast.success("Item removed from cart");
@@ -167,8 +198,18 @@ export default function AuthProvider({ children }) {
       saveCart(newCart);
    };
 
-   const clearCart = () => {
-      saveCart([]);
+   const clearCart = async () => {
+      setCart([]);
+      if (currentUser) {
+         try {
+            await axios.delete(`${API_URL}/cart/${currentUser.email}`);
+         } catch (error) {
+            console.error("Error clearing cart:", error);
+         }
+      } else {
+         localStorage.removeItem("cart");
+      }
+      window.dispatchEvent(new Event("cart-updated"));
    };
 
    /* ---------------- WISHLIST ACTIONS ---------------- */

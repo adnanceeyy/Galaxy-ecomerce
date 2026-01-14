@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { IconPackage, IconBox, IconChevronRight, IconAlertCircle } from "@tabler/icons-react";
-import { BACKEND_BASE } from "../config/api";
+import axios from "axios";
+import { API_URL, BACKEND_BASE } from "../config/api";
 import { useAuth } from "../components/AuthWrapper";
 import DashboardLayout from "../components/DashboardLayout";
 import InvoiceModal from "../components/InvoiceModal";
@@ -14,21 +15,21 @@ const OrdersPage = () => {
    const [trackingOrder, setTrackingOrder] = useState(null);
    const { currentUser } = useAuth();
 
-   // Local Orders Fetch
+   // Backend Orders Fetch
    useEffect(() => {
-      const fetchOrders = () => {
-         if (currentUser?.email) {
-            const allOrders = JSON.parse(localStorage.getItem("galaxy_orders")) || [];
-            const userEmail = currentUser.email.toLowerCase();
-            const myOrders = allOrders.filter(o =>
-               o.customerDetails?.email?.toLowerCase() === userEmail
-            );
-            setOrders(myOrders.reverse());
+      const fetchOrders = async () => {
+         try {
+            setLoading(true);
+            const res = await axios.get(`${API_URL}/orders/user/${currentUser.email}`);
+            setOrders(res.data);
+         } catch (error) {
+            console.error("Error fetching orders:", error);
+         } finally {
+            setLoading(false);
          }
-         setLoading(false);
       };
 
-      if (currentUser) {
+      if (currentUser?.email) {
          fetchOrders();
       } else {
          setLoading(false);
