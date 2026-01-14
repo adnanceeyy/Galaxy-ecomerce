@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { IconCookie, IconX } from "@tabler/icons-react";
 
-const SitePrivacy = () => {
+const GdprNotice = () => {
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
@@ -20,7 +20,7 @@ const SitePrivacy = () => {
     if (!isVisible) return null;
 
     return (
-        <div className="fixed bottom-6 right-6 z-[200] max-w-sm w-full animate-slideInUp">
+        <div className="fixed bottom-6 right-6 z-200 max-w-sm w-full animate-slideInUp">
             <div className="bg-white rounded-2xl shadow-2xl border border-gray-100 p-6 relative overflow-hidden group">
                 <div className="absolute top-0 left-0 w-2 h-full bg-primary group-hover:bg-accent transition-colors"></div>
 
@@ -32,7 +32,7 @@ const SitePrivacy = () => {
                 </button>
 
                 <div className="flex gap-4">
-                    <div className="flex-shrink-0 w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+                    <div className="shrink-0 w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
                         <IconCookie size={28} />
                     </div>
 
@@ -63,4 +63,4 @@ const SitePrivacy = () => {
     );
 };
 
-export default SitePrivacy;
+export default GdprNotice;

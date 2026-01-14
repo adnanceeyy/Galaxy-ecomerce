@@ -18,7 +18,7 @@ import AuthProvider from "./components/AuthWrapper";
 import Profile from "./pages/Profile";
 import LoginPage from "./pages/LoginPage";
 import OrdersPage from "./pages/OrdersPage";
-import SitePrivacy from "./components/SitePrivacy";
+import GdprNotice from "./components/GdprNotice";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { useAuth } from "./components/AuthWrapper";
@@ -67,7 +67,7 @@ function App() {
     <AuthProvider> {/* Wraps entire app */}
       <Toaster position="top-right" reverseOrder={false} />
       <EntryLogic />
-      <SitePrivacy />
+      <GdprNotice />
       <Router>
         <Nav />
         <Routes>
