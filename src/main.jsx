@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import App from "./App";
 import ErrorBoundary from "./components/ErrorBoundary";
+import "./pwa";
 import "./index.css";
 
 const rootElement = document.getElementById("root");
