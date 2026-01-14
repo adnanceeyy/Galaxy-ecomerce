@@ -10,7 +10,7 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico', 'icon.svg'],
+      includeAssets: ['favicon.ico', 'logo.svg'],
       manifest: {
         name: 'Eleckyo - Premium Electronics',
         short_name: 'Eleckyo',
@@ -23,13 +23,13 @@ export default defineConfig({
         background_color: "#ffffff",
         icons: [
           {
-            src: 'icon.svg',
+            src: 'logo.svg',
             sizes: '192x192',
             type: 'image/svg+xml',
             purpose: 'any maskable'
           },
           {
-            src: 'icon.svg',
+            src: 'logo.svg',
             sizes: '512x512',
             type: 'image/svg+xml',
             purpose: 'any maskable'
