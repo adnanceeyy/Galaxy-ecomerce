@@ -1,6 +1,6 @@
 // src/App.js - Updated: Wrap with AuthProvider (replaces old AuthWrapper)
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Toaster } from "react-hot-toast";
+import { Toaster, ToastBar } from "react-hot-toast";
 
 // PAGES
 import HomePage from "./pages/HomePage";
@@ -31,12 +31,16 @@ const EntryLogic = () => {
     if (!isLoggedIn && !hasPrompted) {
       const timer = setTimeout(() => {
         toast((t) => (
-          <div className="flex flex-col gap-2">
+          <div
+            className="flex flex-col gap-2 cursor-pointer"
+            onClick={() => toast.dismiss(t.id)}
+          >
             <span className="font-bold text-gray-900">Welcome to Eleckyo! 🛍️</span>
             <span className="text-sm text-gray-500">Sign in to sync your cart and get personalized offers.</span>
             <div className="flex gap-2 pt-2">
               <button
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation();
                   toast.dismiss(t.id);
                   openModal();
                 }}
@@ -45,7 +49,10 @@ const EntryLogic = () => {
                 Sign In Now
               </button>
               <button
-                onClick={() => toast.dismiss(t.id)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toast.dismiss(t.id);
+                }}
                 className="bg-gray-100 text-gray-600 px-3 py-1.5 rounded-lg text-xs font-bold"
               >
                 Maybe Later
@@ -76,7 +83,13 @@ function App() {
               color: '#fff',
             },
           }}
-        />
+        >
+          {(t) => (
+            <div onClick={() => toast.dismiss(t.id)} className="cursor-pointer">
+              <ToastBar toast={t} />
+            </div>
+          )}
+        </Toaster>
         <EntryLogic />
         <GdprNotice />
         <Nav />
