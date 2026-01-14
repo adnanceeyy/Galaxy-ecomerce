@@ -1,68 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IconTrash, IconMinus, IconPlus, IconArrowLeft, IconLock } from "@tabler/icons-react";
 import { useAuth } from "../components/AuthWrapper";
-import { API_URL, BACKEND_BASE } from "../config/api";
+import { BACKEND_BASE } from "../config/api";
 
 const CartPage = () => {
-  const [cartItems, setCartItems] = useState([]);
-  const { isLoggedIn, currentUser } = useAuth();
+  const { cartItems, updateCartItemQuantity, removeFromCart, clearCart } = useAuth();
   const navigate = useNavigate();
 
-  // Load Cart
-  useEffect(() => {
-    const loadCart = () => {
-      let items = [];
-      if (isLoggedIn && currentUser) {
-        items = JSON.parse(localStorage.getItem(`cart_${currentUser.email}`)) || [];
-      } else {
-        items = JSON.parse(localStorage.getItem("cart")) || [];
-      }
-      setCartItems(items);
-    };
-
-    loadCart();
-
-    // Listen for updates (from Nav or other components)
-    window.addEventListener("cart-updated", loadCart);
-    return () => window.removeEventListener("cart-updated", loadCart);
-  }, [isLoggedIn, currentUser]);
-
-  // Scroll to top on mount
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const updateCart = (newCart) => {
-    setCartItems(newCart);
-    if (isLoggedIn && currentUser) {
-      localStorage.setItem(`cart_${currentUser.email}`, JSON.stringify(newCart));
-    } else {
-      localStorage.setItem("cart", JSON.stringify(newCart));
-    }
-    window.dispatchEvent(new Event("cart-updated"));
-  };
-
-  const removeFromCart = (id) => {
-    const newCart = cartItems.filter((item) => item.id !== id);
-    updateCart(newCart);
-  };
-
-  const updateQty = (id, delta) => {
-    const newCart = cartItems.map((item) => {
-      if (item.id === id) {
-        const newQty = Math.max(1, (item.qty || 1) + delta);
-        return { ...item, qty: newQty };
-      }
-      return item;
-    });
-    updateCart(newCart);
-  };
-
   const subtotal = cartItems.reduce((acc, item) => acc + Number(item.price) * (item.qty || 1), 0);
   const shipping = subtotal > 4999 ? 0 : 500;
   const total = subtotal + shipping;
-
 
   return (
     <div className="bg-gray-50 min-h-screen font-sans pt-8 pb-16">
@@ -120,9 +72,20 @@ const CartPage = () => {
                         </td>
                         <td className="py-4 px-6">
                           <div className="flex items-center border border-gray-300 rounded h-8 w-24 bg-white">
-                            <button onClick={() => updateQty(item.id, -1)} className="w-8 h-full flex items-center justify-center text-gray-500 hover:text-red-500"><IconMinus size={14} /></button>
+                            <button
+                              onClick={() => updateCartItemQuantity(item.id, (item.qty || 1) - 1)}
+                              className="w-8 h-full flex items-center justify-center text-gray-500 hover:text-red-500 disabled:opacity-50"
+                              disabled={(item.qty || 1) <= 1}
+                            >
+                              <IconMinus size={14} />
+                            </button>
                             <span className="flex-1 text-center text-sm font-bold">{item.qty || 1}</span>
-                            <button onClick={() => updateQty(item.id, 1)} className="w-8 h-full flex items-center justify-center text-gray-500 hover:text-green-500"><IconPlus size={14} /></button>
+                            <button
+                              onClick={() => updateCartItemQuantity(item.id, (item.qty || 1) + 1)}
+                              className="w-8 h-full flex items-center justify-center text-gray-500 hover:text-green-500"
+                            >
+                              <IconPlus size={14} />
+                            </button>
                           </div>
                         </td>
                         <td className="py-4 px-6 font-bold text-primary">
@@ -143,7 +106,7 @@ const CartPage = () => {
                 <Link to="/allProduct" className="flex items-center gap-2 text-primary font-bold hover:text-accent transition-colors">
                   <IconArrowLeft size={18} /> Continue Shopping
                 </Link>
-                <button onClick={() => updateCart([])} className="text-red-500 text-sm hover:underline">
+                <button onClick={clearCart} className="text-red-500 text-sm hover:underline">
                   Clear Cart
                 </button>
               </div>

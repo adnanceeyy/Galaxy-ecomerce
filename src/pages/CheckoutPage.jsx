@@ -2,15 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IconCheck, IconCreditCard, IconLock, IconTruck } from "@tabler/icons-react";
 import { useAuth } from "../components/AuthWrapper";
-import { API_URL, BACKEND_BASE } from "../config/api";
-import axios from "axios";
+import { BACKEND_BASE } from "../config/api";
 import toast from "react-hot-toast";
 import OrderSuccessModal from "../components/OrderSuccessModal";
 
 const CheckoutPage = () => {
    const navigate = useNavigate();
-   const { isLoggedIn, currentUser } = useAuth();
-   const [cartItems, setCartItems] = useState([]);
+   const { isLoggedIn, currentUser, clearCart, cartItems } = useAuth(); // Use global cart
    const [showSuccessModal, setShowSuccessModal] = useState(false);
    const [placedOrderId, setPlacedOrderId] = useState(null);
 
@@ -27,31 +25,21 @@ const CheckoutPage = () => {
    });
 
    useEffect(() => {
-      let items = [];
-      if (isLoggedIn && currentUser) {
-         items = JSON.parse(localStorage.getItem(`cart_${currentUser.email}`)) || [];
-      } else {
-         items = JSON.parse(localStorage.getItem("cart")) || [];
-      }
-
-      if (items.length === 0) {
+      if (cartItems.length === 0) {
          navigate("/cart"); // Redirect empty cart
       }
-      setCartItems(items);
-   }, [isLoggedIn, currentUser, navigate]);
+   }, [cartItems, navigate]);
 
    // Scroll to top on mount
    useEffect(() => {
       window.scrollTo(0, 0);
    }, []);
 
-
-   const apiBase = API_URL;
-
    const handleChange = (e) => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
    };
 
+   /* ---------------- MOCK ORDER PLACE ---------------- */
    const handlePlaceOrder = async (e) => {
       e.preventDefault();
 
@@ -60,7 +48,15 @@ const CheckoutPage = () => {
          return;
       }
 
+      const subtotal = cartItems.reduce((acc, item) => acc + Number(item.price) * (item.qty || 1), 0);
+      const shipping = subtotal > 4999 ? 0 : 500;
+      const total = subtotal + shipping;
+
+      const newOrderId = "ORD-" + Date.now() + "-" + Math.floor(Math.random() * 1000);
+
       const orderData = {
+         _id: newOrderId,
+         id: newOrderId,
          customerDetails: {
             name: `${formData.firstName} ${formData.lastName}`,
             phone: formData.phone,
@@ -86,34 +82,34 @@ const CheckoutPage = () => {
             total: total,
             currency: 'INR'
          },
-         status: "pending"
+         status: "Processing",
+         createdAt: new Date().toISOString()
       };
 
-      try {
-         console.log("Sending Order Data:", orderData); // Debug log
-         const res = await axios.post(`${apiBase}/orders`, orderData);
-         const newOrderId = res.data.orderId;
+      // SIMULATE PROCESSING
+      const pendingToast = toast.loading("Processing secure payment...");
 
-         setPlacedOrderId(newOrderId);
-         toast.success("Order placed successfully!");
-
-         // Clear cart logic (Synced to backend)
+      setTimeout(() => {
          try {
-            await axios.delete(`${apiBase}/cart/${currentUser.email}`);
-         } catch (clearErr) {
-            console.warn("Failed to clear remote cart", clearErr);
+            // Save to LocalStorage "Database"
+            const allOrders = JSON.parse(localStorage.getItem("galaxy_orders")) || [];
+            allOrders.push(orderData);
+            localStorage.setItem("galaxy_orders", JSON.stringify(allOrders));
+
+            setPlacedOrderId(newOrderId);
+            toast.dismiss(pendingToast);
+            toast.success("Order placed successfully!");
+
+            // Clear Cart
+            clearCart();
+
+            // Show Success Modal
+            setShowSuccessModal(true);
+         } catch (err) {
+            toast.dismiss(pendingToast);
+            toast.error("Failed to place order locally");
          }
-
-         localStorage.removeItem(`cart_${currentUser.email}`);
-         window.dispatchEvent(new Event("cart-updated"));
-
-         // Show modal instead of immediate navigate
-         setShowSuccessModal(true);
-      } catch (err) {
-         console.error("Failed to place order", err);
-         const errMsg = err.response?.data?.message || err.message;
-         toast.error(`Order failed: ${errMsg}`);
-      }
+      }, 1500); // 1.5s delay for realism
    };
 
    const subtotal = cartItems.reduce((acc, item) => acc + Number(item.price) * (item.qty || 1), 0);

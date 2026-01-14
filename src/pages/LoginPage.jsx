@@ -1,11 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IconMail, IconLock, IconUser, IconBrandGoogle, IconCamera } from "@tabler/icons-react";
-import { API_URL } from "../config/api";
 import { useAuth } from "../components/AuthWrapper";
-import axios from "axios";
 import { GoogleLogin } from "@react-oauth/google";
 import toast from "react-hot-toast";
+
+// Helper to decode JWT on frontend
+const decodeJwt = (token) => {
+  try {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+    return JSON.parse(jsonPayload);
+  } catch (e) {
+    console.error("Failed to decode JWT", e);
+    return null;
+  }
+};
 
 const LoginPage = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -17,8 +30,9 @@ const LoginPage = () => {
   });
   const [loading, setLoading] = useState(false);
   const [profileImage, setProfileImage] = useState(null);
+  const [error, setError] = useState("");
 
-  const { handleLogin: login } = useAuth(); // Destructure handleLogin as login
+  const { handleLogin: login } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -45,20 +59,45 @@ const LoginPage = () => {
     reader.readAsDataURL(file);
   };
 
-  const handleGoogleSuccess = async (credentialResponse) => {
+  /* ---------------- MOCK BACKEND LOGIC ---------------- */
+  const getUsers = () => JSON.parse(localStorage.getItem("galaxy_users")) || [];
+  const saveUser = (user) => {
+    const users = getUsers();
+    users.push(user);
+    localStorage.setItem("galaxy_users", JSON.stringify(users));
+  };
+  const findUser = (email) => getUsers().find(u => u.email === email);
+  /* ---------------------------------------------------- */
+
+  const handleGoogleSuccess = (credentialResponse) => {
     setLoading(true);
     setError("");
     try {
-      // Send ID token (credential) to backend to verify and get user data
-      const res = await axios.post(`${API_URL}/users/google-login`, {
-        token: credentialResponse.credential // Now sending the ID token
-      });
-      login(res.data);
-      toast.success("Signed in with Google!");
+      const decoded = decodeJwt(credentialResponse.credential);
+      if (!decoded) throw new Error("Invalid Token");
+
+      const email = decoded.email;
+      let user = findUser(email);
+
+      if (!user) {
+        // Create new Google User locally
+        user = {
+          _id: "google_" + Date.now(),
+          name: decoded.name,
+          email: email,
+          password: "", // No password for google users
+          profileImage: decoded.picture,
+          isGoogle: true
+        };
+        saveUser(user);
+      }
+
+      login(user);
+      toast.success(`Welcome ${user.name}!`);
       navigate("/");
     } catch (err) {
-      console.error("Google Login Backend Error:", err);
-      toast.error("Failed to sign in with Google. Check backend connection.");
+      console.error("Google Login Error:", err);
+      toast.error("Failed to sign in with Google.");
     } finally {
       setLoading(false);
     }
@@ -74,69 +113,49 @@ const LoginPage = () => {
     setLoading(true);
     setError("");
 
-    // Notify user if it takes too long (Cold Start handling)
-    const slowServerToast = setTimeout(() => {
-      toast("Starting up the secure server... this might take 30-60 seconds!", {
-        icon: '🚀',
-        duration: 10000,
-      });
-    }, 4000);
+    // Simulate network delay for realism (but fast)
+    setTimeout(() => {
+      try {
+        if (isLogin) {
+          // LOGIN
+          const user = findUser(formData.email);
+          if (!user || user.password !== formData.password) {
+            throw new Error("Invalid email or password");
+          }
 
-    try {
-      const config = { timeout: 60000 }; // 60s timeout for cold starts
+          login(user);
+          toast.success("Logged in successfully!");
+          navigate("/");
 
-      if (isLogin) {
-        // LOGIN logic
-        const res = await axios.post(`${API_URL}/users/login`, {
-          email: formData.email,
-          password: formData.password
-        }, config);
+        } else {
+          // REGISTER
+          if (formData.password !== formData.confirmPassword) {
+            throw new Error("Passwords do not match");
+          }
+          if (findUser(formData.email)) {
+            throw new Error("User already exists");
+          }
 
-        clearTimeout(slowServerToast);
-        login(res.data);
-        toast.success("Logged in successfully!");
-        navigate("/");
+          const newUser = {
+            _id: "local_" + Date.now(),
+            name: formData.name,
+            email: formData.email,
+            password: formData.password,
+            profileImage: profileImage
+          };
 
-      } else {
-        // REGISTER logic
-        if (formData.password !== formData.confirmPassword) {
-          clearTimeout(slowServerToast);
-          toast.error("Passwords do not match");
-          setLoading(false);
-          return;
+          saveUser(newUser);
+          login(newUser);
+          toast.success("Account created successfully!");
+          navigate("/");
         }
-
-        const res = await axios.post(`${API_URL}/users`, {
-          name: formData.name,
-          email: formData.email,
-          password: formData.password,
-          profileImage: profileImage
-        }, config);
-
-        clearTimeout(slowServerToast);
-        login(res.data);
-        toast.success("Account created successfully!");
-        navigate("/");
+      } catch (err) {
+        toast.error(err.message);
+        setError(err.message);
+      } finally {
+        setLoading(false);
       }
-    } catch (err) {
-      clearTimeout(slowServerToast);
-      console.error(err);
-
-      let msg = "An error occurred. Please try again.";
-      if (err.code === 'ECONNABORTED') {
-        msg = "Request timed out. The server might be waking up, please try again.";
-      } else if (err.response?.data?.message) {
-        msg = err.response.data.message;
-      } else if (err.message) {
-        msg = err.message;
-      }
-
-      toast.error(msg);
-      setError(msg);
-    } finally {
-      clearTimeout(slowServerToast);
-      setLoading(false);
-    }
+    }, 800); // 800ms delay to feel "real" but fast
   };
 
   return (
@@ -248,7 +267,7 @@ const LoginPage = () => {
             </p>
           </div>
 
-          {/* Social (Mock) */}
+          {/* Social */}
           <div className="mt-8">
             <div className="relative text-center mb-6">
               <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-gray-200"></div></div>
