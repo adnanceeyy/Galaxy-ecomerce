@@ -8,7 +8,7 @@ import "./index.css";
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement);
 
-const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || "482780462210-8lek18unaerjv42kuc0bgrmsqhsgam55.apps.googleusercontent.com";
 
 root.render(
   <React.StrictMode>

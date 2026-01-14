@@ -74,37 +74,67 @@ const LoginPage = () => {
     setLoading(true);
     setError("");
 
+    // Notify user if it takes too long (Cold Start handling)
+    const slowServerToast = setTimeout(() => {
+      toast("Starting up the secure server... this might take 30-60 seconds!", {
+        icon: '🚀',
+        duration: 10000,
+      });
+    }, 4000);
+
     try {
+      const config = { timeout: 60000 }; // 60s timeout for cold starts
+
       if (isLogin) {
         // LOGIN logic
         const res = await axios.post(`${API_URL}/users/login`, {
           email: formData.email,
           password: formData.password
-        });
+        }, config);
+
+        clearTimeout(slowServerToast);
         login(res.data);
         toast.success("Logged in successfully!");
         navigate("/");
+
       } else {
         // REGISTER logic
         if (formData.password !== formData.confirmPassword) {
+          clearTimeout(slowServerToast);
           toast.error("Passwords do not match");
           setLoading(false);
           return;
         }
+
         const res = await axios.post(`${API_URL}/users`, {
           name: formData.name,
           email: formData.email,
           password: formData.password,
           profileImage: profileImage
-        });
+        }, config);
+
+        clearTimeout(slowServerToast);
         login(res.data);
         toast.success("Account created successfully!");
         navigate("/");
       }
     } catch (err) {
+      clearTimeout(slowServerToast);
       console.error(err);
-      toast.error(err.response?.data?.message || err.message || "An error occurred. Please try again.");
+
+      let msg = "An error occurred. Please try again.";
+      if (err.code === 'ECONNABORTED') {
+        msg = "Request timed out. The server might be waking up, please try again.";
+      } else if (err.response?.data?.message) {
+        msg = err.response.data.message;
+      } else if (err.message) {
+        msg = err.message;
+      }
+
+      toast.error(msg);
+      setError(msg);
     } finally {
+      clearTimeout(slowServerToast);
       setLoading(false);
     }
   };
