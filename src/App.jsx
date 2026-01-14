@@ -64,11 +64,11 @@ const EntryLogic = () => {
 
 function App() {
   return (
-    <AuthProvider> {/* Wraps entire app */}
-      <Toaster position="top-right" reverseOrder={false} />
-      <EntryLogic />
-      <GdprNotice />
-      <Router>
+    <Router>
+      <AuthProvider> {/* Wraps app logic that needs routing (like modals) */}
+        <Toaster position="top-right" reverseOrder={false} />
+        <EntryLogic />
+        <GdprNotice />
         <Nav />
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -85,8 +85,8 @@ function App() {
           <Route path="/orders" element={<OrdersPage />} />
         </Routes>
         <Footer />
-      </Router>
-    </AuthProvider>
+      </AuthProvider>
+    </Router>
   );
 }
 
