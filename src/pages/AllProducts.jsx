@@ -10,6 +10,7 @@ const AllProducts = () => {
    const [products, setProducts] = useState([]);
    const [filteredProducts, setFilteredProducts] = useState([]);
    const [loading, setLoading] = useState(true);
+   const [showSlowLoadingMessage, setShowSlowLoadingMessage] = useState(false);
    const [activeFilter, setActiveFilter] = useState("All");
    const [searchParams] = useSearchParams();
    const searchQuery = searchParams.get("search") || "";
@@ -26,6 +27,11 @@ const AllProducts = () => {
 
    useEffect(() => {
       const fetchProducts = async () => {
+         // Show "Waking up server" message after 2.5 seconds
+         const slowTimer = setTimeout(() => {
+            setShowSlowLoadingMessage(true);
+         }, 2500);
+
          try {
             const res = await axios.get(`${API_URL}/products`);
             setProducts(res.data);
@@ -33,7 +39,9 @@ const AllProducts = () => {
          } catch (err) {
             console.error(err);
          } finally {
+            clearTimeout(slowTimer);
             setLoading(false);
+            setShowSlowLoadingMessage(false);
          }
       };
       fetchProducts();
@@ -217,9 +225,17 @@ const AllProducts = () => {
                   {/* Grid */}
                   <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-6">
                      {loading ? (
-                        [...Array(6)].map((_, i) => (
-                           <div key={i} className="bg-white rounded-lg h-[250px] md:h-[350px] animate-pulse"></div>
-                        ))
+                        <>
+                           {[...Array(8)].map((_, i) => (
+                              <div key={i} className="bg-white rounded-lg h-[250px] md:h-[350px] animate-pulse"></div>
+                           ))}
+                           {showSlowLoadingMessage && (
+                              <div className="col-span-full text-center py-4 bg-yellow-50 text-yellow-800 rounded-lg animate-fade-in border border-yellow-100">
+                                 <p className="font-bold text-sm">Waking up server...</p>
+                                 <p className="text-xs">Since we are on a free tier, this might take a minute.</p>
+                              </div>
+                           )}
+                        </>
                      ) : (
                         currentProducts.map((product) => (
                            <div key={product.id} className="group bg-white rounded-lg border border-gray-100 hover:shadow-xl transition-all duration-300 flex flex-col overflow-hidden">

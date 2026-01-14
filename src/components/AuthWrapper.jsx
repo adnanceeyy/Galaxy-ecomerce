@@ -133,6 +133,13 @@ export default function AuthProvider({ children }) {
    /* ---------------- CART ACTIONS ---------------- */
 
    const addToCart = (product) => {
+      if (!currentUser) {
+         setModalTitle("Login Required");
+         toast.error("Please login to add items to your cart", { icon: '🔒' });
+         openModal();
+         return;
+      }
+
       const newCart = [...cart];
       const existingItem = newCart.find(item => item.id === product.id);
 
