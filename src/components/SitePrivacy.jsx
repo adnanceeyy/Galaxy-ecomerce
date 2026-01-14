@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { IconCookie, IconX } from "@tabler/icons-react";
 
-const CookieConsent = () => {
+const SitePrivacy = () => {
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
@@ -63,4 +63,4 @@ const CookieConsent = () => {
     );
 };
 
-export default CookieConsent;
+export default SitePrivacy;
