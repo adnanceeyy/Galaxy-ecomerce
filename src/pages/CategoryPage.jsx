@@ -88,7 +88,7 @@ const CategoryPage = () => {
                <aside className="w-full lg:w-56 flex-shrink-0 space-y-6 hidden lg:block">
                   <div>
                      <h3 className="text-lg font-bold border-b border-gray-200 pb-2 mb-4">Filters</h3>
-                     <p className="text-sm text-gray-500">Filters active for {categoryName}</p>
+                     <p className="text-sm text-gray-500">Filters active for {category?.name || 'Category'}</p>
                      {/* ... reusable filter components... */}
                      <div className="mt-4 space-y-3">
                         <label className="flex items-center gap-2 text-sm text-gray-600">
@@ -107,7 +107,7 @@ const CategoryPage = () => {
                   {/* Sort Bar */}
                   <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 mb-6 flex justify-between items-center">
                      <div className="text-sm text-gray-500">
-                        Found <span className="font-bold text-gray-800">{products.length}</span> items in {categoryName}
+                        Found <span className="font-bold text-gray-800">{products.length}</span> items in {category?.name || 'Category'}
                      </div>
                      {/* Sort Select */}
                      <div className="flex items-center gap-2">
