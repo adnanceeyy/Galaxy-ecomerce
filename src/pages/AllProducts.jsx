@@ -9,6 +9,7 @@ const AllProducts = () => {
    const { addToCart } = useAuth();
    const [products, setProducts] = useState([]);
    const [filteredProducts, setFilteredProducts] = useState([]);
+   const [categories, setCategories] = useState([]);
    const [loading, setLoading] = useState(true);
    const [showSlowLoadingMessage, setShowSlowLoadingMessage] = useState(false);
    const [activeFilter, setActiveFilter] = useState("All");
@@ -33,9 +34,13 @@ const AllProducts = () => {
          }, 2500);
 
          try {
-            const res = await axios.get(`${API_URL}/products`);
-            setProducts(res.data);
-            setFilteredProducts(res.data);
+            const [productRes, categoryRes] = await Promise.all([
+               axios.get(`${API_URL}/products`),
+               axios.get(`${API_URL}/categories`)
+            ]);
+            setProducts(productRes.data);
+            setFilteredProducts(productRes.data);
+            setCategories([{ name: "All" }, ...categoryRes.data]);
          } catch (err) {
             console.error(err);
          } finally {
@@ -127,15 +132,15 @@ const AllProducts = () => {
                   <div>
                      <h3 className="text-lg font-bold border-b border-gray-200 pb-2 mb-4">Categories</h3>
                      <ul className="space-y-2 text-gray-600 text-sm">
-                        {['All', 'Headphones', 'Laptops', 'Tablets', 'Gaming', 'Cameras', 'Accessories'].map(cat => (
+                        {categories.map(cat => (
                            <li
-                              key={cat}
-                              onClick={() => setActiveFilter(cat)}
-                              className={`hover:text-accent cursor-pointer flex items-center justify-between transition-colors ${activeFilter === cat ? "text-accent font-bold" : ""}`}
+                              key={cat._id || cat.name}
+                              onClick={() => setActiveFilter(cat.name)}
+                              className={`hover:text-accent cursor-pointer flex items-center justify-between transition-colors ${activeFilter === cat.name ? "text-accent font-bold" : ""}`}
                            >
-                              <span>{cat}</span>
+                              <span>{cat.name}</span>
                               <span className="text-gray-400 text-xs">
-                                 ({cat === "All" ? products.length : products.filter(p => p.category === cat).length})
+                                 ({cat.name === "All" ? products.length : products.filter(p => p.category === cat.name).length})
                               </span>
                            </li>
                         ))}

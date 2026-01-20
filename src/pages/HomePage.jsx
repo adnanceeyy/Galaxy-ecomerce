@@ -250,7 +250,7 @@ const HomePage = () => {
 
           <div ref={scrollContainerRef} className="flex gap-6 overflow-x-auto pb-8 scrollbar-hide snap-x px-2 py-4">
             {categories.map((cat) => (
-              <Link key={cat._id || cat.id} to={`/category/${cat.id}`} className="flex-shrink-0 flex flex-col items-center gap-2 group/item cursor-pointer snap-start w-24 md:w-32">
+              <Link key={cat._id || cat.id} to={`/category/${cat._id || cat.id}`} className="flex-shrink-0 flex flex-col items-center gap-2 group/item cursor-pointer snap-start w-24 md:w-32">
                 <div className="relative w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden shadow-md group-hover/item:shadow-xl transition-all duration-300 ring-4 ring-white group-hover/item:ring-accent/20">
                   <div className="absolute inset-0 bg-gray-100">
                     <span className="absolute inset-0 flex items-center justify-center text-4xl">{cat.icon || "📦"}</span>
