@@ -13,7 +13,7 @@ import {
    IconUser
 } from "@tabler/icons-react";
 import { useAuth } from "../components/AuthWrapper";
-import { API_URL, BACKEND_BASE } from "../config/api";
+import { API_URL, BACKEND_BASE, getImageUrl } from "../config/api";
 import toast from "react-hot-toast";
 
 const SingleProduct = () => {
@@ -115,7 +115,7 @@ const SingleProduct = () => {
                      onMouseLeave={handleMouseLeave}
                   >
                      <img
-                        src={`${BACKEND_BASE}${activeImage || product.image}`}
+                        src={getImageUrl(activeImage || product.image)}
                         alt={product.name}
                         className="max-h-full max-w-full object-contain mix-blend-multiply transition-transform duration-150 ease-out pointer-events-none"
                         style={{
@@ -251,7 +251,7 @@ const SingleProduct = () => {
                         <Link to={`/singleProduct/${item.id}`} key={item.id} className="group bg-white rounded-lg border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300">
                            <div className="relative h-36 md:h-56 p-4 md:p-6 flex items-center justify-center bg-white overflow-hidden">
                               <img
-                                 src={`${BACKEND_BASE}${item.image}`}
+                                 src={getImageUrl(item.image)}
                                  alt={item.name}
                                  className="h-full w-full object-contain transform group-hover:scale-110 transition-transform duration-500"
                                  onError={(e) => (e.target.src = "https://via.placeholder.com/300?text=No+Image")}

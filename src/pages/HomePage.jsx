@@ -13,7 +13,7 @@ import {
   IconMail
 } from "@tabler/icons-react";
 import axios from "axios";
-import { API_URL, BACKEND_BASE } from "../config/api";
+import { API_URL, BACKEND_BASE, getImageUrl } from "../config/api";
 
 const HomePage = () => {
   const [featuredProducts, setFeaturedProducts] = useState([]);
@@ -88,7 +88,7 @@ const HomePage = () => {
         <div className="absolute inset-0 z-0 opacity-100">
           {/* If offerImage exists, use it. Else fallback to default */}
           <img
-            src={offerImage || "./assets/images/add1.jpg"}
+            src={getImageUrl(offerImage, "./assets/images/add1.jpg")}
             alt="Hero Background"
             className="w-full h-full object-cover"
           />
@@ -164,7 +164,7 @@ const HomePage = () => {
             <Link to={`/singleProduct/${product.id}`} key={product.id} className="flex-shrink-0 w-[280px] group bg-white rounded-xl overflow-hidden border border-gray-100 hover:shadow-xl transition-all duration-300 snap-start">
               <div className="relative h-48 p-4 flex items-center justify-center bg-gray-50/50">
                 <img
-                  src={`${BACKEND_BASE}${product.image}`}
+                  src={getImageUrl(product.image)}
                   alt={product.name}
                   className="h-full w-full object-contain transform group-hover:scale-105 transition-transform duration-500"
                 />
@@ -299,7 +299,7 @@ const HomePage = () => {
                   {/* Image */}
                   <div className="relative h-40 md:h-64 bg-white p-4 md:p-6 flex items-center justify-center overflow-hidden">
                     <img
-                      src={`${BACKEND_BASE}${product.image}`}
+                      src={getImageUrl(product.image)}
                       alt={product.name}
                       className="h-full w-full object-contain transform group-hover:scale-110 transition-transform duration-500 will-change-transform"
                       onError={(e) => (e.target.src = "https://via.placeholder.com/300?text=No+Image")}

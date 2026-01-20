@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { IconPackage, IconBox, IconChevronRight, IconAlertCircle } from "@tabler/icons-react";
 import axios from "axios";
-import { API_URL, BACKEND_BASE } from "../config/api";
+import { API_URL, BACKEND_BASE, getImageUrl } from "../config/api";
 import { useAuth } from "../components/AuthWrapper";
 import DashboardLayout from "../components/DashboardLayout";
 import InvoiceModal from "../components/InvoiceModal";
@@ -118,7 +118,7 @@ const OrdersPage = () => {
                                  <div className="w-20 h-20 bg-gray-50 rounded-xl border border-gray-100 flex-shrink-0 flex items-center justify-center p-2 group-hover:scale-105 transition-transform">
                                     {/* Image handling - using generic Icon if not present */}
                                     {item.image ? (
-                                       <img src={`${BACKEND_BASE}${item.image}`} alt={item.itemName} className="w-full h-full object-contain" />
+                                       <img src={getImageUrl(item.image)} alt={item.itemName} className="w-full h-full object-contain" />
                                     ) : (
                                        <IconPackage size={32} className="text-gray-300" />
                                     )}

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { BACKEND_BASE } from "../config/api";
+import { BACKEND_BASE, getImageUrl } from "../config/api";
 import { IconTrash, IconShoppingCart, IconHeartFilled } from "@tabler/icons-react";
 import { useAuth } from "../components/AuthWrapper";
 import toast from "react-hot-toast";
@@ -38,7 +38,7 @@ const WishlistPage = () => {
                      <div key={product.id} className="bg-white rounded-lg border border-gray-100 overflow-hidden group hover:shadow-lg transition-all duration-300">
                         <div className="relative h-60 p-6 flex items-center justify-center bg-white overflow-hidden">
                            <img
-                              src={`${BACKEND_BASE}${product.image}`}
+                              src={getImageUrl(product.image)}
                               alt={product.name}
                               className="h-full w-full object-contain"
                               onError={(e) => (e.target.src = "https://via.placeholder.com/300?text=No+Image")}

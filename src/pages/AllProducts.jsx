@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link, useSearchParams } from "react-router-dom";
 import { IconFilter, IconChevronDown, IconStarFilled, IconShoppingCart } from "@tabler/icons-react";
 import { useAuth } from "../components/AuthWrapper";
-import { API_URL, BACKEND_BASE } from "../config/api";
+import { API_URL, BACKEND_BASE, getImageUrl } from "../config/api";
 
 const AllProducts = () => {
    const { addToCart } = useAuth();
@@ -242,7 +242,7 @@ const AllProducts = () => {
                               {/* Image */}
                               <Link to={`/singleProduct/${product.id}`} className="relative h-40 md:h-60 p-4 md:p-6 flex items-center justify-center bg-white overflow-hidden">
                                  <img
-                                    src={`${BACKEND_BASE}${product.image}`}
+                                    src={getImageUrl(product.image)}
                                     alt={product.name}
                                     className="h-full w-full object-contain transform group-hover:scale-110 transition-transform duration-500"
                                     onError={(e) => (e.target.src = "https://via.placeholder.com/300?text=No+Image")}

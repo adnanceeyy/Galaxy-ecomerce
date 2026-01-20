@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IconTrash, IconMinus, IconPlus, IconArrowLeft, IconLock } from "@tabler/icons-react";
 import { useAuth } from "../components/AuthWrapper";
-import { BACKEND_BASE } from "../config/api";
+import { BACKEND_BASE, getImageUrl } from "../config/api";
 
 const CartPage = () => {
   const { cartItems, updateCartItemQuantity, removeFromCart, clearCart } = useAuth();
@@ -53,7 +53,7 @@ const CartPage = () => {
                           <div className="flex items-center gap-4">
                             <div className="h-16 w-16 bg-gray-100 rounded flex items-center justify-center p-1 border border-gray-200">
                               <img
-                                src={`${BACKEND_BASE}${item.image}`}
+                                src={getImageUrl(item.image)}
                                 alt={item.name}
                                 className="max-h-full max-w-full object-contain"
                                 onError={(e) => (e.target.src = "https://via.placeholder.com/100?text=No+Image")}

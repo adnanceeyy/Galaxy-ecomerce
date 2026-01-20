@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useParams } from "react-router-dom";
-import { API_URL, BACKEND_BASE } from "../config/api";
+import { API_URL, BACKEND_BASE, getImageUrl } from "../config/api";
 import { IconStarFilled, IconShoppingCart, IconFilter, IconChevronDown } from "@tabler/icons-react";
 
 const CategoryPage = () => {
@@ -120,7 +120,7 @@ const CategoryPage = () => {
                               {/* Image */}
                               <Link to={`/singleProduct/${product.id}`} className="relative h-60 p-6 flex items-center justify-center bg-white overflow-hidden">
                                  <img
-                                    src={`${BACKEND_BASE}${product.image}`}
+                                    src={getImageUrl(product.image)}
                                     alt={product.name}
                                     className="h-full w-full object-contain transform group-hover:scale-110 transition-transform duration-500"
                                     onError={(e) => (e.target.src = "https://via.placeholder.com/300?text=No+Image")}

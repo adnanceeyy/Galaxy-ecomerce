@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { API_URL, BACKEND_BASE } from "../config/api";
+import { API_URL, BACKEND_BASE, getImageUrl } from "../config/api";
 import {
   IconSearch,
   IconUser,
@@ -170,7 +170,7 @@ const Nav = () => {
                       className="w-full text-left px-4 py-3 hover:bg-gray-50 flex items-center gap-3 transition-colors border-b border-gray-50 last:border-0"
                     >
                       <div className="w-8 h-8 flex-shrink-0">
-                        <img src={`${BACKEND_BASE}${item.image}`} className="w-full h-full object-contain" />
+                        <img src={getImageUrl(item.image)} className="w-full h-full object-contain" />
                       </div>
                       <div>
                         <p className="text-xs font-bold text-primary truncate">{item.name}</p>
@@ -307,7 +307,7 @@ const Nav = () => {
                       className="w-full text-left px-5 py-3 hover:bg-white/10 flex items-center gap-4 transition-colors border-b border-white/10 last:border-0"
                     >
                       <div className="w-10 h-10 flex-shrink-0 bg-white rounded-lg p-1">
-                        <img src={`${BACKEND_BASE}${item.image}`} className="w-full h-full object-contain" />
+                        <img src={getImageUrl(item.image)} className="w-full h-full object-contain" />
                       </div>
                       <div className="min-w-0">
                         <p className="font-bold text-white truncate text-sm">{item.name}</p>
