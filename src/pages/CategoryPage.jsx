@@ -16,19 +16,37 @@ const CategoryPage = () => {
       const fetchCategoryProducts = async () => {
          setLoading(true);
          try {
+            // 1. Fetch Category Details (to get the name)
+            // Try to find if 'id' is a Mongo ID or numeric
+            let categoryNameFound = "Category";
+
+            // Allow for both Mongo ID and legacy ID lookups if needed.
+            // For now, assuming standard Mongo ID flow
+            try {
+               const catRes = await axios.get(`${API_URL}/categories/${id}`);
+               categoryNameFound = catRes.data.name;
+               setCategoryName(categoryNameFound);
+            } catch (e) {
+               // If fetch by ID fails, maybe it's a legacy ID? 
+               // We will try finding it in the product list directly as a fallback
+               console.log("Category lookup failed, trying fallback...", e);
+            }
+
+            // 2. Fetch All Products
             const res = await axios.get(`${API_URL}/products`);
             const allProducts = res.data;
 
-            // Filter purely by database 'catogeryId'
-            // Ensure strictly matching numbers (or string equivalent)
-            const filtered = allProducts.filter(p => p.catogeryId == id);
+            // 3. Filter Logic
+            const filtered = allProducts.filter(p =>
+               // Match by Name (Primary for new system)
+               (p.category && p.category.toLowerCase() === categoryNameFound.toLowerCase()) ||
+               // Match by legacy ID (Fallback)
+               (p.catogeryId && p.catogeryId == id)
+            );
 
             setProducts(filtered);
 
-            // Derive Category Name from the first found product
-            if (filtered.length > 0) {
-               setCategoryName(filtered[0].category || "Category");
-            } else {
+            if (filtered.length === 0 && categoryNameFound === "Category") {
                setCategoryName("Category Not Found");
             }
 
