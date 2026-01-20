@@ -262,12 +262,13 @@ const HomePage = () => {
             {categories.map((cat) => (
               <Link key={cat._id || cat.id} to={`/category/${cat._id || cat.id}`} className="flex-shrink-0 flex flex-col items-center gap-2 group/item cursor-pointer snap-start w-24 md:w-32">
                 <div className="relative w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden shadow-md group-hover/item:shadow-xl transition-all duration-300 ring-4 ring-white group-hover/item:ring-accent/20">
-                  <div className="absolute inset-0 bg-gray-100 flex items-center justify-center">
-                    {cat.image ? (
-                      <img src={getImageUrl(cat.image)} className="w-full h-full object-cover" />
-                    ) : (
-                      <span className="text-4xl">{cat.icon || "📦"}</span>
-                    )}
+                  <div className="absolute inset-0 bg-gray-50 flex items-center justify-center">
+                    <img
+                      src={getImageUrl(cat.image, `https://via.placeholder.com/300?text=${cat.name}`)}
+                      alt={cat.name}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover/item:scale-110"
+                      onError={(e) => { e.target.src = "https://via.placeholder.com/300?text=" + cat.name }}
+                    />
                   </div>
                   <div className="absolute inset-0 bg-black/10 group-hover/item:bg-black/0 transition-colors duration-300"></div>
                 </div>
