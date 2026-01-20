@@ -7,25 +7,21 @@ import { IconStarFilled, IconShoppingCart, IconFilter, IconChevronDown } from "@
 const CategoryPage = () => {
    const { id } = useParams();
    const [products, setProducts] = useState([]);
-   const [categoryName, setCategoryName] = useState("Category");
+   const [category, setCategory] = useState(null);
    const [loading, setLoading] = useState(true);
-
-   // Backend Base
 
    useEffect(() => {
       const fetchCategoryProducts = async () => {
          setLoading(true);
          try {
-            // 1. Fetch Category Details (to get the name)
-            // Try to find if 'id' is a Mongo ID or numeric
             let categoryNameFound = "Category";
+            let categoryFound = null;
 
-            // Allow for both Mongo ID and legacy ID lookups if needed.
-            // For now, assuming standard Mongo ID flow
             try {
                const catRes = await axios.get(`${API_URL}/categories/${id}`);
-               categoryNameFound = catRes.data.name;
-               setCategoryName(categoryNameFound);
+               categoryFound = catRes.data;
+               categoryNameFound = categoryFound.name;
+               setCategory(categoryFound);
             } catch (e) {
                // If fetch by ID fails, maybe it's a legacy ID? 
                // We will try finding it in the product list directly as a fallback
@@ -47,7 +43,7 @@ const CategoryPage = () => {
             setProducts(filtered);
 
             if (filtered.length === 0 && categoryNameFound === "Category") {
-               setCategoryName("Category Not Found");
+               setCategory({ name: "Category Not Found" });
             }
 
          } catch (err) {
@@ -67,8 +63,23 @@ const CategoryPage = () => {
 
             {/* Breadcrumb / Header */}
             <div className="mb-6">
-               <div className="text-xs text-gray-500 mb-1">Home / Shop / {categoryName}</div>
-               <h1 className="text-2xl md:text-3xl font-serif font-bold text-primary">{categoryName}</h1>
+               <div className="text-xs text-gray-500 mb-2">Home / Shop / {category?.name || 'Category'}</div>
+
+               {category?.image ? (
+                  <div className="relative h-48 md:h-64 rounded-2xl overflow-hidden mb-8 shadow-lg">
+                     <img
+                        src={getImageUrl(category.image)}
+                        alt={category.name}
+                        className="w-full h-full object-cover"
+                     />
+                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent flex flex-col justify-end p-8">
+                        <h1 className="text-3xl md:text-5xl font-serif font-bold text-white">{category.name}</h1>
+                        <p className="text-gray-200 mt-2 max-w-xl text-sm md:text-base font-medium">{category.description}</p>
+                     </div>
+                  </div>
+               ) : (
+                  <h1 className="text-2xl md:text-4xl font-serif font-bold text-primary mb-2">{category?.name || 'Category'}</h1>
+               )}
             </div>
 
             <div className="flex flex-col lg:flex-row gap-8">
@@ -135,7 +146,7 @@ const CategoryPage = () => {
 
                               {/* Info */}
                               <div className="p-4 flex-1 flex flex-col border-t border-gray-50 relative z-10 bg-white">
-                                 <div className="text-xs text-gray-400 mb-1">{categoryName}</div>
+                                 <div className="text-xs text-gray-400 mb-1">{category?.name || 'Category'}</div>
                                  <Link to={`/singleProduct/${product.id}`} className="font-bold text-primary hover:text-accent transition-colors line-clamp-2 mb-2">
                                     {product.name}
                                  </Link>

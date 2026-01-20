@@ -21,7 +21,15 @@ const HomePage = () => {
   const [loading, setLoading] = useState(true);
   const [countdown, setCountdown] = useState({ hours: 12, minutes: 45, seconds: 30 });
   const [categories, setCategories] = useState([]);
-  const [offerImage, setOfferImage] = useState(null);
+  const [settings, setSettings] = useState({
+    homePageOfferImage: '',
+    bannerTitle: 'Upgrade Your Digital Life',
+    bannerSubtitle: 'Experience superior performance with our latest collection of premium gadgets and accessories.',
+    offerTitle: 'Summer Sale is Live',
+    offerSubtitle: 'Get up to 50% off on premium headphones and smartwatches. Limited time offer.',
+    offerImage: '',
+    offerLink: '/allProduct'
+  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,10 +44,13 @@ const HomePage = () => {
         const categoryRes = await axios.get(`${API_URL}/categories`);
         setCategories(categoryRes.data);
 
-        // Fetch Settings (Offer Image)
+        // Fetch Settings
         const settingsRes = await axios.get(`${API_URL}/settings`);
-        if (settingsRes.data.homePageOfferImage) {
-          setOfferImage(settingsRes.data.homePageOfferImage);
+        if (settingsRes.data) {
+          setSettings(prev => ({
+            ...prev,
+            ...settingsRes.data
+          }));
         }
 
       } catch (err) {
@@ -86,9 +97,8 @@ const HomePage = () => {
       <section className="relative w-full h-[400px] md:h-[500px] bg-primary flex items-center overflow-hidden">
         {/* Background Image/Overlay */}
         <div className="absolute inset-0 z-0 opacity-100">
-          {/* If offerImage exists, use it. Else fallback to default */}
           <img
-            src={getImageUrl(offerImage, "./assets/images/add1.jpg")}
+            src={getImageUrl(settings.homePageOfferImage, "./assets/images/add1.jpg")}
             alt="Hero Background"
             className="w-full h-full object-cover"
           />
@@ -101,10 +111,10 @@ const HomePage = () => {
               New Arrivals 2026
             </span>
             <h1 className="text-3xl md:text-5xl font-serif font-bold leading-tight">
-              Upgrade Your <br /> <span className="text-accent">Digital Life</span>
+              {settings.bannerTitle.split(' ').slice(0, -2).join(' ')} <br /> <span className="text-accent">{settings.bannerTitle.split(' ').slice(-2).join(' ')}</span>
             </h1>
             <p className="text-gray-300 text-base md:text-lg leading-relaxed max-w-lg">
-              Experience superior performance with our latest collection of premium gadgets and accessories.
+              {settings.bannerSubtitle}
             </p>
             <div className="flex gap-4 pt-4">
               <Link to="/allProduct" className="px-8 py-3.5 bg-accent hover:bg-accent-hover text-white font-bold rounded-lg transition-all shadow-lg hover:shadow-accent/40 flex items-center gap-2">
@@ -252,8 +262,12 @@ const HomePage = () => {
             {categories.map((cat) => (
               <Link key={cat._id || cat.id} to={`/category/${cat._id || cat.id}`} className="flex-shrink-0 flex flex-col items-center gap-2 group/item cursor-pointer snap-start w-24 md:w-32">
                 <div className="relative w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden shadow-md group-hover/item:shadow-xl transition-all duration-300 ring-4 ring-white group-hover/item:ring-accent/20">
-                  <div className="absolute inset-0 bg-gray-100">
-                    <span className="absolute inset-0 flex items-center justify-center text-4xl">{cat.icon || "📦"}</span>
+                  <div className="absolute inset-0 bg-gray-100 flex items-center justify-center">
+                    {cat.image ? (
+                      <img src={getImageUrl(cat.image)} className="w-full h-full object-cover" />
+                    ) : (
+                      <span className="text-4xl">{cat.icon || "📦"}</span>
+                    )}
                   </div>
                   <div className="absolute inset-0 bg-black/10 group-hover/item:bg-black/0 transition-colors duration-300"></div>
                 </div>
@@ -336,13 +350,18 @@ const HomePage = () => {
       {/* 7. PROMO BANNER */}
       <section className="py-8 md:py-16 mx-4">
         <div className="max-w-[1200px] mx-auto rounded-2xl bg-secondary overflow-hidden relative shadow-2xl">
-          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1550009158-9ebf69173e03?q=80&w=2000')] bg-cover bg-center opacity-20"></div>
+          <div
+            className="absolute inset-0 bg-cover bg-center opacity-20"
+            style={{ backgroundImage: `url(${getImageUrl(settings.offerImage, 'https://images.unsplash.com/photo-1550009158-9ebf69173e03?q=80&w=2000')})` }}
+          ></div>
           <div className="relative z-10 px-8 py-16 md:py-24 text-center">
-            <h2 className="text-3xl md:text-5xl font-serif font-bold text-white mb-6">Summer Sale is Live</h2>
-            <p className="text-gray-200 text-lg md:text-xl max-w-2xl mx-auto mb-8">
-              Get up to 50% off on premium headphones and smartwatches. Limited time offer.
+            <h2 className="text-3xl md:text-5xl font-serif font-bold text-white mb-6 underline decoration-accent decoration-4 underline-offset-8">
+              {settings.offerTitle}
+            </h2>
+            <p className="text-gray-200 text-lg md:text-xl max-w-2xl mx-auto mb-8 font-medium italic">
+              {settings.offerSubtitle}
             </p>
-            <Link to="/allProduct" className="inline-block px-10 py-4 bg-white text-primary font-bold rounded-lg hover:bg-gray-100 transition shadow-lg transform hover:-translate-y-1">
+            <Link to={settings.offerLink || "/allProduct"} className="inline-block px-10 py-4 bg-white text-primary font-bold rounded-lg hover:bg-gray-100 transition shadow-lg transform hover:-translate-y-1">
               Shop The Sale
             </Link>
           </div>
