@@ -40,9 +40,9 @@ export default function Footer() {
             <ul className="space-y-3 text-sm text-gray-400">
               <li><Link to="/allProduct" className="hover:text-accent transition-colors flex items-center gap-2">All Products</Link></li>
               <li><Link to="/category/1" className="hover:text-accent transition-colors flex items-center gap-2">Headphones</Link></li>
-              <li><Link to="/category/2" className="hover:text-accent transition-colors flex items-center gap-2">Laptops</Link></li>
+              <li><Link to="/category/2" className="hover:text-accent transition-colors flex items-center gap-2">omputers</Link></li>
               <li><Link to="/category/3" className="hover:text-accent transition-colors flex items-center gap-2">Smartphones</Link></li>
-              <li><Link to="/category/4" className="hover:text-accent transition-colors flex items-center gap-2">Accessories</Link></li>
+              <li><Link to="/category/696f5d941d0d229e80d6f6ec" className="hover:text-accent transition-colors flex items-center gap-2">Accessories</Link></li>
             </ul>
           </div>
 
@@ -64,15 +64,15 @@ export default function Footer() {
             <ul className="space-y-4 text-sm text-gray-400">
               <li className="flex items-start gap-3">
                 <IconMapPin size={20} className="text-accent shrink-0 mt-0.5" />
-                <span>123 Tech Park, Innovation Street,<br/>Silicon Valley, CA, USA</span>
+                <span>Parambilpeedika, Airport road,<br/>Malappuram, Kerala, India</span>
               </li>
               <li className="flex items-center gap-3">
                 <IconPhone size={20} className="text-accent shrink-0" />
-                <span>+1 (800) 123-4567</span>
+                <span>+91 7034 887478</span>
               </li>
               <li className="flex items-center gap-3">
                 <IconMail size={20} className="text-accent shrink-0" />
-                <span>support@eleckyo.com</span>
+                <span>support@eleckyosupport.com</span>
               </li>
             </ul>
           </div>

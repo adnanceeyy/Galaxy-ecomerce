@@ -31,7 +31,7 @@ const ContactPage = () => {
                            </div>
                            <div>
                               <h4 className="font-bold text-gray-900">Headquarters</h4>
-                              <p className="text-gray-600">123 Tech Park, Innovation Street<br />Silicon Valley, CA, USA</p>
+                              <p className="text-gray-600">Prambilpeedika, Air Port road<br />Malappuram, Kerala, India</p>
                            </div>
                         </li>
                         <li className="flex gap-4">
@@ -40,8 +40,8 @@ const ContactPage = () => {
                            </div>
                            <div>
                               <h4 className="font-bold text-gray-900">Phone</h4>
-                              <p className="text-gray-600">+1 (800) 123-4567</p>
-                              <p className="text-gray-500 text-sm">Mon-Fri 9am-6pm PST</p>
+                              <p className="text-gray-600">+91 7034 887478</p>
+                              <p className="text-gray-500 text-sm">Mon-Fri 9am-6pm IST</p>
                            </div>
                         </li>
                         <li className="flex gap-4">
@@ -50,8 +50,8 @@ const ContactPage = () => {
                            </div>
                            <div>
                               <h4 className="font-bold text-gray-900">Email</h4>
-                              <p className="text-gray-600">support@eleckyo.com</p>
-                              <p className="text-gray-600">sales@eleckyo.com</p>
+                              <p className="text-gray-600">support@eleckyosupport.com</p>
+                              <p className="text-gray-600">sales@eleckyosales.com</p>
                            </div>
                         </li>
                      </ul>
@@ -59,7 +59,7 @@ const ContactPage = () => {
 
                   <div className="bg-primary text-white p-8 rounded-2xl shadow-lg relative overflow-hidden">
                      <div className="relative z-10">
-                        <h3 className="text-xl font-bold mb-4 flex items-center gap-2"><IconClock size={24} /> Business Hours</h3>
+                        <h3 className="text-xl font-bold mb-4 flex items-center gap-2"><IconClock size={24} /> Support Hours</h3>
                         <ul className="space-y-2 opacity-90">
                            <li className="flex justify-between border-b border-white/20 pb-2"><span>Monday - Friday</span> <span>9:00 AM - 6:00 PM</span></li>
                            <li className="flex justify-between border-b border-white/20 pb-2"><span>Saturday</span> <span>10:00 AM - 4:00 PM</span></li>
