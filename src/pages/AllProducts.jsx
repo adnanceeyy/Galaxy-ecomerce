@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useSearchParams } from "react-router-dom";
-import { IconFilter, IconChevronDown, IconStarFilled, IconShoppingCart } from "@tabler/icons-react";
+import { IconFilter, IconChevronDown, IconStarFilled, IconShoppingCart, IconX } from "@tabler/icons-react";
 import { useAuth } from "../components/AuthWrapper";
 import { API_URL, BACKEND_BASE, getImageUrl } from "../config/api";
 
@@ -20,6 +20,9 @@ const AllProducts = () => {
    const [minPrice, setMinPrice] = useState("");
    const [maxPrice, setMaxPrice] = useState("");
    const [activeRating, setActiveRating] = useState(0);
+
+   // Mobile Filter Modal State
+   const [showMobileFilters, setShowMobileFilters] = useState(false);
 
    // Pagination State
    const [currentPage, setCurrentPage] = useState(1);
@@ -126,7 +129,7 @@ const AllProducts = () => {
 
             <div className="flex flex-col lg:flex-row gap-8">
 
-               {/* SIDEBAR FILTERS (Hidden on mobile for simplicity in this iteration, or stacked) */}
+               {/* SIDEBAR FILTERS - Desktop */}
                <aside className="w-full lg:w-56 flex-shrink-0 space-y-6 hidden lg:block">
                   {/* Categories */}
                   <div>
@@ -205,15 +208,156 @@ const AllProducts = () => {
                   </div>
                </aside>
 
+               {/* MOBILE FILTER MODAL */}
+               {showMobileFilters && (
+                  <div className="fixed inset-0 z-50 lg:hidden">
+                     {/* Backdrop */}
+                     <div
+                        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+                        onClick={() => setShowMobileFilters(false)}
+                     ></div>
+
+                     {/* Filter Panel */}
+                     <div className="absolute right-0 top-0 bottom-0 w-[85%] max-w-sm bg-white shadow-2xl overflow-y-auto animate-slideInRight">
+                        {/* Header */}
+                        <div className="sticky top-0 bg-white border-b border-gray-200 p-4 flex items-center justify-between z-10">
+                           <h2 className="text-lg font-bold text-primary">Filters</h2>
+                           <button
+                              onClick={() => setShowMobileFilters(false)}
+                              className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                           >
+                              <IconX size={20} />
+                           </button>
+                        </div>
+
+                        {/* Filter Content */}
+                        <div className="p-4 space-y-6 pb-24">
+                           {/* Categories */}
+                           <div>
+                              <h3 className="text-base font-bold border-b border-gray-200 pb-2 mb-3">Categories</h3>
+                              <ul className="space-y-2 text-gray-600 text-sm">
+                                 {categories.map(cat => (
+                                    <li
+                                       key={cat._id || cat.name}
+                                       onClick={() => {
+                                          setActiveFilter(cat.name);
+                                          setShowMobileFilters(false);
+                                       }}
+                                       className={`hover:text-accent cursor-pointer flex items-center justify-between transition-colors p-2 rounded ${activeFilter === cat.name ? "text-accent font-bold bg-orange-50" : ""}`}
+                                    >
+                                       <span>{cat.name}</span>
+                                       <span className="text-gray-400 text-xs">
+                                          ({cat.name === "All" ? products.length : products.filter(p => p.category === cat.name).length})
+                                       </span>
+                                    </li>
+                                 ))}
+                              </ul>
+                           </div>
+
+                           {/* Price Range */}
+                           <div>
+                              <h3 className="text-base font-bold border-b border-gray-200 pb-2 mb-3">Price Range</h3>
+                              <div className="flex flex-col gap-3">
+                                 <div className="flex items-center gap-2">
+                                    <input
+                                       type="number"
+                                       placeholder="Min"
+                                       value={minPrice}
+                                       onChange={(e) => setMinPrice(e.target.value)}
+                                       className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
+                                    />
+                                    <span className="text-gray-400">-</span>
+                                    <input
+                                       type="number"
+                                       placeholder="Max"
+                                       value={maxPrice}
+                                       onChange={(e) => setMaxPrice(e.target.value)}
+                                       className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
+                                    />
+                                 </div>
+                              </div>
+                           </div>
+
+                           {/* Rating */}
+                           <div>
+                              <h3 className="text-base font-bold border-b border-gray-200 pb-2 mb-3">Minimum Rating</h3>
+                              <ul className="space-y-2">
+                                 {[5, 4, 3, 2, 1].map(star => (
+                                    <li
+                                       key={star}
+                                       onClick={() => setActiveRating(star)}
+                                       className={`flex items-center gap-3 cursor-pointer rounded-lg p-3 transition-all ${activeRating === star ? "bg-yellow-50 ring-2 ring-yellow-200 shadow-sm" : "hover:bg-gray-50"}`}
+                                    >
+                                       <div className="flex gap-0.5">
+                                          {[...Array(5)].map((_, i) => (
+                                             <IconStarFilled key={i} size={18} className={i < star ? "text-yellow-400" : "text-gray-300"} />
+                                          ))}
+                                       </div>
+                                       <span className={`text-sm ${activeRating === star ? "font-bold text-primary" : "text-gray-600"}`}>& Up</span>
+                                       {activeRating === star && (
+                                          <svg className="ml-auto w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
+                                             <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                          </svg>
+                                       )}
+                                    </li>
+                                 ))}
+                              </ul>
+                           </div>
+
+                           {/* Clear All Button */}
+                           {(minPrice || maxPrice || activeRating > 0 || activeFilter !== "All") && (
+                              <button
+                                 onClick={() => {
+                                    setMinPrice("");
+                                    setMaxPrice("");
+                                    setActiveRating(0);
+                                    setActiveFilter("All");
+                                 }}
+                                 className="w-full py-3 bg-gray-100 text-gray-700 font-bold rounded-lg hover:bg-gray-200 transition-colors"
+                              >
+                                 Clear All Filters
+                              </button>
+                           )}
+                        </div>
+
+                        {/* Fixed Bottom Apply Button */}
+                        <div className="sticky bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-200 shadow-lg">
+                           <button
+                              onClick={() => setShowMobileFilters(false)}
+                              className="w-full py-3 bg-primary text-white font-bold rounded-lg hover:bg-secondary transition-colors shadow-md"
+                           >
+                              Apply Filters
+                           </button>
+                        </div>
+                     </div>
+                  </div>
+               )}
+
                {/* MAIN PRODUCT GRID */}
                <div className="flex-1">
-                  {/* Sort Bar */}
-                  <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 mb-6 flex justify-between items-center">
-                     <div className="text-sm text-gray-500">
-                        Showing <span className="font-bold text-gray-800">{filteredProducts.length}</span> results
+                  {/* Sort Bar with Mobile Filter Button */}
+                  <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 mb-6 flex justify-between items-center gap-3">
+                     <div className="flex items-center gap-3">
+                        {/* Mobile Filter Button */}
+                        <button
+                           onClick={() => setShowMobileFilters(true)}
+                           className="lg:hidden flex items-center gap-2 px-3 py-2 border border-gray-300 rounded-lg text-sm font-bold text-gray-700 hover:bg-gray-50 transition-colors"
+                        >
+                           <IconFilter size={18} />
+                           <span>Filters</span>
+                           {(minPrice || maxPrice || activeRating > 0 || activeFilter !== "All") && (
+                              <span className="w-2 h-2 bg-accent rounded-full"></span>
+                           )}
+                        </button>
+
+                        <div className="text-sm text-gray-500">
+                           <span className="hidden sm:inline">Showing </span>
+                           <span className="font-bold text-gray-800">{filteredProducts.length}</span>
+                           <span className="hidden sm:inline"> results</span>
+                        </div>
                      </div>
                      <div className="flex items-center gap-2">
-                        <span className="text-sm text-gray-500">Sort by:</span>
+                        <span className="text-sm text-gray-500 hidden sm:inline">Sort by:</span>
                         <select
                            value={sortOption}
                            onChange={handleSort}
