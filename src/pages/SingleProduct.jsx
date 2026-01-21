@@ -129,6 +129,26 @@ const SingleProduct = () => {
                      )}
                   </div>
 
+                  {/* Thumbnails */}
+                  {images.length > 1 && (
+                     <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
+                        {images.map((img, index) => (
+                           <button
+                              key={index}
+                              onClick={() => setActiveImage(img)}
+                              className={`shrink-0 w-20 h-20 rounded-xl border-2 transition-all overflow-hidden p-2 bg-gray-50 ${activeImage === img ? "border-primary bg-white shadow-md shadow-primary/10" : "border-gray-100 hover:border-gray-300"}`}
+                           >
+                              <img
+                                 src={getImageUrl(img)}
+                                 alt={`${product.name} ${index + 1}`}
+                                 className="w-full h-full object-contain mix-blend-multiply"
+                                 onError={(e) => (e.target.src = "https://via.placeholder.com/300?text=No+Image")}
+                              />
+                           </button>
+                        ))}
+                     </div>
+                  )}
+
                </div>
 
                {/* RIGHT: DETAILS */}

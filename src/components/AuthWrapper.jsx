@@ -252,6 +252,10 @@ export default function AuthProvider({ children }) {
       openModal,
       handleLogin,
       logout,
+      updateUser: (userData) => {
+         localStorage.setItem("currentUser", JSON.stringify(userData));
+         setCurrentUser(userData);
+      },
       modalTitle,
       setModalTitle,
    };

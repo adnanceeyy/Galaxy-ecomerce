@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { IconCookie, IconX } from "@tabler/icons-react";
 
-const GdprNotice = () => {
+const Compliance = () => {
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
@@ -63,4 +63,4 @@ const GdprNotice = () => {
     );
 };
 
-export default GdprNotice;
+export default Compliance;

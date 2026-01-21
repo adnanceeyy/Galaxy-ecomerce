@@ -18,7 +18,7 @@ import AuthProvider from "./components/AuthWrapper";
 import Profile from "./pages/Profile";
 import LoginPage from "./pages/LoginPage";
 import OrdersPage from "./pages/OrdersPage";
-import GdprNotice from "./components/GdprNotice";
+import Compliance from "./components/Compliance";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { useAuth } from "./components/AuthWrapper";
@@ -91,7 +91,7 @@ function App() {
           )}
         </Toaster>
         <EntryLogic />
-        <GdprNotice />
+        <Compliance />
         <Nav />
         <Routes>
           <Route path="/" element={<HomePage />} />

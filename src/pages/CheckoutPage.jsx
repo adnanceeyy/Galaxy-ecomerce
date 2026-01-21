@@ -12,6 +12,7 @@ const CheckoutPage = () => {
    const { isLoggedIn, currentUser, clearCart, cartItems } = useAuth(); // Use global cart
    const [showSuccessModal, setShowSuccessModal] = useState(false);
    const [placedOrderId, setPlacedOrderId] = useState(null);
+   const [paymentMethod, setPaymentMethod] = useState("card"); // 'card' or 'cod'
 
    // Form State
    const [formData, setFormData] = useState({
@@ -26,10 +27,10 @@ const CheckoutPage = () => {
    });
 
    useEffect(() => {
-      if (cartItems.length === 0) {
+      if (cartItems.length === 0 && !showSuccessModal) {
          navigate("/cart"); // Redirect empty cart
       }
-   }, [cartItems, navigate]);
+   }, [cartItems, navigate, showSuccessModal]);
 
    // Scroll to top on mount
    useEffect(() => {
@@ -86,17 +87,14 @@ const CheckoutPage = () => {
 
       try {
          // Submit to Backend
-         const res = await axios.post(`${API_URL}/orders`, orderData);
+         const res = await axios.post(`${API_URL}/orders`, { ...orderData, paymentMethod });
 
          setPlacedOrderId(res.data.orderId);
+         setShowSuccessModal(true);
          toast.dismiss(pendingToast);
-         toast.success("Order placed successfully! 🎉");
 
          // Clear Cart (removes from backend)
          await clearCart();
-
-         // Show Success Modal
-         setShowSuccessModal(true);
       } catch (err) {
          console.error("Order error:", err);
          toast.dismiss(pendingToast);
@@ -115,9 +113,9 @@ const CheckoutPage = () => {
             <div className="flex items-center justify-center mb-6">
                <div className="flex items-center gap-4 text-sm font-bold">
                   <span className="text-gray-400">Cart</span>
-                  <div className="w-8 h-[1px] bg-gray-300"></div>
+                  <div className="w-8 h-px bg-gray-300"></div>
                   <span className="text-primary flex items-center gap-1"><span className="w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center text-xs">2</span> Checkout</span>
-                  <div className="w-8 h-[1px] bg-gray-300"></div>
+                  <div className="w-8 h-px bg-gray-300"></div>
                   <span className="text-gray-400">Confirmation</span>
                </div>
             </div>
@@ -237,31 +235,56 @@ const CheckoutPage = () => {
                      </div>
                   </div>
 
-                  {/* Payment Method (Mock) */}
-                  <div className="bg-white p-5 md:p-6 rounded-lg shadow-sm border border-gray-100">
+                  {/* Payment Method */}
+                  <div className="bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-gray-100">
                      <h2 className="text-lg font-bold font-serif mb-4 flex items-center gap-2">
                         <span className="w-7 h-7 rounded-full bg-blue-50 text-primary flex items-center justify-center text-xs font-sans font-bold">3</span>
-                        Payment
+                        Payment Settlement
                      </h2>
-                     <div className="space-y-4">
-                        <label className="flex items-center gap-4 p-4 border border-primary bg-blue-50/50 rounded-lg cursor-pointer transition">
-                           <input type="radio" name="payment" defaultChecked className="accent-primary w-5 h-5" />
-                           <div className="flex items-center gap-3 flex-1">
-                              <IconCreditCard className="text-primary" />
-                              <span className="font-bold text-gray-900">Credit / Debit Card</span>
+                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <button
+                           type="button"
+                           onClick={() => setPaymentMethod("card")}
+                           className={`group relative flex flex-col items-start gap-3 p-5 rounded-2xl border-2 transition-all ${paymentMethod === "card"
+                              ? "border-primary bg-blue-50/30"
+                              : "border-gray-100 bg-white hover:border-gray-200"
+                              }`}
+                        >
+                           <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${paymentMethod === "card" ? "bg-primary text-white" : "bg-gray-50 text-gray-400"}`}>
+                              <IconCreditCard size={20} />
                            </div>
-                           <div className="flex gap-2">
-                              <div className="h-6 w-10 bg-gray-200 rounded"></div>
-                              <div className="h-6 w-10 bg-gray-200 rounded"></div>
+                           <div className="text-left">
+                              <p className={`font-bold text-sm ${paymentMethod === "card" ? "text-primary" : "text-gray-900"}`}>Digital Payment</p>
+                              <p className="text-[10px] text-gray-500 uppercase font-bold tracking-wider">Card / UPI / NetBanking</p>
                            </div>
-                        </label>
-                        <label className="flex items-center gap-4 p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-gray-300 transition">
-                           <input type="radio" name="payment" className="accent-primary w-5 h-5" />
-                           <div className="flex items-center gap-3 flex-1">
-                              <IconTruck className="text-gray-500" />
-                              <span className="font-bold text-gray-700">Cash on Delivery</span>
+                           {paymentMethod === "card" && (
+                              <div className="absolute top-4 right-4 text-primary">
+                                 <IconCheck size={18} stroke={3} />
+                              </div>
+                           )}
+                        </button>
+
+                        <button
+                           type="button"
+                           onClick={() => setPaymentMethod("cod")}
+                           className={`group relative flex flex-col items-start gap-3 p-5 rounded-2xl border-2 transition-all ${paymentMethod === "cod"
+                              ? "border-primary bg-blue-50/30"
+                              : "border-gray-100 bg-white hover:border-gray-200"
+                              }`}
+                        >
+                           <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${paymentMethod === "cod" ? "bg-primary text-white" : "bg-gray-50 text-gray-400"}`}>
+                              <IconTruck size={20} />
                            </div>
-                        </label>
+                           <div className="text-left">
+                              <p className={`font-bold text-sm ${paymentMethod === "cod" ? "text-primary" : "text-gray-900"}`}>Cash on Delivery</p>
+                              <p className="text-[10px] text-gray-500 uppercase font-bold tracking-wider">Pay at your doorstep</p>
+                           </div>
+                           {paymentMethod === "cod" && (
+                              <div className="absolute top-4 right-4 text-primary">
+                                 <IconCheck size={18} stroke={3} />
+                              </div>
+                           )}
+                        </button>
                      </div>
                   </div>
 
