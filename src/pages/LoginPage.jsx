@@ -164,7 +164,7 @@ const LoginPage = () => {
 
         {/* Header */}
         <div className="px-6 py-6 bg-primary text-white text-center">
-          <Link to="/" className="text-2xl font-serif font-bold tracking-tight inline-block mb-1">Eleckyo</Link>
+          <Link to="/" className="text-2xl font-sans font-bold tracking-tight inline-block mb-1">Eleckyo</Link>
           <p className="text-blue-100 text-[11px]">{isLogin ? "Welcome Back" : "Create an Account"}</p>
         </div>
 

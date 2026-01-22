@@ -20,7 +20,7 @@ const CartPage = () => {
     <div className="bg-gray-50 min-h-screen font-sans pt-8 pb-16">
       <div className="max-w-[1200px] mx-auto px-4 md:px-8">
 
-        <h1 className="text-2xl md:text-3xl font-serif font-bold text-primary mb-6">Shopping Cart</h1>
+        <h1 className="text-2xl md:text-3xl font-sans font-bold text-primary mb-6">Shopping Cart</h1>
 
         {cartItems.length === 0 ? (
           <div className="text-center py-20 bg-white rounded-lg shadow-sm">
@@ -115,7 +115,7 @@ const CartPage = () => {
             {/* RIGHT: Order Summary */}
             <div className="w-full lg:w-80">
               <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-6 sticky top-24">
-                <h3 className="text-lg font-bold font-serif mb-6 border-b border-gray-100 pb-4">Order Summary</h3>
+                <h3 className="text-lg font-bold font-sans mb-6 border-b border-gray-100 pb-4">Order Summary</h3>
 
                 <div className="space-y-3 text-sm text-gray-600 mb-6">
                   <div className="flex justify-between">

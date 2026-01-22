@@ -18,7 +18,7 @@ const WishlistPage = () => {
 
             <div className="flex items-center gap-2 mb-6">
                <IconHeartFilled size={24} className="text-red-500" />
-               <h1 className="text-2xl font-serif font-bold text-primary">My Wishlist</h1>
+               <h1 className="text-2xl font-sans font-bold text-primary">My Wishlist</h1>
             </div>
 
             {wishlist.length === 0 ? (

@@ -61,7 +61,7 @@ const InvoiceModal = ({ order, onClose }) => {
          {/* Invoice Header */}
          <div className="flex justify-between items-start mb-8 border-b border-gray-100 pb-8">
             <div>
-               <h1 className="text-3xl font-serif font-bold text-primary mb-2">ELECKYO</h1>
+               <h1 className="text-3xl font-sans font-bold text-primary mb-2">ELECKYO</h1>
                <p className="text-xs text-gray-500 max-w-[200px]">
                   Premium Electronics Store<br />
                   123 Tech Park, Digital City,<br />
@@ -135,7 +135,7 @@ const InvoiceModal = ({ order, onClose }) => {
 
          {/* Footer */}
          <div className="mt-12 pt-8 border-t border-gray-100 text-center">
-            <p className="text-xl font-serif font-bold text-primary mb-2">Thank you for your business!</p>
+            <p className="text-xl font-sans font-bold text-primary mb-2">Thank you for your business!</p>
             <p className="text-xs text-gray-400">For support, contact us at support@eleckyo.com</p>
          </div>
       </div>

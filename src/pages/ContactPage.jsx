@@ -12,7 +12,7 @@ const ContactPage = () => {
 
             {/* Header */}
             <div className="text-center mb-10 max-w-3xl mx-auto">
-               <h1 className="text-3xl md:text-4xl font-serif font-bold text-primary mb-4">Contact Us</h1>
+               <h1 className="text-3xl md:text-4xl font-sans font-bold text-primary mb-4">Contact Us</h1>
                <p className="text-base text-gray-600">
                   We'd love to hear from you. Whether you have a question about our products, orders, or just want to share feedback, our team is ready to help.
                </p>
@@ -23,7 +23,7 @@ const ContactPage = () => {
                {/* Info Side */}
                <div className="space-y-10">
                   <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
-                     <h3 className="text-2xl font-bold font-serif text-primary mb-6">Get in Touch</h3>
+                     <h3 className="text-2xl font-bold font-sans text-primary mb-6">Get in Touch</h3>
                      <ul className="space-y-6">
                         <li className="flex gap-4">
                            <div className="w-12 h-12 bg-blue-50 text-primary rounded-full flex items-center justify-center flex-shrink-0">
@@ -72,7 +72,7 @@ const ContactPage = () => {
 
                {/* Form Side */}
                <div className="bg-white p-8 md:p-10 rounded-2xl shadow-xl border border-gray-100">
-                  <h3 className="text-2xl font-bold font-serif text-primary mb-6">Send us a Message</h3>
+                  <h3 className="text-2xl font-bold font-sans text-primary mb-6">Send us a Message</h3>
                   <ContactForm />
                </div>
 

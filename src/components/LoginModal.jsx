@@ -64,7 +64,7 @@ const LoginModal = ({ isOpen, onClose, onLogin }) => {
 
         <div className="p-8">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-serif font-bold text-primary mb-2">
+            <h2 className="text-3xl font-sans font-bold text-primary mb-2">
               {isLogin ? modalTitle : "Create Account"}
             </h2>
             <p className="text-gray-500 text-sm">

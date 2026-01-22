@@ -15,7 +15,7 @@ const AboutPage = () => {
             <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2671&auto=format&fit=crop" alt="Office" className="w-full h-full object-cover" />
          </div>
          <div className="relative z-10 text-center text-white px-4">
-            <h1 className="text-3xl md:text-5xl font-serif font-bold mb-3">Our Story</h1>
+            <h1 className="text-3xl md:text-5xl font-sans font-bold mb-3">Our Story</h1>
             <p className="text-base md:text-lg text-gray-300 max-w-2xl mx-auto">
                Redefining the digital shopping experience since 2026.
             </p>
@@ -26,7 +26,7 @@ const AboutPage = () => {
       <section className="py-12 md:py-16 max-w-[1200px] mx-auto px-4 md:px-8">
          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
             <div>
-               <h2 className="text-3xl md:text-4xl font-serif font-bold text-primary mb-6">Mission & Vision</h2>
+               <h2 className="text-3xl md:text-4xl font-sans font-bold text-primary mb-6">Mission & Vision</h2>
                <p className="text-gray-600 leading-relaxed mb-6 font-medium text-lg">
                   At Eleckyo, we believe technology should be accessible, reliable, and beautiful.
                </p>
@@ -47,7 +47,7 @@ const AboutPage = () => {
             <div className="relative">
                <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=2664&auto=format&fit=crop" alt="Team" className="rounded-2xl shadow-2xl" />
                <div className="absolute -bottom-8 -left-8 bg-white p-8 rounded-2xl shadow-xl hidden md:block">
-                  <p className="font-serif italic text-xl text-primary">"Quality is not an act, it is a habit."</p>
+                  <p className="font-sans italic text-xl text-primary">"Quality is not an act, it is a habit."</p>
                </div>
             </div>
          </div>
@@ -57,7 +57,7 @@ const AboutPage = () => {
       <section className="bg-gray-50 py-12 md:py-16">
          <div className="max-w-[1200px] mx-auto px-4 md:px-8">
             <div className="text-center mb-16">
-               <h2 className="text-3xl md:text-4xl font-serif font-bold text-primary mb-4">Our Core Values</h2>
+               <h2 className="text-3xl md:text-4xl font-sans font-bold text-primary mb-4">Our Core Values</h2>
                <p className="text-gray-500 max-w-2xl mx-auto">The principles that guide everything we do.</p>
             </div>
 

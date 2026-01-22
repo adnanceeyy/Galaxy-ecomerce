@@ -36,7 +36,7 @@ export default function Footer() {
 
           {/* Column 2: Quick Links */}
           <div className="space-y-6">
-            <h4 className="text-lg font-bold font-serif tracking-wide border-b border-gray-700 pb-2 inline-block">Shop</h4>
+            <h4 className="text-lg font-bold font-sans tracking-wide border-b border-gray-700 pb-2 inline-block">Shop</h4>
             <ul className="space-y-3 text-sm text-gray-400">
               <li><Link to="/allProduct" className="hover:text-accent transition-colors flex items-center gap-2">All Products</Link></li>
               <li><Link to="/category/696f5b651d0d229e80d6f683" className="hover:text-accent transition-colors flex items-center gap-2">Headphones</Link></li>
@@ -48,7 +48,7 @@ export default function Footer() {
 
           {/* Column 3: Customer Service */}
           <div className="space-y-6">
-            <h4 className="text-lg font-bold font-serif tracking-wide border-b border-gray-700 pb-2 inline-block">Support</h4>
+            <h4 className="text-lg font-bold font-sans tracking-wide border-b border-gray-700 pb-2 inline-block">Support</h4>
             <ul className="space-y-3 text-sm text-gray-400">
               <li><Link to="/contact" className="hover:text-accent transition-colors flex items-center gap-2">Contact Us</Link></li>
               <li><Link to="/orders" className="hover:text-accent transition-colors flex items-center gap-2">Track Order</Link></li>
@@ -60,7 +60,7 @@ export default function Footer() {
 
           {/* Column 4: Contact Info */}
           <div className="space-y-6">
-            <h4 className="text-lg font-bold font-serif tracking-wide border-b border-gray-700 pb-2 inline-block">Contact</h4>
+            <h4 className="text-lg font-bold font-sans tracking-wide border-b border-gray-700 pb-2 inline-block">Contact</h4>
             <ul className="space-y-4 text-sm text-gray-400">
               <li className="flex items-start gap-3">
                 <IconMapPin size={20} className="text-accent shrink-0 mt-0.5" />

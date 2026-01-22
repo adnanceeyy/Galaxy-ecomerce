@@ -73,12 +73,12 @@ const CategoryPage = () => {
                         className="w-full h-full object-cover"
                      />
                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent flex flex-col justify-end p-8">
-                        <h1 className="text-3xl md:text-5xl font-serif font-bold text-white">{category.name}</h1>
+                        <h1 className="text-3xl md:text-5xl font-sans font-bold text-white">{category.name}</h1>
                         <p className="text-gray-200 mt-2 max-w-xl text-sm md:text-base font-medium">{category.description}</p>
                      </div>
                   </div>
                ) : (
-                  <h1 className="text-2xl md:text-4xl font-serif font-bold text-primary mb-2">{category?.name || 'Category'}</h1>
+                  <h1 className="text-2xl md:text-4xl font-sans font-bold text-primary mb-2">{category?.name || 'Category'}</h1>
                )}
             </div>
 

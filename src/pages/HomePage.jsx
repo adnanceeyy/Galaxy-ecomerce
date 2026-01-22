@@ -98,7 +98,7 @@ const HomePage = () => {
         {/* Background Image/Overlay */}
         <div className="absolute inset-0 z-0 opacity-100">
           <img
-            src={getImageUrl(settings.homePageOfferImage, "./assets/images/add1.jpg")}
+            src={getImageUrl(settings.homePageOfferImage, "/assets/images/defaltHomeBg.webp")}
             alt="Hero Background"
             className="w-full h-full object-cover"
           />
@@ -110,7 +110,7 @@ const HomePage = () => {
             <span className="inline-block px-4 py-1 border border-white/30 rounded-full text-xs font-bold tracking-widest uppercase bg-white/10 backdrop-blur-md">
               New Arrivals 2026
             </span>
-            <h1 className="text-3xl md:text-5xl font-serif font-bold leading-tight">
+            <h1 className="text-3xl md:text-5xl font-sans font-bold leading-tight">
               {settings.bannerTitle.split(' ').slice(0, -2).join(' ')} <br /> <span className="text-accent">{settings.bannerTitle.split(' ').slice(-2).join(' ')}</span>
             </h1>
             <p className="text-gray-300 text-base md:text-lg leading-relaxed max-w-lg">
@@ -156,7 +156,7 @@ const HomePage = () => {
       <section className="py-16 md:py-24 max-w-[1200px] mx-auto px-4 md:px-8">
         <div className="flex justify-between items-end mb-10">
           <div>
-            <h2 className="text-3xl md:text-4xl font-serif font-bold text-primary mb-2">New Arrivals</h2>
+            <h2 className="text-3xl md:text-4xl font-sans font-bold text-primary mb-2">New Arrivals</h2>
             <p className="text-gray-500">The latest tech in our store</p>
           </div>
           <div className="flex gap-2">
@@ -194,7 +194,7 @@ const HomePage = () => {
         <div className="absolute top-0 right-0 w-1/3 h-full bg-accent/10 skew-x-12 translate-x-1/2"></div>
         <div className="max-w-[1200px] mx-auto px-4 md:px-8 relative z-10 flex flex-col md:flex-row items-center justify-between gap-12">
           <div className="flex-1 space-y-6">
-            <h2 className="text-3xl md:text-5xl font-serif font-bold leading-tight">Flash Sale Live <br /> <span className="text-accent underline decoration-4 underline-offset-8">Grab Your Deal</span></h2>
+            <h2 className="text-3xl md:text-5xl font-sans font-bold leading-tight">Flash Sale Live <br /> <span className="text-accent underline decoration-4 underline-offset-8">Grab Your Deal</span></h2>
             <div className="flex gap-4">
               {[
                 { label: "Hrs", val: countdown.hours },
@@ -227,11 +227,11 @@ const HomePage = () => {
               <div className="space-y-4">
                 <div className="flex justify-between items-center bg-white/5 p-4 rounded-xl border border-white/5">
                   <span className="text-gray-300">Headphones Max Pro</span>
-                  <span className="text-accent font-bold font-serif italic text-xl">40% OFF</span>
+                  <span className="text-accent font-bold font-sans italic text-xl">40% OFF</span>
                 </div>
                 <div className="flex justify-between items-center bg-white/5 p-4 rounded-xl border border-white/5">
                   <span className="text-gray-300">Smart Band X7</span>
-                  <span className="text-accent font-bold font-serif italic text-xl">55% OFF</span>
+                  <span className="text-accent font-bold font-sans italic text-xl">55% OFF</span>
                 </div>
               </div>
             </div>
@@ -243,7 +243,7 @@ const HomePage = () => {
       <section className="py-12 md:py-16 max-w-[1200px] mx-auto px-4 md:px-8">
         <div className="flex justify-between items-end mb-8">
           <div>
-            <h2 className="text-2xl md:text-3xl font-serif font-bold text-primary mb-2">Shop by Category</h2>
+            <h2 className="text-2xl md:text-3xl font-sans font-bold text-primary mb-2">Shop by Category</h2>
             <p className="text-gray-500 text-sm">Explore our wide range of products</p>
           </div>
           <Link to="/allProduct" className="text-accent text-sm font-bold hover:underline">View All Categories</Link>
@@ -295,7 +295,7 @@ const HomePage = () => {
         <div className="max-w-[1200px] mx-auto px-4 md:px-8">
           <div className="flex justify-between items-end mb-10">
             <div>
-              <h2 className="text-3xl md:text-4xl font-serif font-bold text-primary mb-2">Featured Products</h2>
+              <h2 className="text-3xl md:text-4xl font-sans font-bold text-primary mb-2">Featured Products</h2>
               <p className="text-gray-500">Top picks for you this week</p>
             </div>
             <Link to="/allProduct" className="hidden md:flex items-center gap-1 text-accent font-semibold hover:text-accent-hover transition">
@@ -356,7 +356,7 @@ const HomePage = () => {
             style={{ backgroundImage: `url(${getImageUrl(settings.offerImage, 'https://images.unsplash.com/photo-1550009158-9ebf69173e03?q=80&w=2000')})` }}
           ></div>
           <div className="relative z-10 px-8 py-16 md:py-24 text-center">
-            <h2 className="text-3xl md:text-5xl font-serif font-bold text-white mb-6 underline decoration-accent decoration-4 underline-offset-8">
+            <h2 className="text-3xl md:text-5xl font-sans font-bold text-white mb-6 underline decoration-accent decoration-4 underline-offset-8">
               {settings.offerTitle}
             </h2>
             <p className="text-gray-200 text-lg md:text-xl max-w-2xl mx-auto mb-8 font-medium italic">
@@ -373,7 +373,7 @@ const HomePage = () => {
       <section className="py-24 bg-white overflow-hidden">
         <div className="max-w-[1200px] mx-auto px-4 md:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-serif font-bold text-primary mb-4">What Our Clients Say</h2>
+            <h2 className="text-3xl md:text-4xl font-sans font-bold text-primary mb-4">What Our Clients Say</h2>
             <div className="w-20 h-1 bg-accent mx-auto rounded-full"></div>
           </div>
 
@@ -406,12 +406,12 @@ const HomePage = () => {
               <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=1000" alt="Our Store" className="w-full h-full object-cover" />
             </div>
             <div className="absolute -bottom-8 -right-8 w-48 h-48 bg-accent rounded-2xl flex flex-col items-center justify-center text-white p-6 shadow-xl hidden md:flex">
-              <span className="text-4xl font-bold font-serif italic tracking-tighter">10+</span>
+              <span className="text-4xl font-bold font-sans italic tracking-tighter">10+</span>
               <span className="text-center font-bold text-xs uppercase tracking-widest leading-tight">Years of <br /> Excellence</span>
             </div>
           </div>
           <div className="flex-1 space-y-6">
-            <h2 className="text-3xl md:text-5xl font-serif font-bold text-primary leading-tight">We Believe in Tech <br /> <span className="text-accent underline decoration-2 underline-offset-4">That Empowers</span></h2>
+            <h2 className="text-3xl md:text-5xl font-sans font-bold text-primary leading-tight">We Believe in Tech <br /> <span className="text-accent underline decoration-2 underline-offset-4">That Empowers</span></h2>
             <p className="text-gray-500 text-lg leading-relaxed">
               Founded with a vision to make premium technology accessible to everyone, Eleckyo has grown from a small local shop to a leading destination for digital lifestyle enthusiasts.
             </p>
@@ -439,7 +439,7 @@ const HomePage = () => {
             <div className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center mx-auto border border-white/20 mb-8">
               <IconMail size={32} className="text-accent" />
             </div>
-            <h2 className="text-3xl md:text-4xl font-serif font-bold">Join the Tech Revolution</h2>
+            <h2 className="text-3xl md:text-4xl font-sans font-bold">Join the Tech Revolution</h2>
             <p className="text-gray-300 italic">Subscribe to our newsletter for exclusive deals, tech tips, and early access to new launches.</p>
 
             <form className="flex flex-col md:flex-row gap-4 pt-6" onSubmit={(e) => e.preventDefault()}>

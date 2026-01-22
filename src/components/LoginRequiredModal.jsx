@@ -32,7 +32,7 @@ const LoginRequiredModal = ({ isOpen, onClose }) => {
                         <IconLock size={32} />
                     </div>
 
-                    <h2 className="text-2xl font-serif font-bold text-primary mb-3">
+                    <h2 className="text-2xl font-sans font-bold text-primary mb-3">
                         Login Required
                     </h2>
                     <p className="text-gray-500 text-sm mb-8 leading-relaxed">

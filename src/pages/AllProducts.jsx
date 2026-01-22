@@ -124,7 +124,7 @@ const AllProducts = () => {
             {/* Breadcrumb / Header */}
             <div className="mb-6">
                <div className="text-xs text-gray-500 mb-1">Home / Shop</div>
-               <h1 className="text-2xl md:text-3xl font-serif font-bold text-primary">All Products</h1>
+               <h1 className="text-2xl md:text-3xl font-sans font-bold text-primary">All Products</h1>
             </div>
 
             <div className="flex flex-col lg:flex-row gap-8">
