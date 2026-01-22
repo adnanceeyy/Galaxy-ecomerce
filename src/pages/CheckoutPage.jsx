@@ -395,7 +395,7 @@ const CheckoutPage = () => {
 
                      <button
                         type="submit"
-                        className="w-full h-14 bg-primary hover:bg-black text-white rounded-xl font-black uppercase tracking-widest flex items-center justify-center gap-3 transition-all shadow-xl shadow-primary/20 hover:shadow-primary/40 hover:-translate-y-0.5 active:translate-y-0"
+                        className="px-1 w-full h-14 bg-[#18687c] hover:bg-[#0f4c5c] text-sm text-white rounded-xl font-black uppercase tracking-widest flex items-center justify-center gap-3 transition-all shadow-sm shadow-primary/20 hover:-translate-y-0.5 active:translate-y-0"
                      >
                         <IconLock size={20} />
                         {paymentMethod === "card" ? "Pay Securely" : "Complete Order"}

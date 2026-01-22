@@ -296,7 +296,7 @@ const SingleProduct = () => {
                         {/* Buy Now Button - Full Width */}
                         <button
                            onClick={handleBuyNow}
-                           className="w-full h-14 bg-primary hover:bg-black text-white rounded-xl font-black uppercase tracking-widest flex items-center justify-center gap-3 transition-all shadow-xl shadow-primary/20 hover:shadow-primary/40 hover:-translate-y-0.5 active:translate-y-0"
+                           className="w-full h-14 bg-[#18687c] hover:bg-[#0f4c5c] text-white rounded-xl font-black uppercase tracking-widest flex items-center justify-center gap-3 transition-all shadow-xl shadow-primary/20 hover:-translate-y-0.5 active:translate-y-0"
                         >
                            <IconArrowRight size={20} /> Buy Product Now
                         </button>
