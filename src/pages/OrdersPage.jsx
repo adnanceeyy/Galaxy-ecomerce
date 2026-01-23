@@ -147,23 +147,10 @@ const OrdersPage = () => {
                         >
                            Track Order
                         </button>
-                        <button
-                           onClick={() => setSelectedOrder(order)}
-                           className="px-4 py-2 text-xs font-bold text-primary border border-primary rounded-lg hover:bg-primary hover:text-white transition-all"
-                        >
-                           View Invoice
-                        </button>
                      </div>
                   </div>
                ))}
             </div>
-         )}
-
-         {selectedOrder && (
-            <InvoiceModal
-               order={selectedOrder}
-               onClose={() => setSelectedOrder(null)}
-            />
          )}
 
          {trackingOrder && (

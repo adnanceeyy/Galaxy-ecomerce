@@ -1,36 +1,71 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { IconCheck, IconPackage, IconArrowRight, IconShoppingBag, IconReceipt2, IconCircleCheckFilled } from "@tabler/icons-react";
+import { useNavigate } from "react-router-dom";
+import {
+    IconCheck,
+    IconPackage,
+    IconArrowRight,
+    IconShoppingBag,
+    IconCircleCheckFilled,
+    IconCopy,
+    IconCopyCheck,
+    IconReceipt,
+    IconTruckDelivery
+} from "@tabler/icons-react";
+import toast from "react-hot-toast";
 
 const OrderSuccessModal = ({ isOpen, onClose, orderId }) => {
+    const navigate = useNavigate();
     const [showConfetti, setShowConfetti] = useState(false);
+    const [copied, setCopied] = useState(false);
 
     useEffect(() => {
         if (isOpen) {
             setShowConfetti(true);
-            const timer = setTimeout(() => setShowConfetti(false), 6000);
+            const timer = setTimeout(() => setShowConfetti(false), 8000);
             return () => clearTimeout(timer);
         }
     }, [isOpen]);
 
+    const handleCopyId = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (!orderId) return;
+        navigator.clipboard.writeText(orderId);
+        setCopied(true);
+        toast.success("Order ID copied!");
+        setTimeout(() => setCopied(false), 2000);
+    };
+
+    const handleNavigation = (path) => {
+        // CLOSE FIRST to ensure a clean transition
+        if (onClose) onClose();
+
+        // Use a tiny timeout to let the modal closing animation begin if any,
+        // then navigate to the new page.
+        setTimeout(() => {
+            navigate(path);
+            window.scrollTo({ top: 0, behavior: 'instant' });
+        }, 50);
+    };
+
     if (!isOpen) return null;
 
-    return (
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 md:p-6 bg-primary/10 backdrop-blur-[12px] animate-fadeIn overflow-hidden">
+    const displayId = orderId?.slice(-10).toUpperCase() || 'ORD-' + Math.random().toString(36).substr(2, 9).toUpperCase();
 
-            {/* Ambient Background Glows */}
-            <div className="absolute top-1/4 -left-20 w-80 h-80 bg-primary/20 rounded-full blur-[100px] animate-pulse"></div>
-            <div className="absolute bottom-1/4 -right-20 w-80 h-80 bg-accent/20 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1.5s' }}></div>
+    return (
+        <div className="fixed inset-0 z-[10000] flex items-center justify-center p-4 sm:p-6 overflow-hidden">
+            {/* Elegant Background Overlay */}
+            <div className="absolute inset-0 bg-primary/30 backdrop-blur-[16px] animate-fadeIn" onClick={onClose} />
 
             {/* Confetti Particles */}
             {showConfetti && (
-                <div className="absolute inset-0 pointer-events-none">
-                    {[...Array(30)].map((_, i) => (
+                <div className="absolute inset-0 pointer-events-none z-10">
+                    {[...Array(50)].map((_, i) => (
                         <div
                             key={i}
-                            className={`absolute w-2 h-2 rounded-full animate-confetti`}
+                            className="absolute w-2.5 h-2.5 rounded-full animate-confetti"
                             style={{
-                                backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'][i % 5],
+                                backgroundColor: ['#3eb8d4', '#0d4f5f', '#1a7a92', '#f59e0b', '#10b981', '#ffffff'][i % 6],
                                 left: `${Math.random() * 100}%`,
                                 top: `-5%`,
                                 animationDelay: `${Math.random() * 4}s`,
@@ -41,118 +76,131 @@ const OrderSuccessModal = ({ isOpen, onClose, orderId }) => {
                 </div>
             )}
 
-            <div className="bg-white/90 w-full max-w-lg rounded-[48px] shadow-[0_40px_100px_-20px_rgba(0,0,0,0.25)] relative overflow-hidden animate-slideUp border border-white/50 backdrop-blur-xl">
+            <div
+                className="bg-white w-full max-w-sm rounded-[40px] shadow-[0_32px_80px_-16px_rgba(0,0,0,0.3)] relative overflow-hidden animate-modalEntrance z-20 border border-white/20"
+                onClick={(e) => e.stopPropagation()}
+            >
 
-                {/* Cyberpunk Style Header */}
-                <div className="h-40 bg-linear-to-br from-primary via-blue-600 to-indigo-700 relative flex items-center justify-center overflow-hidden">
-                    {/* Animated Circuit Pattern Background */}
-                    <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_2px_2px,_rgba(255,255,255,0.4)_1px,_transparent_0)] bg-[size:24px_24px]"></div>
+                {/* Compact Modern Header */}
+                <div className="h-32 bg-gradient-to-br from-primary via-secondary to-accent relative flex flex-col items-center justify-center overflow-hidden">
+                    <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_2px_2px,_rgba(255,255,255,0.4)_1px,_transparent_0)] bg-[size:20px_20px]"></div>
 
-                    {/* Floating Glow */}
-                    <div className="absolute w-40 h-40 bg-white/30 rounded-full blur-3xl animate-pulse"></div>
-
-                    <div className="relative transform -translate-y-2">
-                        <div className="w-24 h-24 bg-white rounded-[32px] shadow-[0_20px_50px_rgba(0,0,0,0.2)] flex items-center justify-center animate-bounce-premium relative z-10">
-                            <IconCircleCheckFilled size={56} className="text-primary" />
+                    <div className="relative z-10">
+                        <div className="w-16 h-16 bg-white rounded-3xl shadow-xl flex items-center justify-center animate-trophyFloat ring-4 ring-white/10">
+                            <IconCircleCheckFilled size={40} className="text-secondary" />
                         </div>
-                        {/* Shadow element for the bounce effect */}
-                        <div className="w-16 h-4 bg-black/10 rounded-full mx-auto mt-4 blur-md animate-shadowScale"></div>
+                        <div className="w-12 h-3 bg-black/10 rounded-full mx-auto mt-3 blur-md animate-shadowScale"></div>
                     </div>
                 </div>
 
-                <div className="px-8 md:px-12 pb-14 pt-10 text-center">
-                    <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-green-50 text-green-600 border border-green-100 mb-6 animate-fadeIn">
-                        <span className="w-2 h-2 bg-green-500 rounded-full animate-ping"></span>
-                        <span className="text-[10px] font-black uppercase tracking-widest">System Sync Complete</span>
+                <div className="px-6 pb-10 pt-8 text-center">
+                    {/* Compact Badge */}
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-50 text-green-700 border border-green-100 mb-5 animate-fadeIn">
+                        <IconCheck size={12} className="stroke-[3]" />
+                        <span className="text-[9px] font-black uppercase tracking-[0.15em] font-sans">Verified</span>
                     </div>
 
-                    <h2 className="text-4xl font-black text-gray-900 mb-3 tracking-tighter leading-none">
-                        Order Confirmed
+                    <h2 className="text-2xl font-black text-primary mb-2 tracking-tight font-sans">
+                        Order Successful!
                     </h2>
 
-                    <p className="text-gray-500 font-bold mb-10 max-w-sm mx-auto leading-relaxed">
-                        Your transaction has been processed. Reference ID for tracking:
-                        <span className="block mt-2 font-black text-primary bg-primary/5 px-4 py-2 rounded-2xl text-base border border-primary/5">
-                            #{orderId?.slice(-8).toUpperCase() || 'E-LCK-8924'}
-                        </span>
+                    <p className="text-gray-500 font-medium mb-8 max-w-[240px] mx-auto text-xs leading-relaxed">
+                        We're processing your order. A confirmation email has been sent to your inbox.
                     </p>
 
-                    {/* Order Condition Display */}
-                    <div className="bg-gray-50/50 rounded-[32px] p-6 mb-10 border border-gray-100 relative group overflow-hidden">
-                        <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:scale-110 transition-transform">
-                            <IconReceipt2 size={48} />
-                        </div>
-
-                        <div className="flex items-center gap-5 relative z-10">
-                            <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-primary shadow-lg border border-gray-50">
-                                <IconPackage size={28} stroke={1.5} />
+                    {/* Compact Order Reference Card */}
+                    <div className="bg-gray-50/80 rounded-[32px] p-4 mb-8 border border-gray-100 transition-all hover:bg-white hover:shadow-xl group">
+                        <div className="flex flex-col items-center gap-3">
+                            <div className="flex items-center justify-between w-full text-gray-400 px-1">
+                                <span className="text-[8px] font-black uppercase tracking-wider font-sans">Reference</span>
+                                <IconReceipt size={12} stroke={1.5} />
                             </div>
-                            <div className="text-left">
-                                <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-1">Current Condition</p>
-                                <p className="text-lg font-black text-gray-800 leading-none">Awaiting Logistic Dispatch</p>
-                                <p className="text-[10px] text-primary font-bold mt-1 uppercase tracking-wider">Scheduled for priority processing</p>
+
+                            <div className="flex items-center gap-3 py-0.5">
+                                <span className="text-xl font-black text-primary tracking-tight font-sans">#{displayId}</span>
+                                <button
+                                    onClick={handleCopyId}
+                                    className={`p-2 rounded-xl transition-all ${copied ? 'bg-green-500 text-white scale-110' : 'bg-white shadow-sm text-gray-400 hover:text-primary'}`}
+                                >
+                                    {copied ? <IconCopyCheck size={14} /> : <IconCopy size={14} />}
+                                </button>
+                            </div>
+
+                            <div className="w-full h-px bg-gray-100/50 mt-1" />
+
+                            <div className="w-full flex items-center justify-between px-2 pt-1 text-[9px] font-bold text-gray-400">
+                                <div className="flex items-center gap-1">
+                                    <IconTruckDelivery size={12} className="text-blue-500" /> Transit
+                                </div>
+                                <div className="flex items-center gap-1">
+                                    <IconPackage size={12} className="text-orange-500" /> Secure
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    {/* Action Hub */}
-                    <div className="flex flex-col sm:flex-row gap-4">
-                        <Link
-                            to="/orders"
-                            onClick={onClose}
-                            className="flex-[1.2] bg-primary hover:bg-secondary text-white font-black py-5 rounded-[24px] transition-all duration-300 shadow-2xl shadow-primary/30 flex items-center justify-center gap-3 active:scale-95 group relative overflow-hidden"
+                    {/* Action Hub - Compact Stack */}
+                    <div className="space-y-3">
+                        <button
+                            onClick={() => handleNavigation('/orders')}
+                            className="w-full bg-primary hover:bg-secondary text-white font-black py-4 rounded-2xl transition-all duration-300 shadow-lg shadow-primary/10 flex items-center justify-center gap-2 active:scale-95 group relative overflow-hidden"
                         >
-                            <span className="relative z-10">View My Orders</span>
-                            <IconArrowRight size={20} className="relative z-10 group-hover:translate-x-2 transition-transform duration-300" />
-                            <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-                        </Link>
+                            <span className="text-[11px] uppercase tracking-wider relative z-10">Track My Order</span>
+                            <IconArrowRight size={18} className="relative z-10 group-hover:translate-x-1.5 transition-transform" />
+                        </button>
 
-                        <Link
-                            to="/allProduct"
-                            onClick={onClose}
-                            className="flex-1 bg-white hover:bg-gray-50 text-gray-700 font-black py-5 rounded-[24px] transition-all duration-300 flex items-center justify-center gap-3 active:scale-95 border-2 border-gray-100 hover:border-gray-200 group"
+                        <button
+                            onClick={() => handleNavigation('/allProduct')}
+                            className="w-full bg-white hover:bg-gray-50 text-gray-700 font-bold py-4 rounded-2xl transition-all duration-300 flex items-center justify-center gap-2 active:scale-95 border-2 border-gray-100 group"
                         >
-                            <IconShoppingBag size={20} className="group-hover:scale-110 transition-transform" />
-                            <span>Shop More</span>
-                        </Link>
+                            <IconShoppingBag size={18} className="text-primary" />
+                            <span className="text-[11px] uppercase tracking-wider">Keep Shopping</span>
+                        </button>
                     </div>
+
+                    <button
+                        onClick={onClose}
+                        className="mt-6 text-[8px] font-black text-gray-300 uppercase tracking-[0.3em] hover:text-primary transition-colors py-2"
+                    >
+                        Dismiss
+                    </button>
                 </div>
             </div>
 
             <style>{`
                 @keyframes confetti {
                     0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-                    100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+                    100% { transform: translateY(115vh) rotate(720deg); opacity: 0; }
                 }
                 .animate-confetti {
                     animation: confetti linear infinite;
                 }
-                .animate-bounce-premium {
-                    animation: bouncePremium 2s infinite ease-in-out;
+                .animate-trophyFloat {
+                    animation: trophyFloat 3s infinite ease-in-out;
                 }
-                @keyframes bouncePremium {
-                    0%, 100% { transform: translateY(0px); }
-                    50% { transform: translateY(-15px); }
+                @keyframes trophyFloat {
+                    0%, 100% { transform: translateY(0px) rotate(0deg); }
+                    50% { transform: translateY(-15px) rotate(2deg); }
                 }
                 .animate-shadowScale {
-                    animation: shadowScale 2s infinite ease-in-out;
+                    animation: shadowScale 3s infinite ease-in-out;
                 }
                 @keyframes shadowScale {
-                    0%, 100% { transform: scale(1); opacity: 0.1; }
-                    50% { transform: scale(1.3); opacity: 0.05; }
+                    0%, 100% { transform: scale(1); opacity: 0.15; }
+                    50% { transform: scale(1.4); opacity: 0.05; }
                 }
                 .animate-fadeIn {
-                    animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+                    animation: fadeIn 0.4s ease-out;
                 }
-                .animate-slideUp {
-                    animation: slideUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+                .animate-modalEntrance {
+                    animation: modalEntrance 0.7s cubic-bezier(0.23, 1, 0.32, 1);
                 }
                 @keyframes fadeIn {
                     from { opacity: 0; }
                     to { opacity: 1; }
                 }
-                @keyframes slideUp {
-                    from { transform: translateY(60px) scale(0.9); opacity: 0; }
+                @keyframes modalEntrance {
+                    from { transform: translateY(60px) scale(0.92); opacity: 0; }
                     to { transform: translateY(0) scale(1); opacity: 1; }
                 }
             `}</style>
