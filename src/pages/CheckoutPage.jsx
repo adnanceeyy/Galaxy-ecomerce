@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IconCheck, IconCreditCard, IconLock, IconTruck } from "@tabler/icons-react";
 import { useAuth } from "../components/AuthWrapper";
-import { API_URL, BACKEND_BASE } from "../config/api";
+import { API_URL, BACKEND_BASE, getImageUrl } from "../config/api";
 import axios from "axios";
 import toast from "react-hot-toast";
 import OrderSuccessModal from "../components/OrderSuccessModal";
@@ -351,20 +351,24 @@ const CheckoutPage = () => {
                      {/* Mini Cart List */}
                      <div className="space-y-4 mb-6 max-h-60 overflow-y-auto pr-2 custom-scrollbar pt-2">
                         {cartItems.map(item => (
-                           <div key={item.id} className="flex gap-3">
-                              <div className="relative">
-                                 <div className="w-16 h-16 bg-gray-50 border border-gray-200 rounded flex items-center justify-center">
+                           <div key={item.id || item._id} className="flex gap-3">
+                              <div className="relative shrink-0">
+                                 <div className="w-16 h-16 bg-gray-50 border border-gray-200 rounded-lg flex items-center justify-center overflow-hidden p-1">
                                     <img
-                                       src={`${BACKEND_BASE}${item.image}`}
-                                       className="max-h-full max-w-full object-contain"
-                                       onError={(e) => (e.target.src = "https://via.placeholder.com/100?text=No+Image")}
+                                       src={getImageUrl(item.image)}
+                                       alt={item.name}
+                                       className="w-full h-full object-contain mix-blend-multiply"
+                                       onError={(e) => {
+                                          e.target.onerror = null;
+                                          e.target.src = "https://via.placeholder.com/100?text=No+Image";
+                                       }}
                                     />
                                  </div>
-                                 <span className="absolute -top-2 -right-2 w-5 h-5 bg-gray-500 text-white rounded-full flex items-center justify-center text-xs font-bold">{item.qty}</span>
+                                 <span className="absolute -top-2 -right-2 w-5 h-5 bg-gray-600 text-white rounded-full flex items-center justify-center text-[10px] font-bold border-2 border-white shadow-sm">{item.qty}</span>
                               </div>
-                              <div className="flex-1">
-                                 <h4 className="text-sm font-bold text-gray-800 line-clamp-2">{item.name}</h4>
-                                 <p className="text-sm text-gray-500">₹{Number(item.price).toLocaleString()}</p>
+                              <div className="flex-1 min-w-0">
+                                 <h4 className="text-sm font-bold text-gray-800 line-clamp-2 leading-snug">{item.name}</h4>
+                                 <p className="text-xs text-gray-500 mt-0.5">₹{Number(item.price).toLocaleString()}</p>
                               </div>
                               <div className="font-bold text-sm">
                                  ₹{(Number(item.price) * (item.qty || 1)).toLocaleString()}

@@ -17,13 +17,34 @@ const BACKEND_BASE = API_URL.replace("/api", "");
  */
 const getImageUrl = (imagePath, fallback = "https://via.placeholder.com/300?text=No+Image") => {
   if (!imagePath) return fallback;
-  
-  if (typeof imagePath === 'string' && (imagePath.startsWith('data:image') || imagePath.startsWith('http'))) {
-    return imagePath;
+
+  // If it's already a full URL or base64, return it
+  if (typeof imagePath === 'string') {
+    const trimmed = imagePath.trim();
+    if (trimmed.startsWith('data:image') || trimmed.startsWith('http')) {
+      return trimmed;
+    }
   }
-  
-  // Ensure the path starts with / if it doesn't
-  const path = imagePath.startsWith('/') ? imagePath : `/${imagePath}`;
+
+  // Handle case where imagePath might be an array
+  if (Array.isArray(imagePath) && imagePath.length > 0) {
+    const firstImage = imagePath[0];
+    if (typeof firstImage === 'string') {
+      const trimmed = firstImage.trim();
+      if (trimmed.startsWith('data:image') || trimmed.startsWith('http')) {
+        return trimmed;
+      }
+      const path = trimmed.startsWith('/') ? trimmed : `/${trimmed}`;
+      return `${BACKEND_BASE}${path}`;
+    }
+  }
+
+  // Fallback for non-string paths
+  if (typeof imagePath !== 'string') return fallback;
+
+  // Standard local path handling
+  const trimmed = imagePath.trim();
+  const path = trimmed.startsWith('/') ? trimmed : `/${trimmed}`;
   return `${BACKEND_BASE}${path}`;
 };
 
